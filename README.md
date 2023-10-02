@@ -20,10 +20,10 @@ This source code is licensed under the Apache 2.0 license found in the LICENSE f
 [//]: # (</p>)
 <br>
 
-LanguageBind is a language-centric multimodal pretraining approach, taking the language as the bind across different modalities because the language modality is well-explored and contains rich semantics. As a result, **all modalities are mapped to a shared feature space**, implementing multimodal semantic alignment. While LanguageBind ensures that we can extend VL modalities to N modalities, we also need a high-quality dataset with alignment data pairs centered on language. We thus propose **VIDAL-10M with 10 Million data with Video, Infrared, Depth, Audio and their corresponding Language.** In our VIDAL-10M, all videos are from short video platforms with **complete semantics** rather than truncated segments from long videos, and all the video, depth, infrared, and audio modalities are aligned to their textual descriptions
+* LanguageBind is a **language-centric** multimodal pretraining approach, **taking the language as the bind across different modalities** because the language modality is well-explored and contains rich semantics. 
+* We thus propose **VIDAL-10M**, **10 Million data** with **V**ideo, **I**nfrared, **D**epth, **A**udio and their corresponding **L**anguage, which greatly expands the data beyond visual modalities.
 
-We have **open-sourced the VIDAL-10M dataset**, which greatly expands the data beyond visual modalities. The following figure shows the architecture of LanguageBind. LanguageBind can be easily extended to segmentation, detection tasks, and potentially to unlimited modalities.
-
+The following figure shows the architecture of LanguageBind. LanguageBind can be easily extended to segmentation, detection tasks, and potentially to unlimited modalities.
 <p align="center">
 <img src="assets/languagebind.jpg" width=100%>
 </p>
