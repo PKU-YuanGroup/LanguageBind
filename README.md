@@ -29,8 +29,7 @@ The following figure shows the architecture of LanguageBind. LanguageBind can be
 
 
 ## 📰 News
-**[2023.10.03]**  👀 We have updated training & validating instruction! <br>
-**[2023.10.02]**  📍 Code and pre-trained models are available now! Welcome to **watch** this repository for the latest updates.
+**[2023.10.04]**  📍 Code and checkpoints are available now! Welcome to **watch** this repository for the latest updates.
 
 ## 🤗 Online Demo
 Coming soon...
@@ -124,7 +123,7 @@ Zhu Bin: binzhu@stu.pku.edu.cn
 * The dataset of this project is released under the CC-BY-NC 4.0 license as found in the [DATASET_LICENSE](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/DATASET_LICENSE) file. 
 
 ## ✏️ Citation
-If you find our paper and code useful in your research, please consider giving a star :star: and citation :pencil::
+If you find our paper and code useful in your research, please consider giving a star :star: and citation :pencil:.
 
 ```BibTeX
 
