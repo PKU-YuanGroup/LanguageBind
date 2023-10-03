@@ -23,7 +23,8 @@ The following figure shows the architecture of LanguageBind. LanguageBind can be
 
 
 ## 📰 News
-**[2023.10.02]**  Code and pre-trained models are available now! <br>
+**[2023.10.03]**  We have updated training & validating instruction! 🎉 <br>
+**[2023.10.02]**  Code and pre-trained models are available now! Welcome to **watch** this repository for the latest updates.
 
 ## 🤗 Online Demo
 Coming soon...
@@ -99,8 +100,8 @@ pip install -r requirements.txt
 ## 🎉 VIDAL-10M
 Release the dataset after publication...
 
-## ⤴️ Training & Inference
-Release run scripts, details coming soon...
+## ⤴️ Training & Validating
+The training & validating instruction is in [TRAIN_AND_VALIDATE.md](TRAIN_AND_VALIDATE.md).
 
 ## 👀 Downstream datasets
 Coming soon...
