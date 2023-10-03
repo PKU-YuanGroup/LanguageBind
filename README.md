@@ -12,7 +12,6 @@
 [//]: # (        📖 <a href="https://arxiv.org/abs/2305.11172">Paper</a>&nbsp&nbsp｜ &nbsp<a href="datasets.md">Datasets</a>)
 
 [//]: # (</p>)
-<br>
 
 
 
@@ -21,7 +20,6 @@ The following figure shows the architecture of LanguageBind. LanguageBind can be
 <img src="assets/languagebind.jpg" width=100%>
 </p>
 
-<br>
 
 
 ## 📰 News
@@ -29,7 +27,6 @@ The following figure shows the architecture of LanguageBind. LanguageBind can be
 
 ## 🤗 Online Demo
 Coming soon...
-<br>
 
 ## 🔥 Highlights
 
@@ -116,7 +113,8 @@ Zhu Bin: binzhu@stu.pku.edu.cn
 * [CLIP4Clip](https://github.com/ArrowLuo/CLIP4Clip) An open source Video-Text retrieval framework.
 
 ## 🔒 License
-
+* The majority of this project is released under the MIT license as found in the [LICENSE](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/LICENSE) file.
+* The dataset of this project is released under the CC-BY-NC 4.0 license as found in the [DATASET_LICENSE](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/DATASET_LICENSE) file. 
 
 ## ✏️ Citation
 If you find our paper and code useful in your research, please consider giving a star :star: and citation :pencil::
