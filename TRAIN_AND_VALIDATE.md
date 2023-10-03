@@ -36,7 +36,7 @@ TORCH_DISTRIBUTED_DEBUG=DETAIL HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 torc
 
 For example, to **validate** LanguageBind on **Depth-Language** with 1 GPUs.
 * First specify ```RESUME```.
-* The second step is to prepare the [downstream dataset]().
+* The second step is to prepare the [downstream dataset](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/TRAIN_AND_VALIDATE.md#downstream-datasets).
 * Then you can run
 
 ```bash
