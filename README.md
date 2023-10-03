@@ -44,7 +44,7 @@ We propose **VIDAL-10M**, **10 Million data** with **V**ideo, **I**nfrared, **D*
 <div align="center">
 <table border="1" width="100%">
     <tr align="center">
-        <th>Model</th><th>BaiDu</th><th>Google</th><th>PKU disk</th>
+        <th>Model</th><th>Baidu Yun</th><th>Google Cloud</th><th>Peking University Yun</th>
     </tr>
     <tr align="center">
         <td>Video-Language</td><td>TODO</td><td>TODO</td><td>TODO</td>
