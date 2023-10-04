@@ -37,12 +37,14 @@
 ## 🤗 Demo
 
 * **Local demo.** Highly recommend trying out our web demo, which incorporates all features currently supported by LanguageBind.
-```python
+```bash
 python gradio_app.py --languagebind_weight LanguageBind.pt
 ```
 
 * **Online demo.** We provide the [online demo](https://huggingface.co/spaces/lb203/LanguageBind) in Huggingface Spaces. In this demo, you can calculate the similarity of modalities to language, such as audio-to-language, video-to-language, and depth-to-image.
-
+<p align="center">
+<img src="assets/demo.jpg" width=100%>
+</p>
 
 ## 😮 Highlights
 
@@ -56,9 +58,9 @@ We propose **VIDAL-10M**, **10 Million data** with **V**ideo, **I**nfrared, **D*
 We make multi-view enhancements to language. We produce multi-view description that combines **meta-data**, **spatial**, and **temporal** to greatly enhance the semantic information of the language. In addition we further **enhance the language with ChatGPT** to create a good semantic space for each modality aligned language.
 
 ## 🤖 Model Zoo
-* We list the pretrained checkpoints of LanguageBind below. Note that LanguageBind can be disassembled into different branches to handle different tasks.
-* The cache comes from OpenCLIP, which we downloaded from HuggingFace. Note that the original cache for pretrained weights is the Image-Language weights, just a few more HF profiles.
+* We list the pretrained checkpoints of LanguageBind below. We provide **an aggregated weight (LanguageBind)** for online demo and inference. Additionally, LanguageBind can be disassembled into different branches to handle different tasks.
 * We additionally trained Video-Language with the LanguageBind method, which is stronger than on CLIP4Clip framework.
+* The cache comes from OpenCLIP, which we downloaded from HuggingFace. Note that the original cache for pretrained weights is the Image-Language weights, just a few more HF profiles.
 <div align="center">
 <table border="1" width="100%">
     <tr align="center">
@@ -66,7 +68,7 @@ We make multi-view enhancements to language. We produce multi-view description t
     </tr>
     </tr>
     <tr align="center">
-        <td>LanguageBind</td><td><a href="https://pan.baidu.com/s/14e-bB-kmsroZHU0mlD_Rtg?pwd=vi1m">Link</a></td><td><a href="https://drive.google.com/file/d/1h1alryrhxeWRadrQRB5eN6diEODpHwNb/view?usp=drive_link">Link</a></td><td>TODO</a></td>
+        <td><strong>LanguageBind</strong></td><td><a href="https://pan.baidu.com/s/14e-bB-kmsroZHU0mlD_Rtg?pwd=vi1m">Link</a></td><td><a href="https://drive.google.com/file/d/1h1alryrhxeWRadrQRB5eN6diEODpHwNb/view?usp=drive_link">Link</a></td><td>TODO</a></td>
     </tr>
     <tr align="center">
         <td>Video-Language (LanguageBind)</td><td><a href="https://pan.baidu.com/s/1vpzY43Rt8L9VB2nr10Z9wQ?pwd=yc1y">Link</a></td><td><a href="https://drive.google.com/file/d/1JlPJV1BUIygQxM5IkCyiXKdvi7v-T9-6/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/1F74489352C16DAFC10A66E3240BDD50">Link</a></td>
@@ -123,7 +125,7 @@ cd LanguageBind
 pip install -r requirements.txt
 ```
 
-## Usage
+## 🪧Usage
 **We open source all modal preprocessing code.** Here is a simple script for multi-modal inference with LanguageBind.
 ```python
 modality_transform = {
@@ -135,20 +137,20 @@ modality_transform = {
 	'image': get_image_transform(args),
 }
 
-image = ['assets/zHSOYcZblvY_resize256/0.jpg', 'assets/zlmxeeMOGVQ_resize256/0.jpg']
-audio = ['assets/zHSOYcZblvY.wav', 'assets/zlmxeeMOGVQ.wav']
-video = ['assets/zHSOYcZblvY.mp4', 'assets/zlmxeeMOGVQ.mp4']
-depth = ['assets/zHSOYcZblvY_depth/0.png', 'assets/zlmxeeMOGVQ_depth/0.png']
-thermal = ['assets/zHSOYcZblvY_thermal/0.jpg', 'assets/zlmxeeMOGVQ_thermal/0.jpg']
-language = ["Training a bird to climb up a ladder.", 'A man riding a motorcycle.']
+image = ['image1.jpg', 'image2jpgwav']
+audio = ['audio1.wav', 'audio2.wav']
+video = ['video1.mp4', 'video2.mp4']
+depth = ['depth1.png', 'depth2.png']
+thermal = ['thermal1.jpg', 'thermal2.jpg']
+language = ["text1", 'text2']
 
 inputs = {
-			 'image': stack_dict([load_and_transform_image(i, modality_transform['image']) for i in image], device),
-			 'video': stack_dict([load_and_transform_video(i, modality_transform['video']) for i in video], device),
-			 'audio': stack_dict([load_and_transform_audio(i, modality_transform['audio']) for i in audio], device),
-			 'thermal': stack_dict([load_and_transform_thermal(i, modality_transform['thermal']) for i in thermal], device),
-			 'depth': stack_dict([load_and_transform_depth(i, modality_transform['depth']) for i in depth], device),
-			 'language': stack_dict([load_and_transform_text(i, modality_transform['language']) for i in language], device)
+		 'image': stack_dict([load_and_transform_image(i, modality_transform['image']) for i in image], device),
+		 'video': stack_dict([load_and_transform_video(i, modality_transform['video']) for i in video], device),
+		 'audio': stack_dict([load_and_transform_audio(i, modality_transform['audio']) for i in audio], device),
+		 'thermal': stack_dict([load_and_transform_thermal(i, modality_transform['thermal']) for i in thermal], device),
+		 'depth': stack_dict([load_and_transform_depth(i, modality_transform['depth']) for i in depth], device),
+		 'language': stack_dict([load_and_transform_text(i, modality_transform['language']) for i in language], device)
 }
 
 with torch.no_grad():
@@ -160,20 +162,22 @@ print("Depth x Text: \n", torch.softmax(embeddings['depth'] @ embeddings['langua
 print("Audio x Text: \n", torch.softmax(embeddings['audio'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
 print("Thermal x Text: \n", torch.softmax(embeddings['thermal'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
 ```
-More details are in inference.py. Run the following command to start.
-```python
+More details are in [inference.py](inference.py). Run the following command to start.
+```bash
 python inference.py --languagebind_weight LanguageBind.pt
 ```
 
 ## 💥 VIDAL-10M
 The datasets is in [DATASETS.md](DATASETS.md).
 
-## 💡 Training & Validating
+## 🗝️ Training & Validating
 The training & validating instruction is in [TRAIN_AND_VALIDATE.md](TRAIN_AND_VALIDATE.md).
 
 ## 👍 Acknowledgement
 * [OpenCLIP](https://github.com/mlfoundations/open_clip) An open source pretraining framework.
 * [CLIP4Clip](https://github.com/ArrowLuo/CLIP4Clip) An open source Video-Text retrieval framework.
+* [sRGB-TIR](https://github.com/rpmsnu/sRGB-TIR) An open source framework to generate infrared (thermal) images.
+* [GLPN](https://github.com/vinvino02/GLPDepth) An open source framework to generate depth images.
 
 ## 🔒 License
 * The majority of this project is released under the MIT license as found in the [LICENSE](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/LICENSE) file.
