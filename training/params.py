@@ -29,6 +29,7 @@ def parse_args(args):
     ###################################
     # my new params
     parser.add_argument("--cache-dir", type=str, default='', help="",)
+    parser.add_argument("--languagebind_weight", type=str, default='', help="",)
     parser.add_argument("--num-frames", type=int, default=8, help="",)
     parser.add_argument("--clip-type", type=str, default="", choices=['vl', 'al', 'dl', 'tl'], help="",)
     parser.add_argument("--text-type", type=str, default="", help="'raw', 'ofa', 'mplug', 'chatgpt'",)
