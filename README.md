@@ -129,7 +129,7 @@ pip install -r requirements.txt
 **We open source all modal preprocessing code.** Here is a simple script for multi-modal inference with LanguageBind.
 ```python
 modality_transform = {
-	'language': get_tokenizer(HF_HUB_PREFIX + args.model, cache_dir=args.cache_dir),
+        'language': get_tokenizer(HF_HUB_PREFIX + args.model, cache_dir=args.cache_dir),
 	'video': get_video_transform(args),
 	'audio': get_audio_transform(args),
 	'depth': get_depth_transform(args),
@@ -145,22 +145,22 @@ thermal = ['thermal1.jpg', 'thermal2.jpg']
 language = ["text1", 'text2']
 
 inputs = {
-		 'image': stack_dict([load_and_transform_image(i, modality_transform['image']) for i in image], device),
-		 'video': stack_dict([load_and_transform_video(i, modality_transform['video']) for i in video], device),
-		 'audio': stack_dict([load_and_transform_audio(i, modality_transform['audio']) for i in audio], device),
-		 'thermal': stack_dict([load_and_transform_thermal(i, modality_transform['thermal']) for i in thermal], device),
-		 'depth': stack_dict([load_and_transform_depth(i, modality_transform['depth']) for i in depth], device),
-		 'language': stack_dict([load_and_transform_text(i, modality_transform['language']) for i in language], device)
+	    'image': stack_dict([load_and_transform_image(i, modality_transform['image']) for i in image], device),
+	    'video': stack_dict([load_and_transform_video(i, modality_transform['video']) for i in video], device),
+	    'audio': stack_dict([load_and_transform_audio(i, modality_transform['audio']) for i in audio], device),
+	    'thermal': stack_dict([load_and_transform_thermal(i, modality_transform['thermal']) for i in thermal], device),
+	    'depth': stack_dict([load_and_transform_depth(i, modality_transform['depth']) for i in depth], device),
+            'language': stack_dict([load_and_transform_text(i, modality_transform['language']) for i in language], device)
 }
 
 with torch.no_grad():
-	embeddings = model(inputs)
+    embeddings = model(inputs)
 
-print("Video x Text: \n", torch.softmax(embeddings['video'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
-print("Image x Text: \n", torch.softmax(embeddings['image'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
-print("Depth x Text: \n", torch.softmax(embeddings['depth'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
-print("Audio x Text: \n", torch.softmax(embeddings['audio'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
-print("Thermal x Text: \n", torch.softmax(embeddings['thermal'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
+print("Video x Language: \n", torch.softmax(embeddings['video'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
+print("Image x Language: \n", torch.softmax(embeddings['image'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
+print("Depth x Language: \n", torch.softmax(embeddings['depth'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
+print("Audio x Language: \n", torch.softmax(embeddings['audio'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
+print("Thermal x Language: \n", torch.softmax(embeddings['thermal'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
 ```
 More details are in [inference.py](inference.py). Run the following command to start.
 ```bash
