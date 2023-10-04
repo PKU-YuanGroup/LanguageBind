@@ -21,11 +21,14 @@
 
 
 
-The following figure shows the architecture of LanguageBind. LanguageBind can be easily extended to segmentation, detection tasks, and potentially to unlimited modalities.
+* The following first figure shows the architecture of LanguageBind. LanguageBind can be easily extended to segmentation, detection tasks, and potentially to unlimited modalities. 
+* The second figure shows our proposed VIDAL-10M dataset, which includes five modalities: video, infrared, depth, audio, and language.
 <p align="center">
 <img src="assets/languagebind.jpg" width=100%>
 </p>
-
+<p align="center">
+<img src="assets/iclr_dataset_sample.jpg" width=99%>
+</p>
 
 
 ## 📰 News
