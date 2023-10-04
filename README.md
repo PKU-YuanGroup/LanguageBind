@@ -4,13 +4,13 @@
 <p align="center">
     <img src="assets/logo.png" width="250" />
 <p>
-<h2 align="center"> LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment </h2>
+<h2 align="center"> <a href="https://arxiv.org/pdf/2310.01852.pdf">LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment</a></h2>
 <h5 align="center"> If you like our project, please give us a star ✨ on Github for latest update.  </h2>
 
 <p align="center">
 📖 <a href="https://arxiv.org/pdf/2310.01852.pdf">Paper</a>
     &nbsp｜&nbsp
-🤗<a href="https://github.com/PKU-YuanGroup/LanguageBind#-online-demo">Demo</a>
+🤗<a href="https://huggingface.co/spaces/lb203/LanguageBind">Demo</a>
     &nbsp&nbsp|&nbsp&nbsp
 🤖 <a href="https://github.com/PKU-YuanGroup/LanguageBind#-model-zoo">Model zoo</a>
     &nbsp&nbsp|&nbsp&nbsp
@@ -32,10 +32,15 @@
 
 
 ## 📰 News
-**[2023.10.04]**  📍 Code and checkpoints are available now! Welcome to **watch** this repository for the latest updates.
+**[2023.10.04]**  📍 Code, checkpoints and demo are available now! Welcome to **watch** this repository for the latest updates.
 
 ## 🤗 Online Demo
-Coming soon...
+We provide the [online demo](https://huggingface.co/spaces/lb203/LanguageBind) in Huggingface Spaces. In this demo, you can calculate the similarity of modalities to language, such as audio-to-language, video-to-language, and depth-to-image.
+
+<p align="center">
+<img src="assets/demo.png" width=100%>
+</p>
+<br>
 
 ## 😮 Highlights
 
@@ -58,7 +63,11 @@ We make multi-view enhancements to language. We produce multi-view description t
         <th>Model</th><th>Baidu Yun</th><th>Google Cloud</th><th>Peking University Yun</th>
     </tr>
     <tr align="center">
-        <td>Video-Language</td><td>TODO</td><td>TODO</td><td>TODO</td>
+        <td>Video-Language (LanguageBind)</td><td><a href="https://pan.baidu.com/s/1vpzY43Rt8L9VB2nr10Z9wQ?pwd=yc1y">Link</a></td><td><a href="https://drive.google.com/file/d/1JlPJV1BUIygQxM5IkCyiXKdvi7v-T9-6/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/1F74489352C16DAFC10A66E3240BDD50">Link</a></td>
+    </tr>
+    </tr>
+    <tr align="center">
+        <td>Video-Language (CLIP4Clip)</td><td><a href="https://pan.baidu.com/s/1YQB_mQ9ADxLb60sbpPReNQ?pwd=1q17">Link</a></td><td><a href="https://drive.google.com/file/d/1HoyL1rnWsDiZrZ9Yr5iFdS4w4U1NcDeQ/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/0DF72C877A7B0227F516D7EEE94AB514">Link</a></td>
     </tr>
     </tr>
     <tr align="center">

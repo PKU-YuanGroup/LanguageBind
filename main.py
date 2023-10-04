@@ -13,7 +13,6 @@ from torch import optim
 from torch.cuda.amp import GradScaler
 
 from a_cls.zeroshot_cls import evaluate_a_cls
-from al_ret.retrieval import evaluate_al_ret
 from i_cls.zeroshot_cls import evaluate_i_cls
 from d_cls.zeroshot_cls import evaluate_d_cls
 from t_cls.zeroshot_cls import evaluate_t_cls
