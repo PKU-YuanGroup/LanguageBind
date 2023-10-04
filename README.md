@@ -8,7 +8,7 @@
 <h5 align="center"> If you like our project, please give us a star ✨ on Github for latest update.  </h2>
 
 <p align="center">
-📖 <a href="">Paper</a>
+📖 <a href="https://arxiv.org/pdf/2310.01852.pdf">Paper</a>
     &nbsp｜&nbsp
 🤗<a href="https://github.com/PKU-YuanGroup/LanguageBind#-online-demo">Demo</a>
     &nbsp&nbsp|&nbsp&nbsp
@@ -111,9 +111,6 @@ The datasets is in [DATASETS.md](DATASETS.md).
 ## 📄 Training & Validating
 The training & validating instruction is in [TRAIN_AND_VALIDATE.md](TRAIN_AND_VALIDATE.md).
 
-## ☎️ Contact 
-Zhu Bin: binzhu@stu.pku.edu.cn
-
 ## 👍 Acknowledgement
 * [OpenCLIP](https://github.com/mlfoundations/open_clip) An open source pretraining framework.
 * [CLIP4Clip](https://github.com/ArrowLuo/CLIP4Clip) An open source Video-Text retrieval framework.
@@ -126,5 +123,12 @@ Zhu Bin: binzhu@stu.pku.edu.cn
 If you find our paper and code useful in your research, please consider giving a star :star: and citation :pencil:.
 
 ```BibTeX
-
+@misc{zhu2023languagebind,
+      title={LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment}, 
+      author={Bin Zhu and Bin Lin and Munan Ning and Yang Yan and Jiaxi Cui and Wang HongFa and Yatian Pang and Wenhao Jiang and Junwu Zhang and Zongwei Li and Cai Wan Zhang and Zhifeng Li and Wei Liu and Li Yuan},
+      year={2023},
+      eprint={2310.01852},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
 ```
