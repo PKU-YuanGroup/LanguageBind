@@ -6,18 +6,7 @@ import numpy as np
 import torch
 from torch import nn
 
-from data.process_image import load_and_transform_image, get_image_transform
-from main import SET_GLOBAL_VALUE
-from model.build_model import create_vat_model
-from data.process_audio import load_and_transform_audio, get_audio_transform
-from data.process_video import load_and_transform_video, get_video_transform
-from data.process_depth import load_and_transform_depth, get_depth_transform
-from data.process_thermal import load_and_transform_thermal, get_thermal_transform
-from data.process_text import load_and_transform_text
-from model.languagebind import stack_dict, LanguageBind
-from open_clip import get_tokenizer
-from open_clip.factory import HF_HUB_PREFIX
-from training.params import parse_args
+from languagebind import LanguageBind, transform_dict, LanguageBindImageTokenizer, to_device
 
 code_highlight_css = (
 """
@@ -120,8 +109,9 @@ pre {
 
 def image_to_language(image, language):
     inputs = {}
-    inputs['image'] = stack_dict([load_and_transform_image(image, modality_transform['image'])], device)
-    inputs['language'] = stack_dict([load_and_transform_text(language, modality_transform['language'])], device)
+    inputs['image'] = to_device(modality_transform['image'](image), device)
+    inputs['language'] = to_device(modality_transform['language'](language, max_length=77, padding='max_length',
+                                                                  truncation=True, return_tensors='pt'), device)
     with torch.no_grad():
         embeddings = model(inputs)
     return (embeddings['image'] @ embeddings['language'].T).item()
@@ -129,8 +119,9 @@ def image_to_language(image, language):
 
 def video_to_language(video, language):
     inputs = {}
-    inputs['video'] = stack_dict([load_and_transform_video(video, modality_transform['video'])], device)
-    inputs['language'] = stack_dict([load_and_transform_text(language, modality_transform['language'])], device)
+    inputs['video'] = to_device(modality_transform['video'](video), device)
+    inputs['language'] = to_device(modality_transform['language'](language, max_length=77, padding='max_length',
+                                                                  truncation=True, return_tensors='pt'), device)
     with torch.no_grad():
         embeddings = model(inputs)
     return (embeddings['video'] @ embeddings['language'].T).item()
@@ -138,8 +129,9 @@ def video_to_language(video, language):
 
 def audio_to_language(audio, language):
     inputs = {}
-    inputs['audio'] = stack_dict([load_and_transform_audio(audio, modality_transform['audio'])], device)
-    inputs['language'] = stack_dict([load_and_transform_text(language, modality_transform['language'])], device)
+    inputs['audio'] = to_device(modality_transform['audio'](audio), device)
+    inputs['language'] = to_device(modality_transform['language'](language, max_length=77, padding='max_length',
+                                                                  truncation=True, return_tensors='pt'), device)
     with torch.no_grad():
         embeddings = model(inputs)
     return (embeddings['audio'] @ embeddings['language'].T).item()
@@ -147,8 +139,9 @@ def audio_to_language(audio, language):
 
 def depth_to_language(depth, language):
     inputs = {}
-    inputs['depth'] = stack_dict([load_and_transform_depth(depth.name, modality_transform['depth'])], device)
-    inputs['language'] = stack_dict([load_and_transform_text(language, modality_transform['language'])], device)
+    inputs['depth'] = to_device(modality_transform['depth'](depth.name), device)
+    inputs['language'] = to_device(modality_transform['language'](language, max_length=77, padding='max_length',
+                                                                  truncation=True, return_tensors='pt'), device)
     with torch.no_grad():
         embeddings = model(inputs)
     return (embeddings['depth'] @ embeddings['language'].T).item()
@@ -156,32 +149,24 @@ def depth_to_language(depth, language):
 
 def thermal_to_language(thermal, language):
     inputs = {}
-    inputs['thermal'] = stack_dict([load_and_transform_thermal(thermal, modality_transform['thermal'])], device)
-    inputs['language'] = stack_dict([load_and_transform_text(language, modality_transform['language'])], device)
+    inputs['thermal'] = to_device(modality_transform['thermal'](thermal), device)
+    inputs['language'] = to_device(modality_transform['language'](language, max_length=77, padding='max_length',
+                                                                  truncation=True, return_tensors='pt'), device)
     with torch.no_grad():
         embeddings = model(inputs)
     return (embeddings['thermal'] @ embeddings['language'].T).item()
 
 if __name__ == '__main__':
-    args = parse_args(sys.argv[1:])
-    args.device = 'cuda:0'
-    args.cache_dir = 'tokenizer_cache'
-    device = torch.device(args.device)
-    model = LanguageBind(args, no_temp=True)
-    ckpt = torch.load(args.languagebind_weight, map_location='cpu')
-    model.load_state_dict(ckpt)
+    device = 'cuda:0'
+    device = torch.device(device)
+    clip_type = ('thermal', 'image', 'video', 'depth', 'audio')
+    model = LanguageBind(clip_type=clip_type, use_temp=False)
     model = model.to(device)
     model.eval()
-
-
-    modality_transform = {
-        'language': get_tokenizer(HF_HUB_PREFIX + args.model, cache_dir=args.cache_dir),
-        'video': get_video_transform(args),
-        'audio': get_audio_transform(args),
-        'depth': get_depth_transform(args),
-        'thermal': get_thermal_transform(args),
-        'image': get_image_transform(args),
-    }
+    pretrained_ckpt = f'lb203/LanguageBind_Image'
+    tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir/tokenizer_cache_dir')
+    modality_transform = {c: transform_dict[c](model.modality_config[c]) for c in clip_type}
+    modality_transform['language'] = tokenizer
 
     with gr.Blocks(title="LanguageBind🚀", css=css) as demo:
         gr.Markdown(title_markdown)
