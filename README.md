@@ -19,10 +19,19 @@
 💥<a href="DATASETS">Datasets</a>
 </p>
 
+## 😮 Highlights
 
-
+### 💡 High performance, but NO intermediate modality required
+LanguageBind is a **language-centric** multimodal pretraining approach, **taking the language as the bind across different modalities** because the language modality is well-explored and contains rich semantics. 
 * The following first figure shows the architecture of LanguageBind. LanguageBind can be easily extended to segmentation, detection tasks, and potentially to unlimited modalities. 
+
+### ⚡️ A multimodal, fully aligned and voluminous dataset
+We propose **VIDAL-10M**, **10 Million data** with **V**ideo, **I**nfrared, **D**epth, **A**udio and their corresponding **L**anguage, which greatly expands the data beyond visual modalities.
 * The second figure shows our proposed VIDAL-10M dataset, which includes five modalities: video, infrared, depth, audio, and language.
+
+### 🔥 Multi-view enhanced description for training
+We make multi-view enhancements to language. We produce multi-view description that combines **meta-data**, **spatial**, and **temporal** to greatly enhance the semantic information of the language. In addition we further **enhance the language with ChatGPT** to create a good semantic space for each modality aligned language.
+
 <p align="center">
 <img src="assets/languagebind.jpg" width=100%>
 </p>
@@ -47,16 +56,7 @@ python gradio_app.py
 <img src="assets/demo.png" width=100%>
 </p>
 
-## 😮 Highlights
 
-### 💡 High performance, but NO intermediate modality required
-LanguageBind is a **language-centric** multimodal pretraining approach, **taking the language as the bind across different modalities** because the language modality is well-explored and contains rich semantics. 
-
-### ⚡️ A multimodal, fully aligned and voluminous dataset
-We propose **VIDAL-10M**, **10 Million data** with **V**ideo, **I**nfrared, **D**epth, **A**udio and their corresponding **L**anguage, which greatly expands the data beyond visual modalities.
-
-### 🔥 Multi-view enhanced description for training
-We make multi-view enhancements to language. We produce multi-view description that combines **meta-data**, **spatial**, and **temporal** to greatly enhance the semantic information of the language. In addition we further **enhance the language with ChatGPT** to create a good semantic space for each modality aligned language.
 
 ## 🚀 Main Results
 
