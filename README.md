@@ -39,12 +39,12 @@
 
 * **Local demo.** Highly recommend trying out our web demo, which incorporates all features currently supported by LanguageBind.
 ```bash
-python gradio_app.py --languagebind_weight LanguageBind.pt
+python gradio_app.py
 ```
 
 * **Online demo.** We provide the [online demo](https://huggingface.co/spaces/lb203/LanguageBind) in Huggingface Spaces. In this demo, you can calculate the similarity of modalities to language, such as audio-to-language, video-to-language, and depth-to-image.
 <p align="center">
-<img src="assets/demo.jpg" width=100%>
+<img src="assets/demo.png" width=100%>
 </p>
 
 ## 😮 Highlights
