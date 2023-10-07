@@ -12,7 +12,7 @@
     &nbsp｜&nbsp
 🤗<a href="https://huggingface.co/spaces/lb203/LanguageBind">Demo</a>
     &nbsp&nbsp|&nbsp&nbsp
-🤖 <a href="https://github.com/PKU-YuanGroup/LanguageBind#-usage">API</a>
+🤖 <a href="https://github.com/PKU-YuanGroup/LanguageBind#usage">API</a>
     &nbsp&nbsp|&nbsp&nbsp
 📄<a href="TRAIN_AND_VALIDATE.md">Instruction</a>
     &nbsp｜
@@ -83,7 +83,7 @@ cd LanguageBind
 pip install -r requirements.txt
 ```
 
-## 🤖Usage
+## 🤖 API
 **We open source all modalities preprocessing code.** If you want to load the model (e.g. '''lb203/LanguageBind_Thermal''') from the model hub on Huggingface or on local, you can use the following code snippets.
 
 ### Inference for Multi-modal Binding 
