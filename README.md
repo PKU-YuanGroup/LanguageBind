@@ -116,8 +116,8 @@ if __name__ == '__main__':
         'depth': to_device(modality_transform['depth'](depth), device),
         'thermal': to_device(modality_transform['thermal'](thermal), device),
     }
-    inputs['language'] = to_device(
-        tokenizer(language, max_length=77, padding='max_length', truncation=True, return_tensors='pt'), device)
+    inputs['language'] = to_device(tokenizer(language, max_length=77, padding='max_length',
+                                             truncation=True, return_tensors='pt'), device)
 
     with torch.no_grad():
         embeddings = model(inputs)
