@@ -5,14 +5,14 @@
     <img src="assets/logo.png" width="250" />
 <p>
 <h2 align="center"> <a href="https://arxiv.org/pdf/2310.01852.pdf">LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment</a></h2>
-<h5 align="center"> If you like our project, please give us a star ✨ on Github for latest update.  </h2>
+<h5 align="center"> If you like our project, please give us a star ✨ on GitHub for latest update.  </h2>
 
 <p align="center">
 📖 <a href="https://arxiv.org/pdf/2310.01852.pdf">Paper</a>
     &nbsp｜&nbsp
 🤗<a href="https://huggingface.co/spaces/lb203/LanguageBind">Demo</a>
     &nbsp&nbsp|&nbsp&nbsp
-🤖 <a href="https://github.com/PKU-YuanGroup/LanguageBind#-model-zoo">Model zoo</a>
+🤖 <a href="https://github.com/PKU-YuanGroup/LanguageBind#-usage">API</a>
     &nbsp&nbsp|&nbsp&nbsp
 📄<a href="TRAIN_AND_VALIDATE.md">Instruction</a>
     &nbsp｜
@@ -32,7 +32,8 @@
 
 
 ## 📰 News
-**[2023.10.04]**  📍 Code, checkpoints and demo are available now! Welcome to **watch** this repository for the latest updates.
+**[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/lb203). <br>
+**[2023.10.04]**  Code and demo are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
 ## 🤗 Demo
 
@@ -56,49 +57,6 @@ We propose **VIDAL-10M**, **10 Million data** with **V**ideo, **I**nfrared, **D*
 
 ### 🔥 Multi-view enhanced description for training
 We make multi-view enhancements to language. We produce multi-view description that combines **meta-data**, **spatial**, and **temporal** to greatly enhance the semantic information of the language. In addition we further **enhance the language with ChatGPT** to create a good semantic space for each modality aligned language.
-
-## 🤖 Model Zoo
-* We list the pretrained checkpoints of LanguageBind below. We provide **an aggregated weight (LanguageBind)** for online demo and inference. Additionally, LanguageBind can be disassembled into different branches to handle different tasks.
-* We additionally trained Video-Language with the LanguageBind method, which is stronger than on CLIP4Clip framework.
-* The cache comes from OpenCLIP, which we downloaded from HuggingFace. Note that the original cache for pretrained weights is the Image-Language weights, just a few more HF profiles.
-<div align="center">
-<table border="1" width="100%">
-    <tr align="center">
-        <th>Model</th><th>Baidu Yun</th><th>Google Cloud</th><th>Peking University Yun</th>
-    </tr>
-    </tr>
-    <tr align="center">
-        <td><strong>LanguageBind</strong></td><td><a href="https://pan.baidu.com/s/14e-bB-kmsroZHU0mlD_Rtg?pwd=vi1m">Link</a></td><td><a href="https://drive.google.com/file/d/1h1alryrhxeWRadrQRB5eN6diEODpHwNb/view?usp=drive_link">Link</a></td><td>TODO</a></td>
-    </tr>
-    <tr align="center">
-        <td>Video-Language (LanguageBind)</td><td><a href="https://pan.baidu.com/s/1vpzY43Rt8L9VB2nr10Z9wQ?pwd=yc1y">Link</a></td><td><a href="https://drive.google.com/file/d/1JlPJV1BUIygQxM5IkCyiXKdvi7v-T9-6/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/1F74489352C16DAFC10A66E3240BDD50">Link</a></td>
-    </tr>
-    </tr>
-    <tr align="center">
-        <td>Video-Language (CLIP4Clip)</td><td><a href="https://pan.baidu.com/s/1YQB_mQ9ADxLb60sbpPReNQ?pwd=1q17">Link</a></td><td><a href="https://drive.google.com/file/d/1HoyL1rnWsDiZrZ9Yr5iFdS4w4U1NcDeQ/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/0DF72C877A7B0227F516D7EEE94AB514">Link</a></td>
-    </tr>
-    </tr>
-    <tr align="center">
-        <td>Audio-Language</td><td><a href="https://pan.baidu.com/s/1PFN8aGlnzsOkGjVk6Mzlfg?pwd=sisz">Link</a></td><td><a href="https://drive.google.com/file/d/10eA-OxGn-0M-7I3KEOVx7VbnBCQ9ZgDU/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/C2DE5036286C2A0DD06A01A960309CA4">Link</a></td>
-    </tr>
-    </tr>
-    <tr align="center">
-        <td>Depth-Language</td><td><a href="https://pan.baidu.com/s/1YWlaxqTRhpGvXqCyBbmhyg?pwd=olom">Link</a></td><td><a href="https://drive.google.com/file/d/1d8I8LWy927osjoRJqB92Qd6AENJ52mD8/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/C64DA9DDB9CC9B8E4BACDC2007A66D84">Link</a></td>
-    </tr>
-    </tr>
-    <tr align="center">
-        <td>Thermal(Infrared)-Language</td><td><a href="https://pan.baidu.com/s/1luUyyKxhadKKc1nk1wizWg?pwd=raf5">Link</a></td><td><a href="https://drive.google.com/file/d/1ks4MlhFqR1b_AIAP4E_uCTIOfy1N71KI/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/0F4D7034428C0476E339811000DF83A2">Link</a></td>
-    </tr>
-    </tr>
-    <tr align="center">
-        <td>Image-Language</td><td><a href="https://pan.baidu.com/s/1VBE4OjecMTeIzU08axfFHA?pwd=7j0m">Link</a></td><td><a href="https://drive.google.com/file/d/1I6WIDKZrHXSeVK6lvp1l-isszMv6t1JZ/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/FE902FAE21FF3490046E02DB5C2564FA">Link</a></td>
-    </tr>
-    </tr>
-    <tr align="center">
-        <td>Cache for pretrained weight</td><td><a href="https://pan.baidu.com/s/1Tytx5MDSo96rwUmQZVY1Ww?pwd=c7r0">Link</a></td><td><a href="https://drive.google.com/drive/folders/1VQYZlqfKmCMuHffypf5F96odyMCEI87H?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/9CA764E6307790B01D2D4F7E314E8E43">Link</a></td>
-    </tr>
-</table>
-</div>
 
 ## 🚀 Main Results
 
@@ -125,46 +83,146 @@ cd LanguageBind
 pip install -r requirements.txt
 ```
 
-## 🪧Usage
-**We open source all modal preprocessing code.** Here is a simple script for multi-modal inference with LanguageBind.
+## 🤖Usage
+**We open source all modalities preprocessing code.** If you want to load the model (e.g. '''lb203/LanguageBind_Thermal''') from the model hub on Huggingface or on local, you can use the following code snippets.
+
+### Inference for Multi-modal Binding 
 ```python
-modality_transform = {
-        'language': get_tokenizer(HF_HUB_PREFIX + args.model, cache_dir=args.cache_dir),
-	'video': get_video_transform(args),
-	'audio': get_audio_transform(args),
-	'depth': get_depth_transform(args),
-	'thermal': get_thermal_transform(args),
-	'image': get_image_transform(args),
-}
+import torch
+from languagebind import LanguageBind, to_device, transform_dict, LanguageBindImageTokenizer
 
-image = ['image1.jpg', 'image2jpgwav']
-audio = ['audio1.wav', 'audio2.wav']
-video = ['video1.mp4', 'video2.mp4']
-depth = ['depth1.png', 'depth2.png']
-thermal = ['thermal1.jpg', 'thermal2.jpg']
-language = ["text1", 'text2']
+if __name__ == '__main__':
+    device = 'cuda:0'
+    device = torch.device(device)
+    clip_type = ('thermal', 'image', 'video', 'depth', 'audio')
+    model = LanguageBind(clip_type=clip_type)
+    model = model.to(device)
+    model.eval()
+    pretrained_ckpt = f'lb203/LanguageBind_Image'
+    tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir/tokenizer_cache_dir')
+    modality_transform = {c: transform_dict[c](model.modality_config[c]) for c in clip_type}
 
-inputs = {
-	    'image': stack_dict([load_and_transform_image(i, modality_transform['image']) for i in image], device),
-	    'video': stack_dict([load_and_transform_video(i, modality_transform['video']) for i in video], device),
-	    'audio': stack_dict([load_and_transform_audio(i, modality_transform['audio']) for i in audio], device),
-	    'thermal': stack_dict([load_and_transform_thermal(i, modality_transform['thermal']) for i in thermal], device),
-	    'depth': stack_dict([load_and_transform_depth(i, modality_transform['depth']) for i in depth], device),
-            'language': stack_dict([load_and_transform_text(i, modality_transform['language']) for i in language], device)
-}
+    image = ['your/iamge1.jpg', 'your/image2.jpg']
+    audio = ['your/audio1.wav', 'your/audio2.wav']
+    video = ['your/video1.mp4', 'your/video2.mp4']
+    depth = ['your/depth1.png', 'your/depth2.png']
+    thermal = ['your/thermal1.jpg', 'your/thermal2.jpg']
+    language = ["your text1.", 'your text2.']
 
-with torch.no_grad():
-    embeddings = model(inputs)
+    inputs = {
+        'image': to_device(modality_transform['image'](image), device),
+        'video': to_device(modality_transform['video'](video), device),
+        'audio': to_device(modality_transform['audio'](audio), device),
+        'depth': to_device(modality_transform['depth'](depth), device),
+        'thermal': to_device(modality_transform['thermal'](thermal), device),
+    }
+    inputs['language'] = to_device(
+        tokenizer(language, max_length=77, padding='max_length', truncation=True, return_tensors='pt'), device)
 
-print("Video x Language: \n", torch.softmax(embeddings['video'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
-print("Image x Language: \n", torch.softmax(embeddings['image'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
-print("Depth x Language: \n", torch.softmax(embeddings['depth'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
-print("Audio x Language: \n", torch.softmax(embeddings['audio'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
-print("Thermal x Language: \n", torch.softmax(embeddings['thermal'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
+    with torch.no_grad():
+        embeddings = model(inputs)
+
+    print("Video x Text: \n",
+          torch.softmax(embeddings['video'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
+    print("Image x Text: \n",
+          torch.softmax(embeddings['image'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
+    print("Depth x Text: \n",
+          torch.softmax(embeddings['depth'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
+    print("Audio x Text: \n",
+          torch.softmax(embeddings['audio'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
+    print("Thermal x Text: \n",
+          torch.softmax(embeddings['thermal'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
 ```
-More details are in [inference.py](inference.py). Run the following command to start.
-```bash
-python inference.py --languagebind_weight LanguageBind.pt
+### Different branches for X-Language task
+**Additionally, LanguageBind can be disassembled into different branches to handle different tasks.**
+#### Thermal
+```python
+import torch
+from languagebind import LanguageBindThermal, LanguageBindThermalTokenizer, LanguageBindThermalProcessor
+
+pretrained_ckpt = 'lb203/LanguageBind_Thermal'
+model = LanguageBindThermal.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+tokenizer = LanguageBindThermalTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+thermal_process = LanguageBindThermalProcessor(model.config, tokenizer)
+
+model.eval()
+data = thermal_process([r"your/thermal.jpg"], ['your text'], return_tensors='pt')
+with torch.no_grad():
+    out = model(**data)
+
+print(out.text_embeds @ out.image_embeds.T)
+```
+
+#### Depth
+```python
+import torch
+from languagebind import LanguageBindDepth, LanguageBindDepthTokenizer, LanguageBindDepthProcessor
+
+pretrained_ckpt = 'lb203/LanguageBind_Depth'
+model = LanguageBindDepth.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+tokenizer = LanguageBindDepthTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+depth_process = LanguageBindDepthProcessor(model.config, tokenizer)
+
+model.eval()
+data = depth_process([r"your/depth.png"], ['your text.'], return_tensors='pt')
+with torch.no_grad():
+    out = model(**data)
+
+print(out.text_embeds @ out.image_embeds.T)
+```
+
+#### Video
+```python
+import torch
+from languagebind import LanguageBindVideo, LanguageBindVideoTokenizer, LanguageBindVideoProcessor
+
+pretrained_ckpt = 'lb203/LanguageBind_Video'
+model = LanguageBindVideo.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+tokenizer = LanguageBindVideoTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+video_process = LanguageBindVideoProcessor(model.config, tokenizer)
+
+model.eval()
+data = video_process(["your/video.mp4"], ['your text.'], return_tensors='pt')
+with torch.no_grad():
+    out = model(**data)
+
+print(out.text_embeds @ out.image_embeds.T)
+```
+
+#### Audio
+```python
+import torch
+from languagebind import LanguageBindAudio, LanguageBindAudioTokenizer, LanguageBindAudioProcessor
+
+pretrained_ckpt = 'lb203/LanguageBind_Audio'
+model = LanguageBindAudio.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+tokenizer = LanguageBindAudioTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+audio_process = LanguageBindAudioProcessor(model.config, tokenizer)
+
+model.eval()
+data = audio_process([r"your/audio.wav"], ['your audio.'], return_tensors='pt')
+with torch.no_grad():
+    out = model(**data)
+
+print(out.text_embeds @ out.image_embeds.T)
+```
+
+#### Image
+```python
+import torch
+from languagebind import LanguageBindImage,  LanguageBindImageTokenizer,  LanguageBindImageProcessor
+
+pretrained_ckpt = 'lb203/LanguageBind_Image'
+model = LanguageBindImage.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+image_process = LanguageBindImageProcessor(model.config, tokenizer)
+
+model.eval()
+data = image_process([r"your/image.jpg"], ['your text.'], return_tensors='pt')
+with torch.no_grad():
+    out = model(**data)
+
+print(out.text_embeds @ out.image_embeds.T)
 ```
 
 ## 💥 VIDAL-10M
