@@ -41,7 +41,7 @@ We make multi-view enhancements to language. We produce multi-view description t
 
 
 ## 📰 News
-**[2023.10.10]**  🎉 We updated the weights of audio to exceed ImageBind by 16.2% on the ESC-50 dataset. Sample data can be found in assets, and [emergency zero-shot usage](#emergency-zero-shot) is described.<br>
+**[2023.10.10]**  🎉 We updated the weights of audio to exceed ImageBind by 16.2% on the ESC-50 dataset. Sample data can be found in [assets](assets), and [emergency zero-shot usage](#emergency-zero-shot) is described.<br>
 **[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/lb203). <br>
 **[2023.10.04]**  Code and demo are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
@@ -68,7 +68,7 @@ We focus on reporting the parameters of the vision encoder. Our experiments are 
 </p>
 
 ### ✨ Multiple Modalities
-Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report the top-1 classification accuracy for all datasets.
+Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report text-to-audio R@1 for the Clotho dataset and top-1 accuracy for the rest of the datasets.
 <p align="center">
 <img src="assets/res2.jpg" width=70%>
 </p>
