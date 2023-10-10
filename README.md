@@ -41,7 +41,7 @@ We make multi-view enhancements to language. We produce multi-view description t
 
 
 ## 📰 News
-**[2023.10.10]**  🎉 We updated the weights of audio to exceed ImageBind by 16.2% on the ESC-50 dataset. Sample data can be found in assets, and [emergency zero-shot usage](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/README.md#emergency-zero-shot) is described.<br>
+**[2023.10.10]**  🎉 We updated the weights of audio to exceed ImageBind by 16.2% on the ESC-50 dataset. Sample data can be found in assets, and [emergency zero-shot usage](#emergency-zero-shot) is described.<br>
 **[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/lb203). <br>
 **[2023.10.04]**  Code and demo are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
@@ -88,7 +88,7 @@ pip install -r requirements.txt
 **We open source all modalities preprocessing code.** If you want to load the model (e.g. ```lb203/LanguageBind_Thermal```) from the model hub on Huggingface or on local, you can use the following code snippets.
 
 ### Inference for Multi-modal Binding 
-We have provided some sample datasets in [assets] to quickly see how languagebind works.
+We have provided some sample datasets in [assets](assets) to quickly see how languagebind works.
 ```python
 import torch
 from languagebind import LanguageBind, to_device, transform_dict, LanguageBindImageTokenizer
