@@ -9,7 +9,7 @@ from transformers import ProcessorMixin, BatchEncoding
 from transformers.image_processing_utils import BatchFeature
 from pytorchvideo.data.encoded_video import EncodedVideo
 from torchvision.transforms import Compose, Lambda, ToTensor
-from torchvision.transforms._transforms_video import NormalizeVideo, RandomCropVideo, RandomHorizontalFlipVideo
+from torchvision.transforms._transforms_video import NormalizeVideo, RandomCropVideo, RandomHorizontalFlipVideo, CenterCropVideo
 from pytorchvideo.transforms import ApplyTransformToKey, ShortSideScale, UniformTemporalSubsample
 
 decord.bridge.set_bridge('torch')
@@ -33,7 +33,7 @@ def get_video_transform(config):
                     Lambda(lambda x: x / 255.0),
                     NormalizeVideo(mean=OPENAI_DATASET_MEAN, std=OPENAI_DATASET_STD),
                     ShortSideScale(size=224),
-                    RandomCropVideo(size=224),
+                    CenterCropVideo(224),
                     RandomHorizontalFlipVideo(p=0.5),
                 ]
             ),
@@ -47,7 +47,7 @@ def get_video_transform(config):
                 Lambda(lambda x: x / 255.0),
                 NormalizeVideo(mean=OPENAI_DATASET_MEAN, std=OPENAI_DATASET_STD),
                 ShortSideScale(size=224),
-                RandomCropVideo(size=224),
+                CenterCropVideo(224),
                 RandomHorizontalFlipVideo(p=0.5),
             ]
         )
@@ -59,7 +59,7 @@ def get_video_transform(config):
                 Lambda(lambda x: x / 255.0),
                 NormalizeVideo(mean=OPENAI_DATASET_MEAN, std=OPENAI_DATASET_STD),
                 ShortSideScale(size=224),
-                RandomCropVideo(size=224),
+                CenterCropVideo(224),
                 RandomHorizontalFlipVideo(p=0.5),
             ]
         )
