@@ -52,7 +52,7 @@ transform_dict = {
 }
 
 class LanguageBind(nn.Module):
-    def __init__(self, clip_type=('thermal', 'image', 'video', 'depth', 'audio'), use_temp=True):
+    def __init__(self, clip_type=('thermal', 'image', 'video', 'depth', 'audio'), cache_dir='cache_dir', use_temp=True):
         super(LanguageBind, self).__init__()
         self.use_temp = use_temp
         self.modality_encoder = {}
@@ -61,7 +61,7 @@ class LanguageBind(nn.Module):
         self.modality_config = {}
         for c in clip_type:
             pretrained_ckpt = f'lb203/LanguageBind_{c}'
-            model = model_dict[c].from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
+            model = model_dict[c].from_pretrained(pretrained_ckpt, cache_dir=cache_dir)
             self.modality_encoder[c] = model.vision_model
             self.modality_proj[c] = model.visual_projection
             self.modality_scale[c] = model.logit_scale
