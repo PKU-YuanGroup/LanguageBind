@@ -41,7 +41,7 @@ We make multi-view enhancements to language. We produce multi-view description t
 
 
 ## 📰 News
-**[2023.10.10]**  🎉 We updated the weights of audio to exceed ImageBind by 16.2% on the ESC-50 dataset. Sample data can be found in assets, and [emergency zero-shot usage]() is described.<br>
+**[2023.10.10]**  🎉 We updated the weights of audio to exceed ImageBind by 16.2% on the ESC-50 dataset. Sample data can be found in assets, and [emergency zero-shot usage](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/README.md#emergency-zero-shot) is described.<br>
 **[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/lb203). <br>
 **[2023.10.04]**  Code and demo are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
