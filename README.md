@@ -16,7 +16,7 @@
     &nbsp&nbsp|&nbsp&nbsp
 📄<a href="TRAIN_AND_VALIDATE.md">Instruction</a>
     &nbsp｜
-💥<a href="DATASETS">Datasets</a>
+💥<a href="DATASETS.md">Datasets</a>
 </p>
 
 ## 😮 Highlights
@@ -41,6 +41,7 @@ We make multi-view enhancements to language. We produce multi-view description t
 
 
 ## 📰 News
+**[2023.10.10]**  🎉 We updated the weights of audio to exceed ImageBind by 16.2% on the ESC-50 dataset. Sample data can be found in assets, and [emergency zero-shot usage]() is described.<br>
 **[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/lb203). <br>
 **[2023.10.04]**  Code and demo are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
@@ -87,6 +88,7 @@ pip install -r requirements.txt
 **We open source all modalities preprocessing code.** If you want to load the model (e.g. ```lb203/LanguageBind_Thermal```) from the model hub on Huggingface or on local, you can use the following code snippets.
 
 ### Inference for Multi-modal Binding 
+We have provided some sample datasets in [assets] to quickly see how languagebind works.
 ```python
 import torch
 from languagebind import LanguageBind, to_device, transform_dict, LanguageBindImageTokenizer
@@ -95,19 +97,19 @@ if __name__ == '__main__':
     device = 'cuda:0'
     device = torch.device(device)
     clip_type = ('thermal', 'image', 'video', 'depth', 'audio')
-    model = LanguageBind(clip_type=clip_type)
+    model = LanguageBind(clip_type=clip_type, cache_dir='./cache_dir')
     model = model.to(device)
     model.eval()
     pretrained_ckpt = f'lb203/LanguageBind_Image'
     tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir/tokenizer_cache_dir')
     modality_transform = {c: transform_dict[c](model.modality_config[c]) for c in clip_type}
 
-    image = ['your/iamge1.jpg', 'your/image2.jpg']
-    audio = ['your/audio1.wav', 'your/audio2.wav']
-    video = ['your/video1.mp4', 'your/video2.mp4']
-    depth = ['your/depth1.png', 'your/depth2.png']
-    thermal = ['your/thermal1.jpg', 'your/thermal2.jpg']
-    language = ["your text1.", 'your text2.']
+    image = ['assets/image/0.jpg', 'assets/image/1.jpg']
+    audio = ['assets/audio/0.wav', 'assets/audio/1.wav']
+    video = ['assets/video/0.mp4', 'assets/video/1.mp4']
+    depth = ['assets/depth/0.png', 'assets/depth/1.png']
+    thermal = ['assets/thermal/0.jpg', 'assets/thermal/1.jpg']
+    language = ["Training a parakeet to climb up a ladder.", 'A lion climbing a tree to catch a monkey.']
 
     inputs = {
         'image': to_device(modality_transform['image'](image), device),
@@ -118,10 +120,8 @@ if __name__ == '__main__':
     }
     inputs['language'] = to_device(tokenizer(language, max_length=77, padding='max_length',
                                              truncation=True, return_tensors='pt'), device)
-
     with torch.no_grad():
         embeddings = model(inputs)
-
     print("Video x Text: \n",
           torch.softmax(embeddings['video'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
     print("Image x Text: \n",
@@ -133,6 +133,36 @@ if __name__ == '__main__':
     print("Thermal x Text: \n",
           torch.softmax(embeddings['thermal'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
 ```
+Then returns the following result.
+```bash
+Video x Text: 
+ [[9.9999845e-01 1.5308899e-06]
+ [3.6420031e-06 9.9999630e-01]]
+Image x Text: 
+ [[1.0000000e+00 4.0599781e-09]
+ [1.2165208e-08 1.0000000e+00]]
+Depth x Text: 
+ [[9.9952829e-01 4.7178473e-04]
+ [1.6411507e-01 8.3588487e-01]]
+Audio x Text: 
+ [[0.61346906 0.38653097]
+ [0.00996918 0.99003077]]
+Thermal x Text: 
+ [[0.9744922  0.02550781]
+ [0.3656127  0.6343873 ]]
+```
+### Emergency zero-shot
+Since languagebind binds each modality together, we also found the **emergency zero-shot**. It's very simple to use.
+```python
+print("Video x Audio: \n", torch.softmax(embeddings['video'] @ embeddings['audio'].T, dim=-1).detach().cpu().numpy())
+```
+Then, you will get:
+```
+Video x Audio: 
+ [[1.0000000e+00 0.0000000e+00]
+ [7.2774713e-22 1.0000000e+00]]
+ ```
+
 ### Different branches for X-Language task
 **Additionally, LanguageBind can be disassembled into different branches to handle different tasks.**
 #### Thermal
