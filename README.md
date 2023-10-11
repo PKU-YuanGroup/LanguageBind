@@ -14,9 +14,9 @@
     &nbsp&nbsp|&nbsp&nbsp
 🤖 <a href="https://github.com/PKU-YuanGroup/LanguageBind/tree/main#-api">API</a>
     &nbsp&nbsp|&nbsp&nbsp
-📄<a href="TRAIN_AND_VALIDATE.md">Instruction</a>
+📄<a href="https://github.com/PKU-YuanGroup/LanguageBind#%EF%B8%8F-training--validating">Instruction</a>
     &nbsp｜
-💥<a href="DATASETS.md">Datasets</a>
+💥<a href="https://github.com/PKU-YuanGroup/LanguageBind#-vidal-10m">Datasets</a>
 </p>
 
 ## 😮 Highlights
