@@ -12,7 +12,7 @@
     &nbsp｜&nbsp
 🤗<a href="https://huggingface.co/spaces/lb203/LanguageBind">Demo</a>
     &nbsp&nbsp|&nbsp&nbsp
-🤖 <a href="https://github.com/PKU-YuanGroup/LanguageBind#usage">API</a>
+🤖 [API](#API)
     &nbsp&nbsp|&nbsp&nbsp
 📄<a href="TRAIN_AND_VALIDATE.md">Instruction</a>
     &nbsp｜
