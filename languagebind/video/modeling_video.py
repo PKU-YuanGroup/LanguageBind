@@ -80,8 +80,8 @@ class CLIPEncoderLayer(nn.Module):
             self.embed_dim = config.hidden_size
             self.temporal_attn = CLIPAttention(config)
             self.temporal_layer_norm1 = nn.LayerNorm(self.embed_dim, eps=config.layer_norm_eps)
-            self.temporal_mlp = CLIPMLP(config)
-            self.temporal_layer_norm2 = nn.LayerNorm(self.embed_dim, eps=config.layer_norm_eps)
+            # self.temporal_mlp = CLIPMLP(config)
+            # self.temporal_layer_norm2 = nn.LayerNorm(self.embed_dim, eps=config.layer_norm_eps)
 
     def forward(
         self,
@@ -126,12 +126,12 @@ class CLIPEncoderLayer(nn.Module):
             )
             hidden_states = residual + rearrange(hidden_states, '(b n) t d -> (b t) n d', n=n)
 
-            residual = hidden_states
-            hidden_states = rearrange(hidden_states, '(b t) n d -> (b n) t d', t=t)
-            # hidden_states = self.layer_norm2(hidden_states)  # share layernorm
-            hidden_states = self.temporal_layer_norm2(hidden_states)
-            hidden_states = self.temporal_mlp(hidden_states)
-            hidden_states = residual + rearrange(hidden_states, '(b n) t d -> (b t) n d', n=n)
+            # residual = hidden_states
+            # hidden_states = rearrange(hidden_states, '(b t) n d -> (b n) t d', t=t)
+            # # hidden_states = self.layer_norm2(hidden_states)  # share layernorm
+            # hidden_states = self.temporal_layer_norm2(hidden_states)
+            # hidden_states = self.temporal_mlp(hidden_states)
+            # hidden_states = residual + rearrange(hidden_states, '(b n) t d -> (b t) n d', n=n)
 
         # spatial attn
         residual = hidden_states

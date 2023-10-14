@@ -45,4 +45,8 @@ if __name__ == '__main__':
 
     print("Video x Audio: \n",
           torch.softmax(embeddings['video'] @ embeddings['audio'].T, dim=-1).detach().cpu().numpy())
+    print("Image x Depth: \n",
+          torch.softmax(embeddings['image'] @ embeddings['depth'].T, dim=-1).detach().cpu().numpy())
+    print("Image x Thermal: \n",
+          torch.softmax(embeddings['image'] @ embeddings['thermal'].T, dim=-1).detach().cpu().numpy())
 
