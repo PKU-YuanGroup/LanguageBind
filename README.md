@@ -1,10 +1,8 @@
 
-
-
 <p align="center">
-    <img src="assets/logo.jpg" width="250" />
+    <img src="assets/logo.jpg" width="250" style="margin-bottom: 0.2;"/>
 <p>
-<h2 align="center"> <a href="https://arxiv.org/pdf/2310.01852.pdf">LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment</a></h2>
+<h1 align="center"> <a href="https://arxiv.org/pdf/2310.01852.pdf">LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment</a></h1>
 <h5 align="center"> If you like our project, please give us a star ✨ on GitHub for latest update.  </h2>
 
 <p align="center">
@@ -27,7 +25,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-video-retrieval-on-msr-vtt)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-msr-vtt?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-video-retrieval-on-activitynet)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-activitynet?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-video-retrieval-on-didemo)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-didemo?p=languagebind-extending-video-language) <br>
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-action-recognition-on-kinetics)](https://paperswithcode.com/sota/zero-shot-action-recognition-on-kinetics?p=languagebind-extending-video-language) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-action-recognition-on-kinetics)](https://paperswithcode.com/sota/zero-shot-action-recognition-on-kinetics?p=languagebind-extending-video-language) 
 
 
 ## 📰 News
