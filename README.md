@@ -65,13 +65,13 @@ python gradio_app.py
 ### ✨ Video-Language
 We focus on reporting the parameters of the vision encoder. Our experiments are based on 3 million video-text pairs of VIDAL-10M, and we train on the CLIP4Clip framework.
 <p align="center">
-<img src="assets/res1.jpg" width=80%>
+<img src="assets/result1.jpg" width=80%>
 </p>
 
 ### ✨ Multiple Modalities
 Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report text-to-audio R@1 for the Clotho dataset and top-1 accuracy for the rest of the datasets.
 <p align="center">
-<img src="assets/res2.jpg" width=70%>
+<img src="assets/result2.jpg" width=70%>
 </p>
 
 ## 🛠️ Requirements and Installation
