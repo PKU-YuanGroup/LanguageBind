@@ -3,7 +3,7 @@
     <img src="assets/logo.jpg" width="250" style="margin-bottom: 0.2;"/>
 <p>
 <h2 align="center"> <a href="https://arxiv.org/pdf/2310.01852.pdf">LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment</a></h2>
-<h5 align="center"> If you like our project, please give us a star ✨ on GitHub for latest update.  </h2>
+<h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for latest update.  </h2>
 
 <p align="center">
 📖 <a href="https://arxiv.org/pdf/2310.01852.pdf">Paper</a>
@@ -182,7 +182,7 @@ Image x Thermal:
  ```
 
 ### Different branches for X-Language task
-**Additionally, LanguageBind can be disassembled into different branches to handle different tasks.**
+Additionally, LanguageBind can be **disassembled into different branches** to handle different tasks. Note that we do not train Image, which just initialize from OpenCLIP.
 #### Thermal
 ```python
 import torch
