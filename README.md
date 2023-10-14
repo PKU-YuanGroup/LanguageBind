@@ -19,6 +19,13 @@
 💥<a href="https://github.com/PKU-YuanGroup/LanguageBind#-vidal-10m">Datasets</a>
 </p>
 
+## 📰 News
+**[2023.10.14]**  😱 LanguageBind-Video achieves **state-of-the-art (SOTA) performance on 4 datasets**, checking our ✨[results](#video-language)! The checkpoint **have updated** on Huggingface Model Hub! <br>
+**[2023.10.12]**  👀 We are training a **stronger LanguageBind-Video** model. The checkpoint will also be updated on Huggingface Model Hub soon. <br>
+**[2023.10.10]**  🎉 We updated the weights of audio to exceed ImageBind by **16.2%** on the ESC-50 dataset. Sample data can be found in [assets](assets), and [emergency zero-shot usage](#emergency-zero-shot) is described. <br>
+**[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/lb203). <br>
+**[2023.10.04]**  Code and [demo](https://huggingface.co/spaces/lb203/LanguageBind) are available now! Welcome to **watch** 👀 this repository for the latest updates.
+
 ## 😮 Highlights
 
 ### 💡 High performance, but NO intermediate modality required
@@ -39,13 +46,6 @@ We make multi-view enhancements to language. We produce multi-view description t
 <img src="assets/iclr_dataset_sample.jpg" width=99%>
 </p>
 
-
-## 📰 News
-**[2023.10.12]**  👀 We are training a **stronger LanguageBind-Video** model. The checkpoint will also be updated on Huggingface Model Hub soon.<br>
-**[2023.10.10]**  🎉 We updated the weights of audio to exceed ImageBind by **16.2%** on the ESC-50 dataset. Sample data can be found in [assets](assets), and [emergency zero-shot usage](#emergency-zero-shot) is described.<br>
-**[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/lb203). <br>
-**[2023.10.04]**  Code and [demo](https://huggingface.co/spaces/lb203/LanguageBind) are available now! Welcome to **watch** 👀 this repository for the latest updates.
-
 ## 🤗 Demo
 
 * **Local demo.** Highly recommend trying out our web demo, which incorporates all features currently supported by LanguageBind.
@@ -62,14 +62,14 @@ python gradio_app.py
 
 ## 🚀 Main Results
 
-### ✨ Video-Language
-We focus on reporting the parameters of the vision encoder. Our experiments are based on 3 million video-text pairs of VIDAL-10M, and we train on the CLIP4Clip framework.
+### Video-Language
+LanguageBind achieves **state-of-the-art (SOTA) performance on four datasets**, surpassing InterVideo by 1.9% on MSR-VTT, 8.8% on MSVD, 6.3% on DiDeMo, and 4.4% on ActivityNet. It is worth noting that InterVideo employs more extensive training data, signifying that LanguageBind represents an efficient pretraining method.
 <p align="center">
 <img src="assets/result1.jpg" width=80%>
 </p>
 
-### ✨ Multiple Modalities
-Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report text-to-audio R@1 for the Clotho dataset and top-1 accuracy for the rest of the datasets.
+### Multiple Modalities
+Video-Language, Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report text-to-audio R@1 for the Clotho dataset and top-1 accuracy for the rest of the datasets.
 <p align="center">
 <img src="assets/result2.jpg" width=70%>
 </p>
@@ -137,8 +137,8 @@ if __name__ == '__main__':
 Then returns the following result.
 ```bash
 Video x Text: 
- [[9.9999845e-01 1.5308899e-06]
- [3.6420031e-06 9.9999630e-01]]
+ [[9.9999988e-01 1.5560659e-07]
+ [6.2432008e-08 9.9999988e-01]]
 Image x Text: 
  [[1.0000000e+00 4.0599781e-09]
  [1.2165208e-08 1.0000000e+00]]
@@ -146,7 +146,7 @@ Depth x Text:
  [[9.9952829e-01 4.7178473e-04]
  [1.6411507e-01 8.3588487e-01]]
 Audio x Text: 
- [[0.61346906 0.38653097]
+ [[0.9977429  0.00225709]
  [0.00996918 0.99003077]]
 Thermal x Text: 
  [[0.9744922  0.02550781]
@@ -156,12 +156,20 @@ Thermal x Text:
 Since languagebind binds each modality together, we also found the **emergency zero-shot**. It's very simple to use.
 ```python
 print("Video x Audio: \n", torch.softmax(embeddings['video'] @ embeddings['audio'].T, dim=-1).detach().cpu().numpy())
+print("Image x Depth: \n", torch.softmax(embeddings['image'] @ embeddings['depth'].T, dim=-1).detach().cpu().numpy())
+print("Image x Thermal: \n", torch.softmax(embeddings['image'] @ embeddings['thermal'].T, dim=-1).detach().cpu().numpy())
 ```
 Then, you will get:
 ```
 Video x Audio: 
- [[1.0000000e+00 0.0000000e+00]
- [7.2774713e-22 1.0000000e+00]]
+ [[1. 0.]
+ [0. 1.]]
+Image x Depth: 
+ [[1. 0.]
+ [0. 1.]]
+Image x Thermal: 
+ [[1. 0.]
+ [0. 1.]]
  ```
 
 ### Different branches for X-Language task
