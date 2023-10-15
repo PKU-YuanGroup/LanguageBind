@@ -11,7 +11,7 @@ TORCH_DISTRIBUTED_DEBUG=DETAIL HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 torc
     --lock-text --lock-image --text-type "polish_mplug" \
     --init-temp 0.07 --learn-temp \
     --model "ViT-L-14" --cache-dir ${CACHE_DIR} \
-    --convert_to_lora --lora_r 8 \
+    --convert_to_lora --lora_r 16 \
     --lr 5e-4 --coef-lr 1e-3 \
     --beta1 0.9 --beta2 0.98 --wd 0.2 --eps 1e-6 \
     --num-frames 1 --force-patch-dropout 0.3 \
