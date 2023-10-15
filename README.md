@@ -39,11 +39,11 @@
 
 
 ## 📰 News
-**[2023.10.14]**  😱 LanguageBind-Video achieves **state-of-the-art (SOTA) performance on 4 datasets**, checking our ✨[results](#video-language)! The checkpoint **have updated** on Huggingface Model Hub! <br>
-**[2023.10.12]**  👀 We are training a **stronger LanguageBind-Video** model. The checkpoint will also be updated on Huggingface Model Hub soon. <br>
-**[2023.10.10]**  🎉 We updated the **LanguageBind-Audio** to exceed ImageBind by **16.2%** on the ESC-50 dataset. Sample data can be found in [assets](assets), and [emergency zero-shot usage](#emergency-zero-shot) is described. <br>
-**[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/lb203). <br>
-**[2023.10.04]**  Code and [demo](https://huggingface.co/spaces/lb203/LanguageBind) are available now! Welcome to **watch** 👀 this repository for the latest updates.
+* **[2023.10.14]**  😱 LanguageBind-Video achieves **state-of-the-art (SOTA) performance on 4 datasets**, checking our ✨[results](#video-language)! The checkpoint **have updated** on Huggingface Model Hub!
+* **[2023.10.12]**  👀 We are training a **stronger LanguageBind-Video** model. The checkpoint will also be updated on Huggingface Model Hub soon.
+* **[2023.10.10]**  🎉 We updated the **LanguageBind-Audio** to exceed ImageBind by **16.2%** on the ESC-50 dataset. Sample data can be found in [assets](assets), and [emergency zero-shot usage](#emergency-zero-shot) is described. 
+* **[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/lb203).
+* **[2023.10.04]**  Code and [demo](https://huggingface.co/spaces/lb203/LanguageBind) are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
 ## 😮 Highlights
 
