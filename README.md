@@ -20,11 +20,12 @@
 -->
 
 [![hf_space](https://img.shields.io/badge/🤗-Open%20In%20Spaces-blue.svg)](https://huggingface.co/spaces/lb203/LanguageBind)
-[![arXiv](https://img.shields.io/badge/Arxiv-2310.01852-b31b1b.svg)](https://arxiv.org/abs/2310.01852)
-[![zhihu](https://img.shields.io/badge/Chinese%20blog-知乎-056DE8)](https://zhuanlan.zhihu.com/p/660567767)
+[![arXiv](https://img.shields.io/badge/Arxiv-2310.01852-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2310.01852)
+[![zhihu](https://img.shields.io/badge/知乎-0084FF)](https://zhuanlan.zhihu.com/p/660567767)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![License](https://img.shields.io/badge/Dataset%20license-CC--BY--NC%204.0-orange)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPKU-YuanGroup%2FLanguageBind&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visitor&edge_flat=false)](https://hits.seeyoufarm.com) <br>
+
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-scene-classification-unified)](https://paperswithcode.com/sota/zero-shot-scene-classification-unified?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-classification-unified-classes-on)](https://paperswithcode.com/sota/zero-shot-classification-unified-classes-on?p=languagebind-extending-video-language) <br>
