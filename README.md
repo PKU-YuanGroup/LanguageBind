@@ -115,7 +115,7 @@ import torch
 from languagebind import LanguageBind, to_device, transform_dict, LanguageBindImageTokenizer
 
 if __name__ == '__main__':
-    device = 'cuda:0'
+    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
     device = torch.device(device)
     clip_type = ('thermal', 'image', 'video', 'depth', 'audio')
     model = LanguageBind(clip_type=clip_type, cache_dir='./cache_dir')
