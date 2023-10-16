@@ -95,12 +95,13 @@ Video-Language, Infrared-Language, Depth-Language, and Audio-Language zero-shot 
 
 ## 🛠️ Requirements and Installation
 * Python >= 3.8
-* Pytorch >= 1.13.0
-* CUDA Version >= 10.2 (recommend 11.6)
+* Pytorch >= 1.13.1
+* CUDA Version >= 11.6
 * Install required packages:
 ```bash
 git clone https://github.com/PKU-YuanGroup/LanguageBind
 cd LanguageBind
+pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu116
 pip install -r requirements.txt
 ```
 
