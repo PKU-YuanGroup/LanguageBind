@@ -18,7 +18,4 @@ braceexpand==0.1.7
 webdataset==0.2.48
 transformers==4.30.2
 urllib3==1.26.15
-torch==1.13.0+cu116
-torchaudio==0.13.0+cu116
-torchvision==0.14.0+cu116
 SoundFile
