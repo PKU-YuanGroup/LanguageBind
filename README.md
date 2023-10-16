@@ -9,7 +9,7 @@
 <p align="center">
 📖 <a href="https://arxiv.org/pdf/2310.01852.pdf">Paper</a>
     &nbsp｜&nbsp
-🤗<a href="https://huggingface.co/spaces/lb203/LanguageBind">Demo</a>
+🤗<a href="https://huggingface.co/spaces/LanguageBind/LanguageBind">Demo</a>
     &nbsp&nbsp|&nbsp&nbsp
 🤖 <a href="https://github.com/PKU-YuanGroup/LanguageBind/tree/main#-api">API</a>
     &nbsp&nbsp|&nbsp&nbsp
@@ -19,7 +19,7 @@
 </p>
 -->
 
-[![hf_space](https://img.shields.io/badge/🤗-Open%20In%20Spaces-blue.svg)](https://huggingface.co/spaces/lb203/LanguageBind)
+[![hf_space](https://img.shields.io/badge/🤗-Open%20In%20Spaces-blue.svg)](https://huggingface.co/spaces/LanguageBind/LanguageBind)
 [![arXiv](https://img.shields.io/badge/Arxiv-2310.01852-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2310.01852)
 [![zhihu](https://img.shields.io/badge/知乎-0084FF)](https://zhuanlan.zhihu.com/p/660567767)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
@@ -42,8 +42,8 @@
 * **[2023.10.14]**  😱 LanguageBind-Video achieves **state-of-the-art (SOTA) performance on 4 datasets**, checking our ✨[results](#video-language)! The checkpoint **have updated** on Huggingface Model Hub!
 * **[2023.10.12]**  👀 We are training a **stronger LanguageBind-Video** model. The checkpoint will also be updated on Huggingface Model Hub soon.
 * **[2023.10.10]**  🎉 We updated the **LanguageBind-Audio** to exceed ImageBind by **16.2%** on the ESC-50 dataset. Sample data can be found in [assets](assets), and [emergency zero-shot usage](#emergency-zero-shot) is described. 
-* **[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/lb203).
-* **[2023.10.04]**  Code and [demo](https://huggingface.co/spaces/lb203/LanguageBind) are available now! Welcome to **watch** 👀 this repository for the latest updates.
+* **[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/LanguageBind).
+* **[2023.10.04]**  Code and [demo](https://huggingface.co/spaces/LanguageBind/LanguageBind) are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
 ## 😮 Highlights
 
@@ -72,7 +72,7 @@ We make multi-view enhancements to language. We produce multi-view description t
 python gradio_app.py
 ```
 
-* **Online demo.** We provide the [online demo](https://huggingface.co/spaces/lb203/LanguageBind) in Huggingface Spaces. In this demo, you can calculate the similarity of modalities to language, such as audio-to-language, video-to-language, and depth-to-image.
+* **Online demo.** We provide the [online demo](https://huggingface.co/spaces/LanguageBind/LanguageBind) in Huggingface Spaces. In this demo, you can calculate the similarity of modalities to language, such as audio-to-language, video-to-language, and depth-to-image.
 <p align="center">
 <img src="assets/demo.png" width=100%>
 </p>
@@ -105,7 +105,7 @@ pip install -r requirements.txt
 ```
 
 ## 🤖 API
-**We open source all modalities preprocessing code.** If you want to load the model (e.g. ```lb203/LanguageBind_Thermal```) from the model hub on Huggingface or on local, you can use the following code snippets.
+**We open source all modalities preprocessing code.** If you want to load the model (e.g. ```LanguageBind/LanguageBind_Thermal```) from the model hub on Huggingface or on local, you can use the following code snippets.
 
 ### Inference for Multi-modal Binding 
 We have provided some sample datasets in [assets](assets) to quickly see how languagebind works.
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     model = LanguageBind(clip_type=clip_type, cache_dir='./cache_dir')
     model = model.to(device)
     model.eval()
-    pretrained_ckpt = f'lb203/LanguageBind_Image'
+    pretrained_ckpt = f'LanguageBind/LanguageBind_Image'
     tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir/tokenizer_cache_dir')
     modality_transform = {c: transform_dict[c](model.modality_config[c]) for c in clip_type}
 
@@ -198,7 +198,7 @@ Additionally, LanguageBind can be **disassembled into different branches** to ha
 import torch
 from languagebind import LanguageBindThermal, LanguageBindThermalTokenizer, LanguageBindThermalProcessor
 
-pretrained_ckpt = 'lb203/LanguageBind_Thermal'
+pretrained_ckpt = 'LanguageBind/LanguageBind_Thermal'
 model = LanguageBindThermal.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
 tokenizer = LanguageBindThermalTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
 thermal_process = LanguageBindThermalProcessor(model.config, tokenizer)
@@ -216,7 +216,7 @@ print(out.text_embeds @ out.image_embeds.T)
 import torch
 from languagebind import LanguageBindDepth, LanguageBindDepthTokenizer, LanguageBindDepthProcessor
 
-pretrained_ckpt = 'lb203/LanguageBind_Depth'
+pretrained_ckpt = 'LanguageBind/LanguageBind_Depth'
 model = LanguageBindDepth.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
 tokenizer = LanguageBindDepthTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
 depth_process = LanguageBindDepthProcessor(model.config, tokenizer)
@@ -234,7 +234,7 @@ print(out.text_embeds @ out.image_embeds.T)
 import torch
 from languagebind import LanguageBindVideo, LanguageBindVideoTokenizer, LanguageBindVideoProcessor
 
-pretrained_ckpt = 'lb203/LanguageBind_Video'
+pretrained_ckpt = 'LanguageBind/LanguageBind_Video'
 model = LanguageBindVideo.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
 tokenizer = LanguageBindVideoTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
 video_process = LanguageBindVideoProcessor(model.config, tokenizer)
@@ -252,7 +252,7 @@ print(out.text_embeds @ out.image_embeds.T)
 import torch
 from languagebind import LanguageBindAudio, LanguageBindAudioTokenizer, LanguageBindAudioProcessor
 
-pretrained_ckpt = 'lb203/LanguageBind_Audio'
+pretrained_ckpt = 'LanguageBind/LanguageBind_Audio'
 model = LanguageBindAudio.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
 tokenizer = LanguageBindAudioTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
 audio_process = LanguageBindAudioProcessor(model.config, tokenizer)
@@ -270,7 +270,7 @@ print(out.text_embeds @ out.image_embeds.T)
 import torch
 from languagebind import LanguageBindImage,  LanguageBindImageTokenizer,  LanguageBindImageProcessor
 
-pretrained_ckpt = 'lb203/LanguageBind_Image'
+pretrained_ckpt = 'LanguageBind/LanguageBind_Image'
 model = LanguageBindImage.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
 tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
 image_process = LanguageBindImageProcessor(model.config, tokenizer)
