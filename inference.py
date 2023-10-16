@@ -8,7 +8,7 @@ if __name__ == '__main__':
     model = LanguageBind(clip_type=clip_type, cache_dir='./cache_dir')
     model = model.to(device)
     model.eval()
-    pretrained_ckpt = f'lb203/LanguageBind_Image'
+    pretrained_ckpt = f'LanguageBind/LanguageBind_Image'
     tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir/tokenizer_cache_dir')
     modality_transform = {c: transform_dict[c](model.modality_config[c]) for c in clip_type}
 
