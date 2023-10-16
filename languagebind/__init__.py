@@ -60,7 +60,7 @@ class LanguageBind(nn.Module):
         self.modality_scale = {}
         self.modality_config = {}
         for c in clip_type:
-            pretrained_ckpt = f'lb203/LanguageBind_{c.capitalize()}'
+            pretrained_ckpt = f'LanguageBind/LanguageBind_{c.capitalize()}'
             model = model_dict[c].from_pretrained(pretrained_ckpt, cache_dir=cache_dir)
             self.modality_encoder[c] = model.vision_model
             self.modality_proj[c] = model.visual_projection
