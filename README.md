@@ -269,6 +269,7 @@ print(out.text_embeds @ out.image_embeds.T)
 ```
 
 #### Image
+Note that our image encoder is the same as OpenCLIP. **Not** as fine-tuned as other modalities.
 ```python
 import torch
 from languagebind import LanguageBindImage,  LanguageBindImageTokenizer,  LanguageBindImageProcessor
