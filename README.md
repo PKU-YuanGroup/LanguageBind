@@ -22,11 +22,11 @@
 [![hf_space](https://img.shields.io/badge/🤗-Open%20In%20Spaces-blue.svg)](https://huggingface.co/spaces/LanguageBind/LanguageBind)
 [![arXiv](https://img.shields.io/badge/Arxiv-2310.01852-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2310.01852)
 [![zhihu](https://img.shields.io/badge/知乎-0084FF)](https://zhuanlan.zhihu.com/p/660567767)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-![License](https://img.shields.io/badge/Dataset%20license-CC--BY--NC%204.0-orange)
+[![License](https://img.shields.io/badge/Code%20License-MIT-yellow)](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/LICENSE)
+[![Data License](https://img.shields.io/badge/Dataset%20license-CC--BY--NC%204.0-orange)](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/DATASET_LICENSE)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPKU-YuanGroup%2FLanguageBind&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visitor&edge_flat=false)](https://hits.seeyoufarm.com) <br>
-[![GitHub issues](https://img.shields.io/github/issues-raw/PKU-YuanGroup/LanguageBind.svg?maxAge=2592000&color=critical)]()
-[![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/PKU-YuanGroup/LanguageBind.svg?maxAge=2592000&color=success)]()  <br>
+[![GitHub issues](https://img.shields.io/github/issues-raw/PKU-YuanGroup/LanguageBind.svg?maxAge=2592000&color=critical)](https://github.com/PKU-YuanGroup/LanguageBind/issues?q=is%3Aopen+is%3Aissue)
+[![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/PKU-YuanGroup/LanguageBind.svg?maxAge=2592000&color=success)](https://github.com/PKU-YuanGroup/LanguageBind/issues?q=is%3Aissue+is%3Aclosed)  <br>
 
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-scene-classification-unified)](https://paperswithcode.com/sota/zero-shot-scene-classification-unified?p=languagebind-extending-video-language) <br>
