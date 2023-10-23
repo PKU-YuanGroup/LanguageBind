@@ -25,8 +25,8 @@
 [![License](https://img.shields.io/badge/Code%20License-MIT-yellow)](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/LICENSE)
 [![Data License](https://img.shields.io/badge/Dataset%20license-CC--BY--NC%204.0-orange)](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/DATASET_LICENSE)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPKU-YuanGroup%2FLanguageBind&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visitor&edge_flat=false)](https://hits.seeyoufarm.com) <br>
-[![GitHub issues](https://img.shields.io/github/issues-raw/PKU-YuanGroup/LanguageBind.svg?maxAge=2592000&color=critical&label=Open%20issues)](https://github.com/PKU-YuanGroup/LanguageBind/issues?q=is%3Aopen+is%3Aissue)
-[![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/PKU-YuanGroup/LanguageBind.svg?maxAge=2592000&color=success&label=Closed%20issues)](https://github.com/PKU-YuanGroup/LanguageBind/issues?q=is%3Aissue+is%3Aclosed)  <br>
+[![GitHub issues](https://img.shields.io/github/issues/PKU-YuanGroup/LanguageBind?color=critical&label=Issues)](https://github.com/PKU-YuanGroup/LanguageBind/issues?q=is%3Aopen+is%3Aissue)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/LanguageBind?color=success&label=Issues)](https://github.com/PKU-YuanGroup/LanguageBind/issues?q=is%3Aissue+is%3Aclosed)  <br>
 
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-environment-sound-classification-on-1)](https://paperswithcode.com/sota/zero-shot-environment-sound-classification-on-1?p=languagebind-extending-video-language) <br>
@@ -89,17 +89,18 @@ python gradio_app.py
 
 ### Video-Language
 LanguageBind achieves **state-of-the-art (SOTA) performance on four datasets**, surpassing InterVideo by 1.9% on MSR-VTT, 8.8% on MSVD, 6.3% on DiDeMo, and 4.4% on ActivityNet. It is worth noting that InterVideo employs more extensive training data, signifying that LanguageBind represents an efficient pretraining method.
-<p align="center">
+<p align="left">
 <img src="assets/result1.jpg" width=80%>
 </p>
 
 ### Multiple Modalities
-Video-Language, Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report text-to-audio R@1 for the Clotho dataset and top-1 accuracy for the rest of the datasets.
-<p align="center">
-<img src="assets/res2.png" width=70%>
+Video-Language, Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report top-1 accuracy across all the datasets.
+<p align="left">
+<img src="assets/res2.png" width=80%>
 </p>
-<p align="center">
-<img src="assets/res3.png" width=30%>
+We report text-to-audio results for retrieval.
+<p align="left">
+<img src="assets/res3.png" width=40%>
 </p>
 
 ## 🛠️ Requirements and Installation
