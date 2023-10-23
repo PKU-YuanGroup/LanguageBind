@@ -96,7 +96,10 @@ LanguageBind achieves **state-of-the-art (SOTA) performance on four datasets**, 
 ### Multiple Modalities
 Video-Language, Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report text-to-audio R@1 for the Clotho dataset and top-1 accuracy for the rest of the datasets.
 <p align="center">
-<img src="assets/result2.jpg" width=70%>
+<img src="assets/res2.png" width=70%>
+</p>
+<p align="center">
+<img src="assets/res3.png" width=30%>
 </p>
 
 ## 🛠️ Requirements and Installation
