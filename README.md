@@ -44,10 +44,9 @@
 
 
 ## 📰 News
-* **[2023.10.23]**  🎶 LanguageBind-Audio achieves 💥💥💥**state-of-the-art (SOTA) performance on 5 datasets**, checking our ✨[results](#multiple-modalities)!
+* **[2023.10.23]**  🎶 LanguageBind-Audio achieves 🎉🎉🎉**state-of-the-art (SOTA) performance on 5 datasets**, checking our ✨[results](#multiple-modalities)!
 * **[2023.10.14]**  😱 Released a stronger LanguageBind-Video, checking our ✨[results](#video-language)! The video checkpoint **have updated** on Huggingface Model Hub!
-* **[2023.10.12]**  👀 We are training a **stronger LanguageBind-Video** model. The checkpoint will also be updated on Huggingface Model Hub soon.
-* **[2023.10.10]**  🎉 We updated the **LanguageBind-Audio** to exceed ImageBind by **16.2%** on the ESC-50 dataset. Sample data can be found in [assets](assets), and [emergency zero-shot usage](#emergency-zero-shot) is described. 
+* **[2023.10.10]**  We provide sample data, which can be found in [assets](assets), and [emergency zero-shot usage](#emergency-zero-shot) is described. 
 * **[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/LanguageBind).
 * **[2023.10.04]**  Code and [demo](https://huggingface.co/spaces/LanguageBind/LanguageBind) are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
