@@ -37,8 +37,8 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-scene-classification-unified)](https://paperswithcode.com/sota/zero-shot-scene-classification-unified?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-classification-unified-classes-on)](https://paperswithcode.com/sota/zero-shot-classification-unified-classes-on?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-video-retrieval-on-msvd)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-msvd?p=languagebind-extending-video-language) <br>
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-video-retrieval-on-msr-vtt)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-msr-vtt?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-video-retrieval-on-activitynet)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-activitynet?p=languagebind-extending-video-language) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-video-retrieval-on-msr-vtt)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-msr-vtt?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-video-retrieval-on-didemo)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-didemo?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-action-recognition-on-kinetics)](https://paperswithcode.com/sota/zero-shot-action-recognition-on-kinetics?p=languagebind-extending-video-language) 
 
@@ -96,11 +96,11 @@ LanguageBind achieves **state-of-the-art (SOTA) performance on four datasets**, 
 ### Multiple Modalities
 Video-Language, Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report top-1 accuracy across all the datasets.
 <p align="left">
-<img src="assets/res2.png" width=80%>
+<img src="assets/res1.jpg" width=80%>
 </p>
 We report text-to-audio results for retrieval.
 <p align="left">
-<img src="assets/res3.png" width=40%>
+<img src="assets/res2.jpg" width=35%>
 </p>
 
 ## 🛠️ Requirements and Installation
