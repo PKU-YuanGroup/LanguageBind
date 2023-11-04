@@ -3,6 +3,7 @@ import logging
 import numpy as np
 import torch
 import torchaudio
+import torchvision
 from torchvision.transforms import transforms
 from torch.nn import functional as F
 
@@ -27,22 +28,25 @@ class AudioTransform:
         self.target_length = args.target_length
         self.audio_mean = args.audio_mean
         self.audio_std = args.audio_std
+        self.mean = []
+        self.std = []
         # mean=-4.2677393
         # std=4.5689974
-        self.norm = transforms.Normalize(mean=self.audio_mean, std=self.audio_std)
+        # self.norm = transforms.Normalize(mean=self.audio_mean, std=self.audio_std)
+
 
     def __call__(self, audio_data_and_origin_sr):
         audio_data, origin_sr = audio_data_and_origin_sr
         if self.sample_rate != origin_sr:
             # print(audio_data.shape, origin_sr)
             audio_data = torchaudio.functional.resample(audio_data, orig_freq=origin_sr, new_freq=self.sample_rate)
-        waveform_melspec = self.waveform2melspec(audio_data[0])
-        return self.norm(waveform_melspec)
+        waveform_melspec = self.waveform2melspec(audio_data)
+        return waveform_melspec
+
 
     def waveform2melspec(self, audio_data):
-        max_len = self.target_length * self.sample_rate // 100
-        if audio_data.shape[-1] > max_len:
-            mel = self.get_mel(audio_data)
+        mel = self.get_mel(audio_data)
+        if mel.shape[0] > self.target_length:
             # split to three parts
             chunk_frames = self.target_length
             total_frames = mel.shape[0]
@@ -66,50 +70,28 @@ class AudioTransform:
             mel_chunk_front = mel[idx_front:idx_front + chunk_frames, :]
             mel_chunk_middle = mel[idx_middle:idx_middle + chunk_frames, :]
             mel_chunk_back = mel[idx_back:idx_back + chunk_frames, :]
+            # print(total_frames, idx_front, idx_front + chunk_frames, idx_middle, idx_middle + chunk_frames, idx_back, idx_back + chunk_frames)
             # stack
             mel_fusion = torch.stack([mel_chunk_front, mel_chunk_middle, mel_chunk_back], dim=0)
-        elif audio_data.shape[-1] < max_len:  # padding if too short
-            n_repeat = int(max_len / len(audio_data))
-            audio_data = audio_data.repeat(n_repeat)
-            audio_data = F.pad(
-                audio_data,
-                (0, max_len - len(audio_data)),
-                mode="constant",
-                value=0,
-            )
-            mel = self.get_mel(audio_data)
+        elif mel.shape[0] < self.target_length:  # padding if too short
+            n_repeat = int(self.target_length / mel.shape[0]) + 1
+            # print(self.target_length, mel.shape[0], n_repeat)
+            mel = mel.repeat(n_repeat, 1)[:self.target_length, :]
             mel_fusion = torch.stack([mel, mel, mel], dim=0)
         else:  # if equal
-            mel = self.get_mel(audio_data)
             mel_fusion = torch.stack([mel, mel, mel], dim=0)
-
-        # twice check
-        p = self.target_length - mel_fusion.shape[1]
-
-        if abs(p) / self.target_length > 0.2:
-            logging.warning(
-                "Large gap between audio n_frames(%d) and "
-                "target_length (%d). Is the audio_target_length "
-                "setting correct?",
-                mel_fusion.shape[1],
-                self.target_length,
-            )
-
-        # cut and pad
-        if p > 0:
-            m = torch.nn.ZeroPad2d((0, 0, 0, p))
-            mel_fusion = m(mel_fusion)
-        elif p < 0:
-            mel_fusion = mel_fusion[:, 0: self.target_length, :]
-
         mel_fusion = mel_fusion.transpose(1, 2)  # [3, target_length, mel_bins] -> [3, mel_bins, target_length]
+
+        # self.mean.append(mel_fusion.mean())
+        # self.std.append(mel_fusion.std())
+        mel_fusion = (mel_fusion - self.audio_mean) / (self.audio_std * 2)
         return mel_fusion
 
     def get_mel(self, audio_data):
         # mel shape: (n_mels, T)
         audio_data -= audio_data.mean()
         mel = torchaudio.compliance.kaldi.fbank(
-            audio_data.unsqueeze(0),
+            audio_data,
             htk_compat=True,
             sample_frequency=self.sample_rate,
             use_energy=False,
@@ -121,6 +103,8 @@ class AudioTransform:
         )
         return mel  # (T, n_mels)
 
+
+
 def get_audio_transform(args):
     return AudioTransform(args)
 
@@ -131,4 +115,4 @@ def load_and_transform_audio(
     waveform_and_sr = torchaudio_loader(audio_path)
     audio_outputs = transform(waveform_and_sr)
 
-    return {'pixel_values': audio_outputs}
+    return audio_outputs
