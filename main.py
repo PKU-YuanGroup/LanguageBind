@@ -13,6 +13,7 @@ from torch import optim
 from torch.cuda.amp import GradScaler
 
 from a_cls.zeroshot_cls import evaluate_a_cls
+from al_ret.retrieval import evaluate_al_ret
 from i_cls.zeroshot_cls import evaluate_i_cls
 from d_cls.zeroshot_cls import evaluate_d_cls
 from t_cls.zeroshot_cls import evaluate_t_cls
@@ -540,8 +541,14 @@ def main(args):
             for sub_data in data['a_cls']:
                 evaluate_a_cls(model, sub_data, start_epoch, args, writer)
             SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
+        if "al_ret" in data:
+            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
+            for sub_data in data['al_ret']:
+                evaluate_al_ret(model, sub_data, start_epoch, args, writer)
+            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         if "v_cls" in data:
-            evaluate_v_cls(model, data, start_epoch, args, writer)
+            for sub_data in data['v_cls']:
+                evaluate_v_cls(model, sub_data, start_epoch, args, writer)
         if "d_cls" in data:
             SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             for sub_data in data['d_cls']:
@@ -575,8 +582,14 @@ def main(args):
             for sub_data in data['a_cls']:
                 evaluate_a_cls(model, sub_data, completed_epoch, args, writer)
             SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
+        if "al_ret" in data:
+            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
+            for sub_data in data['al_ret']:
+                evaluate_al_ret(model, sub_data, completed_epoch, args, writer)
+            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         if "v_cls" in data:
-            evaluate_v_cls(model, data, completed_epoch, args, writer)
+            for sub_data in data['v_cls']:
+                evaluate_v_cls(model, sub_data, completed_epoch, args, writer)
         if "d_cls" in data:
             SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             for sub_data in data['d_cls']:

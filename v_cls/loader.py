@@ -1,6 +1,7 @@
 import io
 
 import cv2
+import decord
 import numpy as np
 from decord import VideoReader, cpu
 
@@ -23,6 +24,7 @@ def get_video_loader(use_petrel_backend: bool = True,
         if _client is not None and 's3:' in video_path:
             video_path = io.BytesIO(_client.get(video_path))
 
+        decord.bridge.set_bridge('native')
         vr = VideoReader(video_path, num_threads=1, ctx=cpu(0))
         return vr
 

@@ -20,6 +20,16 @@ import torch.nn.functional
 from torch.utils.data import Dataset
 import random
 
+def make_midname_dict(label_csv):
+    index_lookup = {}
+    with open(label_csv, 'r') as f:
+        csv_reader = csv.DictReader(f)
+        line_count = 0
+        for row in csv_reader:
+            index_lookup[row['mid']] = row['display_name']
+            line_count += 1
+    return index_lookup
+
 def make_index_dict(label_csv):
     index_lookup = {}
     with open(label_csv, 'r') as f:

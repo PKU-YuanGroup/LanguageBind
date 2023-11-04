@@ -66,20 +66,59 @@ def merge(eval_path, num_tasks, method='prob'):
     return final_top1 * 100, final_top5 * 100
 
 
+# def evaluate_v_cls(model, data, epoch, args, tb_writer=None):
+#     model.eval()
+#     dataloader = data['v_cls']
+#     args.output_dir = os.path.join(args.log_base_path, 'video_cls')
+#     os.makedirs(args.output_dir, exist_ok=True)
+#     if args.val_frequency and ((epoch % args.val_frequency) == 0 or epoch == args.epochs):
+#         if is_master(args):
+#             logging.info(f"Eval Epoch: {epoch}, accuracy of zero-shot classification under Kinetics-400 test videos")
+#         zero_shot_eval(model, dataloader, epoch, args)
+#
+#     torch.distributed.barrier()
+#
+#     if is_master(args):
+#         # logging.info("Start merging results...")
+#         final_top1, final_top5 = merge(args.output_dir, args.world_size)
+#         logging.info(f"\t>>>  Acc@1: {final_top1:.2f}%, Acc@5: {final_top5:.2f}%")
+#         metrics = {'top-1': final_top1, 'top-5': final_top5}
+#
+#         if args.save_logs:
+#             for name, val in metrics.items():
+#                 if tb_writer is not None:
+#                     tb_writer.add_scalar(f"val/v_cls/{name}", val, epoch)
+#
+#             with open(os.path.join(args.output_dir, "results.jsonl"), "a+") as f:
+#                 f.write(json.dumps(metrics))
+#                 f.write("\n")
+#
+#         return metrics
+
 def evaluate_v_cls(model, data, epoch, args, tb_writer=None):
+    temp_val_v_cls_data = args.val_v_cls_data
+    args.val_v_cls_data = list(data.keys())
+    assert len(args.val_v_cls_data) == 1
+    args.val_v_cls_data = args.val_v_cls_data[0]
+
+
     model.eval()
-    dataloader = data['v_cls']
-    args.output_dir = os.path.join(args.log_base_path, 'video_cls')
+    dataloader = data[args.val_v_cls_data]
+
+    args.val_v_cls_data = temp_val_v_cls_data
+
+
+    args.output_dir = os.path.join(args.log_base_path, f'video_cls/{args.val_v_cls_data[0].lower()}')
     os.makedirs(args.output_dir, exist_ok=True)
     if args.val_frequency and ((epoch % args.val_frequency) == 0 or epoch == args.epochs):
         if is_master(args):
-            logging.info(f"Eval Epoch: {epoch}, accuracy of zero-shot classification under Kinetics-400 test videos")
+            logging.info(f"Eval Epoch: {epoch}, accuracy of zero-shot classification under {args.val_v_cls_data[0].lower()} test videos")
         zero_shot_eval(model, dataloader, epoch, args)
 
     torch.distributed.barrier()
 
     if is_master(args):
-        # logging.info("Start merging results...")
+        logging.info("Start merging results...")
         final_top1, final_top5 = merge(args.output_dir, args.world_size)
         logging.info(f"\t>>>  Acc@1: {final_top1:.2f}%, Acc@5: {final_top5:.2f}%")
         metrics = {'top-1': final_top1, 'top-5': final_top5}
@@ -87,7 +126,7 @@ def evaluate_v_cls(model, data, epoch, args, tb_writer=None):
         if args.save_logs:
             for name, val in metrics.items():
                 if tb_writer is not None:
-                    tb_writer.add_scalar(f"val/v_cls/{name}", val, epoch)
+                    tb_writer.add_scalar(f"val/v_cls/{args.val_v_cls_data[0].lower()}/{name}", val, epoch)
 
             with open(os.path.join(args.output_dir, "results.jsonl"), "a+") as f:
                 f.write(json.dumps(metrics))

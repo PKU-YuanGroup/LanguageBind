@@ -98,6 +98,11 @@ SIMPLE_IMAGENET_TEMPLATES = (
     lambda c: f'a video of the small {c}.',
 )
 
-PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kinetics_400_labels.csv")
-IMAGENET_CLASSNAMES = tuple(pd.read_csv(PATH).values[:, 1])
+PATH_k400 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kinetics_400_labels.csv")
+PATH_k600 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kinetics_600_labels.csv")
+CLASSNAMES = {
+    'Kinetics-400': tuple(pd.read_csv(PATH_k400).values[:, 1]),
+    'Kinetics-600': tuple(pd.read_csv(PATH_k600).values[:, 1]),
+
+}
 

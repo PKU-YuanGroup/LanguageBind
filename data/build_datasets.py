@@ -115,12 +115,56 @@ def get_data(args, epoch=0):
                 data["vl_ret"].append({val_vl_ret_data: test_dataloader})
 
         if args.val_v_cls_data:
-            from v_cls import get_video_cls_dataloader
-            args.data_set = args.val_v_cls_data
-            args.num_workers = args.workers
-            args.num_sample = 1  # no repeat
-            data["v_cls"] = get_video_cls_dataloader(args)
+            data["v_cls"] = []
+            temp_val_v_cls_data = args.val_v_cls_data
+            for val_v_cls_data in temp_val_v_cls_data:
+                from v_cls import get_video_cls_dataloader
+                args.val_v_cls_data = val_v_cls_data
+                if args.val_v_cls_data == 'Kinetics-400':
+                    args.video_data_path = "/apdcephfs_cq3/share_1311970/downstream_datasets/VideoCls/new_k400/Kinetics-400/raw/Kinetics-400"
+                    args.nb_classes = 400
+                elif args.val_v_cls_data == 'Kinetics-600':
+                    args.video_data_path = "/apdcephfs_cq3/share_1311970/downstream_datasets/VideoCls/new_k600/Kinetics600/raw/Kinetics600"
+                    args.nb_classes = 600
+                args.data_root = args.video_data_path
+                args.data_set = args.val_v_cls_data
+                args.dist_eval = True
+                args.sampling_rate = 8
+                args.num_sample = 1
+                args.test_num_segment = 5
+                args.test_num_crop = 3
+                args.num_workers = args.workers
+                data['v_cls'].append({val_v_cls_data: get_video_cls_dataloader(args)})
+            args.val_v_cls_data = temp_val_v_cls_data
 
+        if args.val_a_cls_data:
+            temp_audio_mean, temp_audio_std = args.audio_mean, args.audio_std
+            args.audio_mean, args.audio_std = -4.2677393, 4.5689974
+            data["a_cls"] = []
+            data_root = "/apdcephfs_cq3/share_1311970/downstream_datasets/Audio"
+            temp_val_a_cls_data = args.val_a_cls_data
+            for val_a_cls_data in temp_val_a_cls_data:
+                from a_cls.datasets import get_audio_dataset
+                args.val_a_cls_data = val_a_cls_data
+                args.audio_data_path = os.path.join(data_root, f'{val_a_cls_data.lower()}/test')
+                data['a_cls'].append({val_a_cls_data: get_audio_dataset(args)})
+            args.val_a_cls_data = temp_val_a_cls_data
+            args.audio_mean, args.audio_mean = temp_audio_mean, temp_audio_std
+
+        if args.val_al_ret_data:
+            temp_audio_mean, temp_audio_std = args.audio_mean, args.audio_std
+            args.audio_mean, args.audio_std = -4.2677393, 4.5689974
+
+            data["al_ret"] = []
+            data_root = "/apdcephfs_cq3/share_1311970/downstream_datasets/Audio"
+            temp_val_al_ret_data = args.val_al_ret_data
+            for val_al_ret_data in temp_val_al_ret_data:
+                from al_ret.datasets import get_audio_dataset
+                args.val_al_ret_data = val_al_ret_data
+                args.audio_data_path = os.path.join(data_root, val_al_ret_data.lower())
+                data['al_ret'].append({val_al_ret_data: get_audio_dataset(args)})
+            args.val_al_ret_data = temp_val_al_ret_data
+            args.audio_mean, args.audio_mean = temp_audio_mean, temp_audio_std
 
         if args.val_a_cls_data:
             data["a_cls"] = []

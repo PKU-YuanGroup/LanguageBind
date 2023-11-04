@@ -33,7 +33,7 @@ class VAT_dataset(Dataset):
         self.text_type = args.text_type
         self.chatgpt = self.text_type == 'polish_mplug'
         self.title = self.text_type == 'raw'
-        self.data_root = '/apdcephfs_cq3/share_1311970/A_Youtube'
+        self.data_root = '/A_Youtube'
         with open(args.train_data, 'r') as f:
             self.id2title_folder_caps = json.load(f)
         self.ids = list(self.id2title_folder_caps.keys())[:args.train_num_samples]

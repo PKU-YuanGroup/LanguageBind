@@ -9,7 +9,7 @@ from open_clip import get_input_dtype, get_tokenizer
 from open_clip.factory import HF_HUB_PREFIX
 from training.distributed import is_master
 from v_cls.zero_shot_classifier import build_zero_shot_classifier
-from v_cls.zero_shot_metadata import OPENAI_IMAGENET_TEMPLATES, IMAGENET_CLASSNAMES
+from v_cls.zero_shot_metadata import OPENAI_IMAGENET_TEMPLATES, CLASSNAMES
 
 from training.precision import get_autocast
 
@@ -80,7 +80,7 @@ def zero_shot_eval(model, dataloader, epoch, args):
     if args.distributed and not args.horovod:
         model = model.module
     if is_master(args):
-        logging.info('Starting zero-shot kinetics400')
+        logging.info(f'Starting zero-shot {args.val_v_cls_data[0].upper()}')
         logging.info('Building zero-shot classifier')
     autocast = get_autocast(args.precision)
     with autocast():
@@ -88,7 +88,7 @@ def zero_shot_eval(model, dataloader, epoch, args):
         classifier = build_zero_shot_classifier(
             model,
             tokenizer=tokenizer,
-            classnames=IMAGENET_CLASSNAMES,
+            classnames=CLASSNAMES[args.val_v_cls_data[0]],
             templates=OPENAI_IMAGENET_TEMPLATES,
             num_classes_per_batch=10,
             device=args.device,
@@ -104,6 +104,6 @@ def zero_shot_eval(model, dataloader, epoch, args):
     # results['kinetics400-zeroshot-val-top5'] = top5
 
     if is_master(args):
-        logging.info('Finished zero-shot kinetics400')
+        logging.info(f'Finished zero-shot {args.val_v_cls_data[0].upper()}.')
 
     # return results

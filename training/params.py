@@ -63,6 +63,7 @@ def parse_args(args):
 
     ############################
     # audio classification
+    parser.add_argument('--use_audios', nargs='+', help="Point the dataset.")
     parser.add_argument('--data_val', type=str, default='', help='')
     parser.add_argument('--label_csv', type=str, default='', help='')
     parser.add_argument('--val_a_cls_data', nargs='+', help="Point the dataset to finetune.")
@@ -70,8 +71,8 @@ def parse_args(args):
     parser.add_argument('--num_mel_bins', type=int, default=128, help='')
     parser.add_argument('--target_length', type=int, default=1024, help='')
     parser.add_argument('--audio_sample_rate', type=int, default=16000, help='')
-    parser.add_argument('--audio_mean', type=float, default=4.5689974, help='')
-    parser.add_argument('--audio_std', type=float, default=-4.2677393, help='')
+    parser.add_argument('--audio_mean', type=float, default=-4.2677393, help='')
+    parser.add_argument('--audio_std', type=float, default=4.5689974, help='')
 
     ##############################
     # video-text retrieval
@@ -90,10 +91,10 @@ def parse_args(args):
 
     ############################
     # video classification
-    parser.add_argument("--val_v_cls_data", default="", type=str, help="Point the dataset to finetune.")
+    parser.add_argument('--val_v_cls_data', nargs='+', help="Point the dataset to finetune.")
     parser.add_argument('--dist_eval', action='store_true', default=False, help='Enabling distributed evaluation')
     parser.add_argument('--sparse_sample', default=False, action='store_true')
-    parser.add_argument('--data_set', default='Kinetics-400', choices=['Kinetics-400', 'do not support others'], type=str, help='dataset')
+    parser.add_argument('--data_set', default='Kinetics-400', choices=['Kinetics-400', 'Kinetics-600'], type=str, help='dataset')
     parser.add_argument('--nb_classes', default=400, type=int, help='number of the classification types')
     parser.add_argument('--video_data_path', default='/your/data/path/', type=str, help='dataset path')
     parser.add_argument('--data_root', default='', type=str, help='dataset path root')
