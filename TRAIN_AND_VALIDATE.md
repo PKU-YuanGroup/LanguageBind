@@ -66,16 +66,16 @@ TORCH_DISTRIBUTED_DEBUG=DETAIL HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 torc
 ## Downstream datasets
 
 ### Depth
-NYU V2 dataset is downloaded from [this repo](https://github.com/TUI-NICR/nicr-scene-analysis-datasets/tree/main/nicr_scene_analysis_datasets/datasets/nyuv2) and we reformat them to conform to the standard ImageNet format. Change the ```data_root``` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L148).
+NYU V2 dataset is downloaded from [this repo](https://github.com/TUI-NICR/nicr-scene-analysis-datasets/tree/main/nicr_scene_analysis_datasets/datasets/nyuv2) and we reformat them to conform to the standard ImageNet format. Change the ```data_root``` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L192).
 
 ### Video
 Video datasets are downloaded from [this repo](https://github.com/jpthu17/HBI) and we show the folder structure. Change the ```data_root``` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L74).
 
 ### Audio
-Audio datasets are downloaded from [this repo](https://github.com/OFA-Sys/ONE-PEACE/blob/main/datasets.md#audio) and we reformat them to conform to the standard ImageNet format. Change the ```data_root``` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L127).
+Audio datasets are downloaded from [this repo](https://github.com/OFA-Sys/ONE-PEACE/blob/main/datasets.md#audio) and Audioset from [here](https://github.com/qiuqiangkong/audioset_tagging_cnn#1-download-dataset).We reformat them to conform to the standard ImageNet format. Change the ```data_root``` [here1](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L144) and [here2](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L159).
 
 ### Infrared (Thermal)
-We download LLVIP from [official website](https://bupt-ai-cz.github.io/LLVIP/), and FLIR from [here](https://www.flir.com/oem/adas/adas-dataset-form/). We reformat them to conform to the standard ImageNet format. Change the ```data_root``` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L160). We also provide the processed data as follows.
+We download LLVIP from [official website](https://bupt-ai-cz.github.io/LLVIP/), and FLIR from [here](https://www.flir.com/oem/adas/adas-dataset-form/). We reformat them to conform to the standard ImageNet format. Change the ```data_root``` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L24). We also provide the processed data as follows.
 
 <div align="center">
 <table border="1" width="100%">
@@ -101,54 +101,7 @@ downstream_datasets
 │   ├── esc50
 │   │   └── test
 │   │       ├── airplane
-│   │       ├── breathing
-│   │       ├── brushing_teeth
-│   │       ├── can_opening
-│   │       ├── car_horn
-│   │       ├── cat
-│   │       ├── chainsaw
-│   │       ├── chirping_birds
-│   │       ├── church_bells
-│   │       ├── clapping
-│   │       ├── clock_alarm
-│   │       ├── clock_tick
-│   │       ├── coughing
-│   │       ├── cow
-│   │       ├── crackling_fire
-│   │       ├── crickets
-│   │       ├── crow
-│   │       ├── crying_baby
-│   │       ├── dog
-│   │       ├── door_wood_creaks
-│   │       ├── door_wood_knock
-│   │       ├── drinking_sipping
-│   │       ├── engine
-│   │       ├── fireworks
-│   │       ├── footsteps
-│   │       ├── frog
-│   │       ├── glass_breaking
-│   │       ├── hand_saw
-│   │       ├── helicopter
-│   │       ├── hen
-│   │       ├── insects
-│   │       ├── keyboard_typing
-│   │       ├── laughing
-│   │       ├── mouse_click
-│   │       ├── pig
-│   │       ├── pouring_water
-│   │       ├── rain
-│   │       ├── rooster
-│   │       ├── sea_waves
-│   │       ├── sheep
-│   │       ├── siren
-│   │       ├── sneezing
-│   │       ├── snoring
-│   │       ├── thunderstorm
-│   │       ├── toilet_flush
-│   │       ├── train
-│   │       ├── vacuum_cleaner
-│   │       ├── washing_machine
-│   │       ├── water_drops
+│   │       ├── ...
 │   │       └── wind
 ├── Depth
 │   ├── nyuv2
