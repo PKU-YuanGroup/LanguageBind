@@ -2,7 +2,7 @@ We provide the **off-the-shelf** scripts in the [scripts folder](scripts).
 
 ## Training LanguageBind 
 
-For example, to **train** LanguageBind on **Depth-Language** with 16 GPUs (2 nodes x 8 GPUs).
+For example, to **train** LanguageBind on **Depth-Language** with 8 GPUs (1 nodes x 8 GPUs).
 * First download the [cache of pretrained weight](https://github.com/PKU-YuanGroup/LanguageBind#-model-zoo) and specify ```CACHE_DIR```.
 * The second step is to develop a path to ```TRAIN_DATA``` according to the [dataset preparation](https://github.com/PKU-YuanGroup/LanguageBind#-vidal-10m).
 * Then you can run
@@ -98,11 +98,38 @@ We download LLVIP from [official website](https://bupt-ai-cz.github.io/LLVIP/), 
 ```bash
 downstream_datasets
 ├── Audio
-│   ├── esc50
-│   │   └── test
-│   │       ├── airplane
-│   │       ├── ...
-│   │       └── wind
+│   ├── audiocaps
+│   │   └── audio
+│   │       ├── test
+│   │       ├── train
+│   │       └── val
+│   ├── audioset
+│   │   ├── balanced_train_segments
+│   │   ├── eval_segments
+│   │   └── unbalanced_train_segments
+│   │       ├── unbalanced_train_segments_part00
+│   │       ├── unbalanced_train_segments_part01
+│   │       ├── ...
+│   │       └── unbalanced_train_segments_part40
+│   ├── clotho
+│   │   ├── CLOTHO_retrieval_dataset
+│   │   └── evaluation
+│   ├── esc50
+│   │   └── test
+│   │       ├── airplane
+│   │       ├── breathing
+│   │       ├── ...
+│   │       └── wind
+├── laionaudio
+│   │   ├── audios
+│   │   ├── freesound_no_overlap
+│   │   └── jsons
+├── vggsound
+│       └── test
+│           ├── air\ conditioning\ noise
+│           ├── air\ horn
+│           ├── ...
+│           └── zebra\ braying
 ├── Depth
 │   ├── nyuv2
 │   │   ├── data
