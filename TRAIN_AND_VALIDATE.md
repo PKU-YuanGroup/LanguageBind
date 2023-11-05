@@ -3,7 +3,7 @@ We provide the **off-the-shelf** scripts in the [scripts folder](scripts).
 ## Training LanguageBind 
 
 For example, to **train** LanguageBind on **Depth-Language** with 8 GPUs (1 nodes x 8 GPUs).
-* First download the [cache of pretrained weight](https://github.com/PKU-YuanGroup/LanguageBind#-model-zoo) and specify ```CACHE_DIR```.
+* First download the [cache of weight](https://github.com/PKU-YuanGroup/LanguageBind#-api) and specify ```CACHE_DIR```.
 * The second step is to develop a path to ```TRAIN_DATA``` according to the [dataset preparation](https://github.com/PKU-YuanGroup/LanguageBind#-vidal-10m).
 * Then you can run
 
