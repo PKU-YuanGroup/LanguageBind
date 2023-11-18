@@ -379,7 +379,6 @@ class CLIPEncoderLayer(SpatialCLIPEncoderLayer):
 
 
 
-
 # class ResidualAttentionBlock(SpatialResidualAttentionBlock):
 #     def __init__(self,
 #                  num_frames: int,
@@ -457,7 +456,8 @@ def convert_model_to_lora(args, model):
     if args.clip_type == 'vl' and args.add_time_attn:
         target_modules = ["temporal_attn.k_proj", "temporal_attn.v_proj",
                           "temporal_attn.q_proj", "temporal_attn.out_proj",
-                          "temporal_mlp.fc1", "temporal_mlp.fc2"]
+                          "temporal_mlp.fc1", "temporal_mlp.fc2"
+                          ]
     else:
         target_modules = ["k_proj", "v_proj", "q_proj", "out_proj"]
     config = LoraConfig(
@@ -494,25 +494,26 @@ def add_time_attn_block(m: nn.ModuleList, device):
                     #     v = torch.zeros_like(v, dtype=v.dtype, device=v.device)
                     new_k = 'temporal_attn.' + '.'.join(k.split('.')[1:])
                     new_state_dict[new_k] = v
-                elif 'mlp' in k:
-                    new_state_dict[k] = v
-                    # if 'out_proj' in k:
-                    #     v = torch.zeros_like(v, dtype=v.dtype, device=v.device)
-                    new_k = 'temporal_mlp.' + '.'.join(k.split('.')[1:])
-                    new_state_dict[new_k] = v
+                # elif 'mlp' in k:
+                #     new_state_dict[k] = v
+                #     # if 'out_proj' in k:
+                #     #     v = torch.zeros_like(v, dtype=v.dtype, device=v.device)
+                #     new_k = 'temporal_mlp.' + '.'.join(k.split('.')[1:])
+                #     new_state_dict[new_k] = v
                 elif 'layer_norm1' in k:
                     new_state_dict[k] = v
                     new_k = 'temporal_layer_norm1.' + '.'.join(k.split('.')[1:])
                     new_state_dict[new_k] = v
-                elif 'layer_norm2' in k:
-                    new_state_dict[k] = v
-                    new_k = 'temporal_layer_norm2.' + '.'.join(k.split('.')[1:])
-                    new_state_dict[new_k] = v
+                # elif 'layer_norm2' in k:
+                #     new_state_dict[k] = v
+                #     new_k = 'temporal_layer_norm2.' + '.'.join(k.split('.')[1:])
+                #     new_state_dict[new_k] = v
                 else:
                     new_state_dict[k] = v
 
             missing_keys, unexpected_keys = oup.load_state_dict(new_state_dict, strict=False)
             # assert missing_keys == ["t_attn_gate", "t_ffn_gate"]
+            # print(missing_keys, unexpected_keys)
             assert missing_keys == ['temporal_embedding']
             assert unexpected_keys == []
             m.layers[i] = oup

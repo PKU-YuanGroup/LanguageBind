@@ -60,12 +60,12 @@ class AudioTransform:
             if len(ranges[2]) == 0:  # if the audio is too short, we just use the first chunk
                 ranges[2] = [0]
             # randomly choose index for each part
-            # idx_front = np.random.choice(ranges[0])
-            # idx_middle = np.random.choice(ranges[1])
-            # idx_back = np.random.choice(ranges[2])
-            idx_front = ranges[0][0]  # fixed
-            idx_middle = ranges[1][0]
-            idx_back = ranges[2][0]
+            idx_front = np.random.choice(ranges[0])
+            idx_middle = np.random.choice(ranges[1])
+            idx_back = np.random.choice(ranges[2])
+            # idx_front = ranges[0][0]  # fixed
+            # idx_middle = ranges[1][0]
+            # idx_back = ranges[2][0]
             # select mel
             mel_chunk_front = mel[idx_front:idx_front + chunk_frames, :]
             mel_chunk_middle = mel[idx_middle:idx_middle + chunk_frames, :]

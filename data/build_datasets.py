@@ -161,12 +161,40 @@ def get_data(args, epoch=0):
             for val_al_ret_data in temp_val_al_ret_data:
                 from al_ret.datasets import get_audio_dataset
                 args.val_al_ret_data = val_al_ret_data
-                args.audio_data_path = os.path.join(data_root, val_al_ret_data.lower())
-                data['al_ret'].append({val_al_ret_data: get_audio_dataset(args)})
+                if val_al_ret_data.lower() != 'msrvtt':
+                    args.audio_data_path = os.path.join(data_root, val_al_ret_data.lower())
+                    data['al_ret'].append({val_al_ret_data: get_audio_dataset(args)})
+                elif val_al_ret_data.lower() == 'msrvtt':
+                    args.train_csv = os.path.join(f'/apdcephfs_cq3/share_1311970/downstream_datasets/VideoTextRetrieval/vtRetdata/MSRVTT/MSRVTT_train.9k.csv')
+                    args.val_csv = os.path.join(f'/apdcephfs_cq3/share_1311970/downstream_datasets/VideoTextRetrieval/Audio/MSRVTT/MSRVTT_AUDIO_test.csv')
+                    args.data_path = os.path.join(f'/apdcephfs_cq3/share_1311970/downstream_datasets/VideoTextRetrieval/vtRetdata/MSRVTT/MSRVTT_data.json')
+                    args.features_path = os.path.join(f'/apdcephfs_cq3/share_1311970/downstream_datasets/VideoTextRetrieval/Audio/MSRVTT/videos/all')
+
+
+                    args.num_thread_reader = args.workers
+                    from al_ret.data_dataloaders import DATALOADER_DICT
+                    args.batch_size_val = args.batch_size if args.batch_size_val == 0 else args.batch_size_val
+
+                    tokenizer = get_tokenizer(HF_HUB_PREFIX + args.model, cache_dir=args.cache_dir)
+                    test_dataloader, test_length = None, 0
+                    if DATALOADER_DICT[val_al_ret_data.lower()]["test"] is not None:
+                        test_dataloader, test_length = DATALOADER_DICT[val_al_ret_data.lower()]["test"](args, tokenizer)
+
+                    if DATALOADER_DICT[val_al_ret_data.lower()]["val"] is not None:
+                        val_dataloader, val_length = DATALOADER_DICT[val_al_ret_data.lower()]["val"](args, tokenizer, subset="val")
+                    else:
+                        val_dataloader, val_length = test_dataloader, test_length
+                    ## report validation results if the ["test"] is None
+                    if test_dataloader is None:
+                        test_dataloader, test_length = val_dataloader, val_length
+                    data['al_ret'].append({val_al_ret_data: test_dataloader})
+
             args.val_al_ret_data = temp_val_al_ret_data
             args.audio_mean, args.audio_mean = temp_audio_mean, temp_audio_std
 
         if args.val_a_cls_data:
+            temp_audio_mean, temp_audio_std = args.audio_mean, args.audio_std
+            args.audio_mean, args.audio_std = -4.2677393, 4.5689974
             data["a_cls"] = []
             data_root = "/apdcephfs_cq3/share_1311970/downstream_datasets/Audio"
             temp_val_a_cls_data = args.val_a_cls_data
@@ -176,6 +204,7 @@ def get_data(args, epoch=0):
                 args.audio_data_path = os.path.join(data_root, f'{val_a_cls_data.lower()}/test')
                 data['a_cls'].append({val_a_cls_data: get_audio_dataset(args)})
             args.val_a_cls_data = temp_val_a_cls_data
+            args.audio_mean, args.audio_mean = temp_audio_mean, temp_audio_std
 
         if args.imagenet_val is not None:
             from i_cls.datasets import get_imagenet

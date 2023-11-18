@@ -9,7 +9,7 @@ from training.distributed import is_master
 from .zero_shot import zero_shot_eval
 from .util import parallel_apply
 from .metrics import compute_metrics, tensor_text_to_video_metrics, tensor_video_to_text_sim
-
+from torch.nn import functional as F
 try:
     import wandb
 except ImportError:
@@ -232,14 +232,19 @@ def evaluate_al_ret(model, data, epoch, args, tb_writer=None):
             # vt_metrics = compute_metrics(tensor_video_to_text_sim(sim_matrix))
         else:
             logging.info(f"{val_al_ret_data.upper()} sim matrix size: {sim_matrix.shape[0]}, {sim_matrix.shape[1]}")
-            tv_metrics = compute_metrics(sim_matrix)
-            # vt_metrics = compute_metrics(sim_matrix.T)
+            t2v_sim_matrix = torch.from_numpy(sim_matrix).cuda()
+            # t2v_sim_matrix = t2v_sim_matrix * F.softmax(t2v_sim_matrix*10, dim=0) * len(t2v_sim_matrix)
+            tv_metrics = compute_metrics(t2v_sim_matrix.cpu().numpy())
+
+
+            # vt_metrics = compute_metrics(t2v_sim_matrix.T.cpu().numpy())
+
             logging.info('\t Length-T: {}, Length-V:{}'.format(len(sim_matrix), len(sim_matrix[0])))
 
         logging.info(f"{val_al_ret_data.upper()} Text-to-Audio:")
         logging.info('\t>>>  R@1: {:.1f} - R@5: {:.1f} - R@10: {:.1f} - Median R: {:.1f} - Mean R: {:.1f}'.
                     format(tv_metrics['R1'], tv_metrics['R5'], tv_metrics['R10'], tv_metrics['MR'], tv_metrics['MeanR']))
-        # logging.info(f"{val_vl_ret_data.upper()} Video-to-Text:")
+        # logging.info(f"{val_al_ret_data.upper()} Text-to-Audio:")
         # logging.info('\t>>>  V2T$R@1: {:.1f} - V2T$R@5: {:.1f} - V2T$R@10: {:.1f} - V2T$Median R: {:.1f} - V2T$Mean R: {:.1f}'.
         #             format(vt_metrics['R1'], vt_metrics['R5'], vt_metrics['R10'], vt_metrics['MR'], vt_metrics['MeanR']))
 
