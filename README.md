@@ -5,19 +5,6 @@
 <h2 align="center"> <a href="https://arxiv.org/pdf/2310.01852.pdf">LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment</a></h2>
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for latest update.  </h2>
 
-<!--
-<p align="center">
-📖 <a href="https://arxiv.org/pdf/2310.01852.pdf">Paper</a>
-    &nbsp｜&nbsp
-🤗<a href="https://huggingface.co/spaces/LanguageBind/LanguageBind">Demo</a>
-    &nbsp&nbsp|&nbsp&nbsp
-🤖 <a href="https://github.com/PKU-YuanGroup/LanguageBind/tree/main#-api">API</a>
-    &nbsp&nbsp|&nbsp&nbsp
-📄<a href="https://github.com/PKU-YuanGroup/LanguageBind#%EF%B8%8F-training--validating">Instruction</a>
-    &nbsp｜
-💥<a href="https://github.com/PKU-YuanGroup/LanguageBind#-vidal-10m">Datasets</a>
-</p>
--->
 
 <h5 align="center">
 
@@ -47,6 +34,7 @@
 
 
 ## 📰 News
+* **[2023.11.20]**  🚀🚀🚀[Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA) builds a large visual-language model to achieve 🎉SOTA performances based on LanguageBind encoders.
 * **[2023.10.23]**  🎶 LanguageBind-Audio achieves 🎉🎉🎉**state-of-the-art (SOTA) performance on 5 datasets**, checking our ✨[results](#multiple-modalities)!
 * **[2023.10.14]**  😱 Released a stronger LanguageBind-Video, checking our ✨[results](#video-language)! The video checkpoint **have updated** on Huggingface Model Hub!
 * **[2023.10.10]**  We provide sample data, which can be found in [assets](assets), and [emergency zero-shot usage](#emergency-zero-shot) is described. 
