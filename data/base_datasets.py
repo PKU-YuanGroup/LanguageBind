@@ -31,9 +31,10 @@ class VAT_dataset(Dataset):
         self.video_decode_backend = args.video_decode_backend
         self.num_frames = args.num_frames
         self.text_type = args.text_type
-        self.chatgpt = self.text_type == 'polish_mplug'
+        self.total_text = ['raw', 'mplug', 'polish_mplug', 'sound_mplug'] + [f'ofa{i}' for i in range(8)]
+        self.weight = [0.2, 0.2, 0.2, 0.2] + [0.2 / 8] * 8
         self.title = self.text_type == 'raw'
-        self.data_root = '/A_Youtube'
+        self.data_root = '/apdcephfs_cq3/share_1311970/A_Youtube'
         with open(args.train_data, 'r') as f:
             self.id2title_folder_caps = json.load(f)
         self.ids = list(self.id2title_folder_caps.keys())[:args.train_num_samples]
@@ -58,25 +59,25 @@ class VAT_dataset(Dataset):
         return len(self.ids)
         # return self.id2title_folder_caps.shape[0]
 
+
     def __getitem__(self, idx):
         id = self.ids[idx]
         folder = self.id2title_folder_caps[id]['folder']
         try:
-            text_output = self.get_text(id)
+            text_output, ofa_number = self.get_text(id)
             input_ids, attention_mask = text_output['input_ids'], text_output['attention_mask']
             if self.clip_type == 'vl':
                 matched_modality = self.get_video(id, folder)
             elif self.clip_type == 'al':
                 matched_modality = self.get_audio(id, folder)
             elif self.clip_type == 'dl':
-                matched_modality = self.get_depth(id, folder)
+                matched_modality = self.get_depth(id, folder, ofa_number)
             elif self.clip_type == 'tl':
-                matched_modality = self.get_thermal(id, folder)
+                matched_modality = self.get_thermal(id, folder, ofa_number)
             return matched_modality['pixel_values'], input_ids, attention_mask
         except Exception as error_msg:
             logging.info(f"Failed at {id} with \"{error_msg}\"")
             return self.__getitem__(random.randint(0, self.__len__()-1))
-
 
     def get_video(self, id, folder):
         video_path = opj(self.data_root, folder, f'{id}.mp4')
@@ -90,11 +91,11 @@ class VAT_dataset(Dataset):
         if os.path.exists(audio_path):
             pass
         else:
-            audio_path = audio_path[:-4] + '.m4a'
+            audio_path = audio_path[:-4] + '.wav'
             if os.path.exists(audio_path):
                 pass
             else:
-                audio_path = audio_path[:-4] + '.wav'
+                audio_path = audio_path[:-4] + '.m4a'
                 if not os.path.exists(audio_path):
                     # self.audio_error_file.write(audio_path[:-4] + '\n')
                     raise FileNotFoundError(f'Not found audio file at \'{audio_path[:-4]}\' with .mp3 .m4a .wav')
@@ -110,27 +111,36 @@ class VAT_dataset(Dataset):
         return audio
 
     def get_text(self, id):
-        text = self.id2title_folder_caps[id][self.text_type]
-        text_output = load_and_transform_text(text, self.tokenizer, title=self.title)
-        return text_output
+        if self.text_type != 'mix':
+            text = self.id2title_folder_caps[id][self.text_type]
+            text_output = load_and_transform_text(text, self.tokenizer, title=self.title)
+            return text_output, None
+        else:
+            text_type = random.choices(self.total_text, self.weight)[0]
+            ofa_number = None
+            if text_type.startswith('ofa'):
+                ofa_number = int(text_type[-1])
+                text = self.id2title_folder_caps[id]['ofa'][ofa_number]
+            else:
+                text = self.id2title_folder_caps[id][text_type]
+            text_output = load_and_transform_text(text, self.tokenizer, title=text_type=='raw')
+            return text_output, ofa_number
 
-    def get_depth(self, id, folder):
+    def get_depth(self, id, folder, ofa_number):
         depth_folder = opj(self.data_root, folder, f'{id}_depth_f8glpn_folder')
-        # random_id = random.randint(0, 7)
-        random_id = 3
+        random_id = random.randint(0, 7) if ofa_number is None else ofa_number
+        # random_id = 3
         depth_path = os.path.join(depth_folder, f'{random_id}.png')
         depth = load_and_transform_depth(depth_path, self.depth_transform)
         return depth
 
-    def get_thermal(self, id, folder):
-        thermal_folder = opj(self.data_root, folder, f'{id}_thermal_f8_folder')
-        # random_id = random.randint(0, 7)
-        random_id = 3
+    def get_thermal(self, id, folder, ofa_number):
+        thermal_folder = opj(self.data_root, folder, f'{id}_thermal_folder')
+        random_id = random.randint(0, 7) if ofa_number is None else ofa_number
+        # random_id = 3
         thermal_path = os.path.join(thermal_folder, f'{random_id}.jpg')
         thermal = load_and_transform_thermal(thermal_path, self.thermal_transform)
         return thermal
-
-
 
 
 

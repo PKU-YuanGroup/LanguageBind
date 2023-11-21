@@ -32,7 +32,7 @@ def parse_args(args):
     parser.add_argument("--languagebind_weight", type=str, default='', help="",)
     parser.add_argument("--num-frames", type=int, default=8, help="",)
     parser.add_argument("--clip-type", type=str, default="", choices=['vl', 'al', 'dl', 'tl'], help="",)
-    parser.add_argument("--text-type", type=str, default="", help="'raw', 'ofa', 'mplug', 'chatgpt'",)
+    parser.add_argument("--text-type", type=str, default="chatgpt", help="'raw', 'ofa', 'mplug', 'polish_mplug'",)
     parser.add_argument("--add-time-attn", default=False, action="store_true", help="")
     parser.add_argument("--unlock-time-attn", default=False, action="store_true", help="")
     parser.add_argument("--coef-lr", type=float, default=1e-4, help="")
