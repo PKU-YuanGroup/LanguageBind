@@ -4,16 +4,16 @@ We provide the **off-the-shelf** scripts in the [scripts folder](scripts).
 
 For example, to **train** LanguageBind on **Depth-Language** with 8 GPUs (1 nodes x 8 GPUs).
 * First download the pretrained weight from [BaiDu disk](https://pan.baidu.com/s/1co46bkuUJXr8ePPKp1WWgA?pwd=ofm6), [Peking univercity disk](https://disk.pku.edu.cn:443/link/9CA764E6307790B01D2D4F7E314E8E43) or [Google disk](https://drive.google.com/drive/folders/1VQYZlqfKmCMuHffypf5F96odyMCEI87H?usp=drive_link). Put the pretrained weight on `path/to/LanguageBind`. and specify ```CACHE_DIR=path/to/LanguageBind```.
-* The second step is to develop a path to ```TRAIN_DATA``` according to the [dataset preparation](https://github.com/PKU-YuanGroup/LanguageBind#-vidal-10m).
+* The second step is to develop a path to ```ANNOTATION``` according to the [dataset preparation](https://github.com/PKU-YuanGroup/LanguageBind#-vidal-10m).
 * Then you can run
 
 ```bash
 CACHE_DIR="path/to/pretrained/weight"
-TRAIN_DATA="path/to/data"
+ANNOTATION="path/to/data"
 cd /path/to/LanguageBind
 TORCH_DISTRIBUTED_DEBUG=DETAIL HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 torchrun --nnodes=1 --nproc_per_node 8 \
     -m main  \
-    --train-data ${TRAIN_DATA} \
+    --train-data ${ANNOTATION} \
     --train-num-samples 3020000 \
     --clip-type "dl" --max-depth 10 \
     --do_train \
@@ -42,11 +42,11 @@ For example, to **validate** LanguageBind on **Depth-Language** with 1 GPUs.
 ```bash
 CACHE_DIR="path/to/pretrained/weight"
 RESUME="thermal_language.pt"
-TRAIN_DATA="path/to/data"
+ANNOTATION="path/to/data"
 cd /path/to/LanguageBind
 TORCH_DISTRIBUTED_DEBUG=DETAIL HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 torchrun --nproc_per_node 1 \
     -m main  \
-    --train-data ${TRAIN_DATA} \
+    --train-data ${ANNOTATION} \
     --train-num-samples 3020000 \
     --clip-type "dl" --max-depth 10 \
     --lock-text --lock-image --text-type "polish_mplug" \
