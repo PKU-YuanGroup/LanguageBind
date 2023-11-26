@@ -233,14 +233,12 @@ class CLIPVisionEmbeddings3D(nn.Module):
 class CLIPModel(HFCLIPModel):
     def __init__(self, config, num_frames, add_time_attn, vl_new, tube_size):
         super(CLIPModel, self).__init__(config)
+        config.vision_config.num_frames = num_frames
+        config.vision_config.tube_size = tube_size
         if add_time_attn:
-            config.vision_config.num_frames = num_frames
-            # if vl_new:
             if vl_new:
-                config.vision_config.tube_size = tube_size
                 self.vision_model.embeddings = CLIPVisionEmbeddings3D(config.vision_config)
             else:
-                config.vision_config.tube_size = tube_size
                 self.vision_model.embeddings = CLIPVisionEmbeddings(config.vision_config)
         self.T = config.vision_config.num_frames // config.vision_config.tube_size
         self.vision_model.forward = self.vision_model_forward
