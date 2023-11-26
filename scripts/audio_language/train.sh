@@ -14,7 +14,7 @@ TORCH_DISTRIBUTED_DEBUG=DETAIL HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 torc
     --convert_to_lora --lora_r 16 \
     --lr 1e-3 --coef-lr 1 \
     --beta1 0.9 --beta2 0.98 --wd 0.2 --eps 1e-6 \
-    --num-frames 1 --force-patch-dropout 0.3 \
+    --num-frames 1 --force-patch-dropout 0.1 \
     --epochs 16 --batch-size 16 --accum-freq 4 --warmup 2000 \
     --precision "amp" --workers 10 --video-decode-backend "imgs" \
     --save-frequency 1 --log-every-n-steps 20 --report-to "tensorboard" --resume "latest" \
