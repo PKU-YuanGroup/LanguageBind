@@ -99,13 +99,11 @@ def evaluate_v_cls(model, data, epoch, args, tb_writer=None):
     temp_val_v_cls_data = args.val_v_cls_data
     args.val_v_cls_data = list(data.keys())
     assert len(args.val_v_cls_data) == 1
-    args.val_v_cls_data = args.val_v_cls_data[0]
 
 
     model.eval()
-    dataloader = data[args.val_v_cls_data]
+    dataloader = data[args.val_v_cls_data[0]]
 
-    args.val_v_cls_data = temp_val_v_cls_data
 
 
     args.output_dir = os.path.join(args.log_base_path, f'video_cls/{args.val_v_cls_data[0].lower()}')
@@ -132,5 +130,7 @@ def evaluate_v_cls(model, data, epoch, args, tb_writer=None):
                 f.write(json.dumps(metrics))
                 f.write("\n")
 
+        args.val_v_cls_data = temp_val_v_cls_data
         return metrics
 
+    args.val_v_cls_data = temp_val_v_cls_data
