@@ -37,7 +37,7 @@
 
 ## 📰 News
 * **[2023.11.26]**  We have open-sourced all textual sources and corresponding YouTube IDs [here](DATASETS.md).
-* **[2023.11.26]**  📣📣📣We have open-sourced fully fine-tuned **Video & Audio**, achieving improved performance once again, checking our [model zoo](). 
+* **[2023.11.26]**  📣📣📣We have open-sourced fully fine-tuned **Video & Audio**, achieving improved performance once again, checking our [model zoo](#-model-zoo). 
 * **[2023.11.22]**  We are about to release a fully fine-tuned version, and the **HUGE** version is currently undergoing training.
 * **[2023.11.21]**  💥 We are releasing sample data in [DATASETS.md](DATASETS.md) so that individuals who are interested can further modify the code to train it on their own data.
 * **[2023.11.20]**  🚀🚀🚀[Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA) builds a large visual-language model to achieve 🎉SOTA performances based on LanguageBind encoders.
