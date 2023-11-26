@@ -66,7 +66,7 @@ class VAT_dataset(Dataset):
         try:
             text_output, ofa_number = self.get_text(id)
             input_ids, attention_mask = text_output['input_ids'], text_output['attention_mask']
-            if self.clip_type == 'vl':
+            if self.clip_type == 'vl' or self.clip_type == 'vl_new':
                 matched_modality = self.get_video(id, folder)
             elif self.clip_type == 'al':
                 matched_modality = self.get_audio(id, folder)
@@ -81,6 +81,8 @@ class VAT_dataset(Dataset):
 
     def get_video(self, id, folder):
         video_path = opj(self.data_root, folder, f'{id}.mp4')
+        # resize_folder = 'new_download_resize256_skip15' if folder.startswith('new_') else f'{folder}_resize256_skip15'
+        # video_path = opj(self.data_root, resize_folder, f'{id}.mp4')
         video = load_and_transform_video(video_path, self.video_transform,
                                          video_decode_backend=self.video_decode_backend, num_frames=self.num_frames)
         return video

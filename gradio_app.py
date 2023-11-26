@@ -165,7 +165,13 @@ def thermal_to_language(thermal, language):
 if __name__ == '__main__':
     device = 'cuda:0'
     device = torch.device(device)
-    clip_type = ('thermal', 'image', 'video', 'depth', 'audio')
+    clip_type = {
+        'video': 'LanguageBind_Video_FT',  # also LanguageBind_Video
+        'audio': 'LanguageBind_Audio_FT',  # also LanguageBind_Audio
+        'thermal': 'LanguageBind_Thermal',
+        'image': 'LanguageBind_Image',
+        'depth': 'LanguageBind_Depth',
+    }
     model = LanguageBind(clip_type=clip_type, use_temp=False)
     model = model.to(device)
     model.eval()

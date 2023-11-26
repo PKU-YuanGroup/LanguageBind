@@ -91,8 +91,8 @@ def SET_GLOBAL_VALUE(k, v):
 def main(args):
     args = parse_args(args)
 
-    SET_GLOBAL_VALUE('PATCH_DROPOUT', args.force_patch_dropout)
-    SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
+    # SET_GLOBAL_VALUE('PATCH_DROPOUT', args.force_patch_dropout)
+    # SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
 
     if torch.cuda.is_available():
         # This enables tf32 on Ampere GPUs which is only 8% slower than
@@ -315,7 +315,11 @@ def main(args):
             param.requires_grad = False
     for param in model.vision_model.embeddings.position_embedding.parameters():
         param.requires_grad = False
-    model.vision_model.embeddings.class_embedding.requires_grad = True
+    if args.clip_type == 'vl_new':
+        for param in model.vision_model.embeddings.parameters():
+            param.requires_grad = False
+        for param in model.vision_model.embeddings.position_embedding.parameters():
+            param.requires_grad = False
     # else:
     #     for param in model.vision_model.embeddings.parameters():
     #         param.requires_grad = True
@@ -326,10 +330,13 @@ def main(args):
     #     for param in model.visual_projection.parameters():
     #         param.requires_grad = True
 
+    model.vision_model.embeddings.class_embedding.requires_grad = True
     if args.add_time_attn:
         for name, param in model.vision_model.encoder.layers.named_parameters():
-            if 'temporal_layer_norm' in name or 'temporal_embedding' in name:
+            if 'temporal' in name:
                 param.requires_grad = True
+            else:
+                param.requires_grad = False
 
     # if args.add_time_attn and args.unlock_time_attn:
     #     model.unlock_time_attn()
@@ -383,7 +390,7 @@ def main(args):
     # if args.train_data or args.dataset_type == "synthetic":
     assert not args.trace, 'Cannot train with traced model'
 
-    no_decay = lambda n, p: p.ndim < 2 or "bn" in n or "ln" in n or "bias" in n or 'logit_scale' in n
+    no_decay = lambda n, p: p.ndim < 2 or "bn" in n or "ln" in n or "bias" in n or 'logit_scale' in n or 'class_embedding' in n
     decay = lambda n, p: not no_decay(n, p)
 
     lora = lambda n, p: "lora" in n

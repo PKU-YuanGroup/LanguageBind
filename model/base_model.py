@@ -1,3 +1,5 @@
+import sys
+
 import torch
 from einops import rearrange
 from typing import Optional, Tuple, Union
@@ -122,14 +124,125 @@ from transformers.utils import replace_return_docstrings, add_start_docstrings_t
 #                 "logit_scale": self.logit_scale.exp()
 #             }
 #         return image_features, text_features, self.logit_scale.exp()
-from model.process_clip import get_global_value
+from model.process_clip import get_global_value, set_global_value
 
+
+def SET_GLOBAL_VALUE(k, v):
+    set_global_value(k, v)
+
+class CLIPVisionEmbeddings(nn.Module):
+    def __init__(self, config: CLIPVisionConfig):
+        super().__init__()
+        self.config = config
+        self.embed_dim = config.hidden_size
+        self.image_size = config.image_size
+        self.patch_size = config.patch_size
+
+        self.class_embedding = nn.Parameter(torch.randn(self.embed_dim))
+
+        self.patch_embedding = nn.Conv2d(
+            in_channels=config.num_channels,
+            out_channels=self.embed_dim,
+            kernel_size=self.patch_size,
+            stride=self.patch_size,
+            bias=False,
+        )
+
+        self.num_patches = (self.image_size // self.patch_size) ** 2
+        self.num_positions = self.num_patches + 1
+        self.position_embedding = nn.Embedding(self.num_positions, self.embed_dim)
+        self.register_buffer("position_ids", torch.arange(self.num_positions).expand((1, -1)))
+
+    def forward(self, pixel_values: torch.FloatTensor) -> torch.Tensor:
+        # (b t) c h w
+        batch_size = pixel_values.shape[0]
+        patch_embeds = self.patch_embedding(pixel_values)  # shape = [*, width, grid, grid]
+        patch_embeds = patch_embeds.flatten(2).transpose(1, 2)
+
+        class_embeds = self.class_embedding.expand(batch_size, 1, -1)
+        embeddings = torch.cat([class_embeds, patch_embeds], dim=1)
+        embeddings = embeddings + self.position_embedding(self.position_ids)  # b hw c
+        return embeddings
+
+class CLIPVisionEmbeddings3D(nn.Module):
+    def __init__(self, config: CLIPVisionConfig):
+        super().__init__()
+        self.config = config
+        self.embed_dim = config.hidden_size
+        self.image_size = config.image_size
+        self.patch_size = config.patch_size
+        self.num_frames = config.num_frames
+        self.tube_size = config.tube_size
+
+        self.class_embedding = nn.Parameter(torch.randn(self.embed_dim))
+
+        self.patch_embedding = nn.Conv2d(
+            in_channels=config.num_channels,
+            out_channels=self.embed_dim,
+            kernel_size=self.patch_size,
+            stride=self.patch_size,
+            bias=False,
+        )
+
+        self.num_patches = (self.image_size // self.patch_size) ** 2
+        self.num_positions = self.num_patches + 1
+        self.position_embedding = nn.Embedding(self.num_positions, self.embed_dim)
+        self.register_buffer("position_ids", torch.arange(self.num_positions).expand((1, -1)))
+
+    def expand3d(self):
+
+        state_dict = self.patch_embedding.state_dict()
+        state_dict_expand = state_dict['weight'].unsqueeze(2)
+        device, dtype = state_dict_expand.device, state_dict_expand.dtype
+        # print(device, dtype)
+        zero = torch.zeros_like(state_dict_expand).to(device=device, dtype=dtype)
+        state_dict_expand3d = torch.cat([state_dict_expand] + (self.tube_size-1)*[zero], dim=2)
+
+        patch_embedding = nn.Conv3d(
+            in_channels=self.patch_embedding.in_channels,
+            out_channels=self.embed_dim,
+            kernel_size=(self.tube_size, self.patch_size, self.patch_size),
+            stride=(self.tube_size, self.patch_size, self.patch_size),
+            bias=False,
+        ).to(device=device, dtype=dtype)
+        patch_embedding.load_state_dict({'weight': state_dict_expand3d})
+        self.patch_embedding = patch_embedding
+
+
+        class_embedding = nn.Parameter(self.class_embedding.data.repeat(self.num_frames // self.tube_size, 1)).to(device=device, dtype=dtype)
+        self.class_embedding = class_embedding
+
+
+    def forward(self, pixel_values: torch.FloatTensor) -> torch.Tensor:
+        # (b t) c h w
+        batch_size = pixel_values.shape[0] // self.num_frames
+        pixel_values = rearrange(pixel_values, '(b t) c h w -> b c t h w', b=batch_size, t=self.num_frames)
+
+        patch_embeds = self.patch_embedding(pixel_values)  # shape = [*, width, t, grid, grid]
+        # SET_GLOBAL_VALUE('NUM_FRAMES', patch_embeds.shape[2])
+        patch_embeds = rearrange(patch_embeds, 'b c t h w -> b t (h w) c')
+
+        class_embeds = self.class_embedding.unsqueeze(1).unsqueeze(0).repeat(batch_size, 1, 1, 1)  # b t 1 c
+        # print('class_embeds', class_embeds.device, class_embeds.dtype)
+        # print('patch_embeds', patch_embeds.device, patch_embeds.dtype)
+        embeddings = torch.cat([class_embeds, patch_embeds], dim=2)  # b t hw+1 c
+        embeddings = embeddings + self.position_embedding(self.position_ids)
+        embeddings = rearrange(embeddings, 'b t hw_1 c -> (b t) hw_1 c')
+        return embeddings
 
 class CLIPModel(HFCLIPModel):
-    def __init__(self, config, num_frames, add_time_attn):
+    def __init__(self, config, num_frames, add_time_attn, vl_new, tube_size):
         super(CLIPModel, self).__init__(config)
         if add_time_attn:
             config.vision_config.num_frames = num_frames
+            # if vl_new:
+            if vl_new:
+                config.vision_config.tube_size = tube_size
+                self.vision_model.embeddings = CLIPVisionEmbeddings3D(config.vision_config)
+            else:
+                config.vision_config.tube_size = tube_size
+                self.vision_model.embeddings = CLIPVisionEmbeddings(config.vision_config)
+        self.T = config.vision_config.num_frames // config.vision_config.tube_size
         self.vision_model.forward = self.vision_model_forward
 
     @add_start_docstrings_to_model_forward(CLIP_VISION_INPUTS_DOCSTRING)
@@ -175,7 +288,7 @@ class CLIPModel(HFCLIPModel):
         #     hidden_states = rearrange(hidden_states, '(b t) n d -> (b n) t d', t=T)
         #     hidden_states = hidden_states + self.temporal_embedding[:, :T, :]
         #     hidden_states = rearrange(hidden_states, '(b n) t d -> (b t) n d', n=n)
-
+        T = self.T
         hidden_states = self.vision_model.patch_dropout(hidden_states, B, T)
         # print(hidden_states.shape)
         hidden_states = self.vision_model.pre_layrnorm(hidden_states)
@@ -236,3 +349,5 @@ class CLIPModel(HFCLIPModel):
             "logit_scale": self.logit_scale.exp()
         }
         # return image_features, text_features, self.logit_scale.exp()
+
+

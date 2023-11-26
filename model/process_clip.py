@@ -291,7 +291,8 @@ def get_global_value():
 class CLIPEncoderLayer(SpatialCLIPEncoderLayer):
     def __init__(self, config: CLIPConfig):
         super().__init__(config)
-        self.temporal_embedding = nn.Parameter(torch.zeros(1, config.num_frames, config.hidden_size))
+        self.T = config.num_frames // config.tube_size
+        self.temporal_embedding = nn.Parameter(torch.zeros(1, config.num_frames // config.tube_size, config.hidden_size))
         nn.init.normal_(self.temporal_embedding, std=config.hidden_size ** -0.5)
 
         self.embed_dim = config.hidden_size
@@ -322,13 +323,15 @@ class CLIPEncoderLayer(SpatialCLIPEncoderLayer):
 
 
         bt, n, d = hidden_states.shape
-        t = get_global_value()['NUM_FRAMES']
+        t = self.T
 
 
         # time embed
         if t != 1:
             n = hidden_states.shape[1]
+            # print(hidden_states.shape, '(b t) n d -> (b n) t d')
             hidden_states = rearrange(hidden_states, '(b t) n d -> (b n) t d', t=t)
+            # print(hidden_states.shape)
             hidden_states = hidden_states + self.temporal_embedding[:, :t, :]
             hidden_states = rearrange(hidden_states, '(b n) t d -> (b t) n d', n=n)
 

@@ -36,6 +36,7 @@
 
 
 ## 📰 News
+* **[2023.11.26]**  We release **Video & Audio** fully fine-tuned version.
 * **[2023.11.22]**  We are about to release a fully fine-tuned version, and the **HUGE** version is currently undergoing training.
 * **[2023.11.21]**  💥 We are releasing sample data in [DATASETS.md](DATASETS.md) so that individuals who are interested can further modify the code to train it on their own data.
 * **[2023.11.20]**  🚀🚀🚀[Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA) builds a large visual-language model to achieve 🎉SOTA performances based on LanguageBind encoders.
@@ -109,6 +110,27 @@ pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --e
 pip install -r requirements.txt
 ```
 
+## Model Zoo
+<div align="center">
+<table border="1" width="100%">
+    <tr align="center">
+        <th>Modality</th><th>LoRA tuning</th><th>Fine-tuning</th><th>Fine-tuning (Huge)</th>
+    </tr>
+    <tr align="center">
+        <td>Video</td><td>LanguageBind_Video</td><td>LanguageBind_Video_FT</td><td>Coming soon</td>
+    </tr>
+    <tr align="center">
+        <td>Audio</td><td>LanguageBind_Audio</td><td>LanguageBind_Audio_FT</td><td>Coming soon</td>
+    </tr>
+    <tr align="center">
+        <td>Depth</td><td>LanguageBind_Depth</td><td>-</td><td>-</td>
+    </tr>
+    <tr align="center">
+        <td>Thermal</td><td>LanguageBind_Thermal</td><td>-</td><td>-</td>
+    </tr>
+</table>
+</div>
+
 ## 🤖 API
 **We open source all modalities preprocessing code.** If you want to load the model (e.g. ```LanguageBind/LanguageBind_Thermal```) from the model hub on Huggingface or on local, you can use the following code snippets.
 
@@ -119,15 +141,22 @@ import torch
 from languagebind import LanguageBind, to_device, transform_dict, LanguageBindImageTokenizer
 
 if __name__ == '__main__':
-    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+    device = 'cuda:0'
     device = torch.device(device)
-    clip_type = ('thermal', 'image', 'video', 'depth', 'audio')
+    clip_type = {
+        'video': 'LanguageBind_Video_FT',  # also LanguageBind_Video
+        'audio': 'LanguageBind_Audio_FT',  # also LanguageBind_Audio
+        'thermal': 'LanguageBind_Thermal',
+        'image': 'LanguageBind_Image',
+        'depth': 'LanguageBind_Depth',
+    }
+
     model = LanguageBind(clip_type=clip_type, cache_dir='./cache_dir')
     model = model.to(device)
     model.eval()
-    pretrained_ckpt = f'LanguageBind/LanguageBind_Image'
+    pretrained_ckpt = f'lb203/LanguageBind_Image'
     tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir/tokenizer_cache_dir')
-    modality_transform = {c: transform_dict[c](model.modality_config[c]) for c in clip_type}
+    modality_transform = {c: transform_dict[c](model.modality_config[c]) for c in clip_type.keys()}
 
     image = ['assets/image/0.jpg', 'assets/image/1.jpg']
     audio = ['assets/audio/0.wav', 'assets/audio/1.wav']
@@ -145,8 +174,10 @@ if __name__ == '__main__':
     }
     inputs['language'] = to_device(tokenizer(language, max_length=77, padding='max_length',
                                              truncation=True, return_tensors='pt'), device)
+
     with torch.no_grad():
         embeddings = model(inputs)
+
     print("Video x Text: \n",
           torch.softmax(embeddings['video'] @ embeddings['language'].T, dim=-1).detach().cpu().numpy())
     print("Image x Text: \n",
@@ -161,20 +192,20 @@ if __name__ == '__main__':
 Then returns the following result.
 ```bash
 Video x Text: 
- [[9.9999988e-01 1.5560659e-07]
- [6.2432008e-08 9.9999988e-01]]
+ [[9.9989331e-01 1.0667283e-04]
+ [1.3255903e-03 9.9867439e-01]]
 Image x Text: 
- [[1.0000000e+00 4.0599781e-09]
- [1.2165208e-08 1.0000000e+00]]
+ [[9.9990666e-01 9.3292067e-05]
+ [4.6132666e-08 1.0000000e+00]]
 Depth x Text: 
- [[9.9952829e-01 4.7178473e-04]
- [1.6411507e-01 8.3588487e-01]]
+ [[0.9954276  0.00457235]
+ [0.12042473 0.8795753 ]]
 Audio x Text: 
- [[0.9742653  0.0257348 ]
- [0.02742565 0.9725743 ]]
+ [[0.97634876 0.02365119]
+ [0.02917843 0.97082156]]
 Thermal x Text: 
- [[0.9744922  0.02550781]
- [0.3656127  0.6343873 ]]
+ [[0.9482511  0.0517489 ]
+ [0.48746133 0.5125386 ]]
 ```
 ### Emergency zero-shot
 Since languagebind binds each modality together, we also found the **emergency zero-shot**. It's very simple to use.
@@ -186,8 +217,8 @@ print("Image x Thermal: \n", torch.softmax(embeddings['image'] @ embeddings['the
 Then, you will get:
 ```
 Video x Audio: 
- [[1. 0.]
- [0. 1.]]
+ [[1.0000000e+00 0.0000000e+00]
+ [3.1150486e-32 1.0000000e+00]]
 Image x Depth: 
  [[1. 0.]
  [0. 1.]]
@@ -204,8 +235,8 @@ import torch
 from languagebind import LanguageBindThermal, LanguageBindThermalTokenizer, LanguageBindThermalProcessor
 
 pretrained_ckpt = 'LanguageBind/LanguageBind_Thermal'
-model = LanguageBindThermal.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
-tokenizer = LanguageBindThermalTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+model = LanguageBindThermal.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
+tokenizer = LanguageBindThermalTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
 thermal_process = LanguageBindThermalProcessor(model.config, tokenizer)
 
 model.eval()
@@ -222,8 +253,8 @@ import torch
 from languagebind import LanguageBindDepth, LanguageBindDepthTokenizer, LanguageBindDepthProcessor
 
 pretrained_ckpt = 'LanguageBind/LanguageBind_Depth'
-model = LanguageBindDepth.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
-tokenizer = LanguageBindDepthTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+model = LanguageBindDepth.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
+tokenizer = LanguageBindDepthTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
 depth_process = LanguageBindDepthProcessor(model.config, tokenizer)
 
 model.eval()
@@ -239,9 +270,9 @@ print(out.text_embeds @ out.image_embeds.T)
 import torch
 from languagebind import LanguageBindVideo, LanguageBindVideoTokenizer, LanguageBindVideoProcessor
 
-pretrained_ckpt = 'LanguageBind/LanguageBind_Video'
-model = LanguageBindVideo.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
-tokenizer = LanguageBindVideoTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+pretrained_ckpt = 'LanguageBind/LanguageBind_Video_FT'  # also 'LanguageBind/LanguageBind_Video'
+model = LanguageBindVideo.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
+tokenizer = LanguageBindVideoTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
 video_process = LanguageBindVideoProcessor(model.config, tokenizer)
 
 model.eval()
@@ -257,9 +288,9 @@ print(out.text_embeds @ out.image_embeds.T)
 import torch
 from languagebind import LanguageBindAudio, LanguageBindAudioTokenizer, LanguageBindAudioProcessor
 
-pretrained_ckpt = 'LanguageBind/LanguageBind_Audio'
-model = LanguageBindAudio.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
-tokenizer = LanguageBindAudioTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+pretrained_ckpt = 'LanguageBind/LanguageBind_Audio_FT'  # also 'LanguageBind/LanguageBind_Audio'
+model = LanguageBindAudio.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
+tokenizer = LanguageBindAudioTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
 audio_process = LanguageBindAudioProcessor(model.config, tokenizer)
 
 model.eval()
@@ -277,8 +308,8 @@ import torch
 from languagebind import LanguageBindImage,  LanguageBindImageTokenizer,  LanguageBindImageProcessor
 
 pretrained_ckpt = 'LanguageBind/LanguageBind_Image'
-model = LanguageBindImage.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
-tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./languagebind/cache_dir')
+model = LanguageBindImage.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
+tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir')
 image_process = LanguageBindImageProcessor(model.config, tokenizer)
 
 model.eval()

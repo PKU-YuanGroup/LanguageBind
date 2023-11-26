@@ -2,15 +2,22 @@ import torch
 from languagebind import LanguageBind, to_device, transform_dict, LanguageBindImageTokenizer
 
 if __name__ == '__main__':
-    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+    device = 'cuda:0'
     device = torch.device(device)
-    clip_type = ('thermal', 'image', 'video', 'depth', 'audio')
+    clip_type = {
+        'video': 'LanguageBind_Video_FT',  # also LanguageBind_Video
+        'audio': 'LanguageBind_Audio_FT',  # also LanguageBind_Audio
+        'thermal': 'LanguageBind_Thermal',
+        'image': 'LanguageBind_Image',
+        'depth': 'LanguageBind_Depth',
+    }
+
     model = LanguageBind(clip_type=clip_type, cache_dir='./cache_dir')
     model = model.to(device)
     model.eval()
     pretrained_ckpt = f'LanguageBind/LanguageBind_Image'
     tokenizer = LanguageBindImageTokenizer.from_pretrained(pretrained_ckpt, cache_dir='./cache_dir/tokenizer_cache_dir')
-    modality_transform = {c: transform_dict[c](model.modality_config[c]) for c in clip_type}
+    modality_transform = {c: transform_dict[c](model.modality_config[c]) for c in clip_type.keys()}
 
     image = ['assets/image/0.jpg', 'assets/image/1.jpg']
     audio = ['assets/audio/0.wav', 'assets/audio/1.wav']

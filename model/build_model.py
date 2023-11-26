@@ -20,7 +20,7 @@ def SET_GLOBAL_VALUE(k, v):
 def create_vat_model(args):
 
     config = AutoConfig.from_pretrained(args.model, cache_dir=args.cache_dir)
-    model = CLIPModel(config, args.num_frames, args.add_time_attn)
+    model = CLIPModel(config, args.num_frames, args.add_time_attn, args.clip_type=='vl_new', args.tube_size)
 
     model.vision_model.patch_dropout = PatchDropout(args.force_patch_dropout)
 
@@ -63,6 +63,9 @@ def create_vat_model(args):
         if is_master(args):
             logging.info(f'Resize to position embedding successfully.')
 
+    if args.clip_type == 'vl_new':
+        model.vision_model.embeddings.expand3d()
+
     if args.init_temp != 0:
         with torch.no_grad():
             model.logit_scale.fill_(np.log(1 / float(args.init_temp)))
@@ -104,7 +107,8 @@ if __name__ == '__main__':
     args.lora_alpha = 16
     args.lora_dropout = 0.0  # 0.1?
     args.num_frames = 8
-    args.clip_type = 'vl'
+    args.tube_size = 1
+    args.clip_type = 'vl_new'
     args.num_mel_bins = 128
     args.target_length = 1024
     args.audio_sample_rate = 16000
@@ -112,8 +116,8 @@ if __name__ == '__main__':
     args.audio_std = 1
     args.rank = 0
 
-    SET_GLOBAL_VALUE('PATCH_DROPOUT', args.force_patch_dropout)
-    SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
+    # SET_GLOBAL_VALUE('PATCH_DROPOUT', args.force_patch_dropout)
+    # SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
 
     model = create_vat_model(args)
 

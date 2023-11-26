@@ -52,20 +52,20 @@ transform_dict = {
 }
 
 class LanguageBind(nn.Module):
-    def __init__(self, clip_type=('thermal', 'image', 'video', 'depth', 'audio'), use_temp=True, cache_dir='./cache_dir'):
+    def __init__(self, clip_type, use_temp=True, cache_dir='./cache_dir'):
         super(LanguageBind, self).__init__()
         self.use_temp = use_temp
         self.modality_encoder = {}
         self.modality_proj = {}
         self.modality_scale = {}
         self.modality_config = {}
-        for c in clip_type:
-            pretrained_ckpt = f'LanguageBind/LanguageBind_{c.capitalize()}'
-            model = model_dict[c].from_pretrained(pretrained_ckpt, cache_dir=cache_dir)
-            self.modality_encoder[c] = model.vision_model
-            self.modality_proj[c] = model.visual_projection
-            self.modality_scale[c] = model.logit_scale
-            self.modality_config[c] = model.config
+        for k, v in clip_type.items():
+            pretrained_ckpt = f'LanguageBind/{v}'
+            model = model_dict[k].from_pretrained(pretrained_ckpt, cache_dir=cache_dir)
+            self.modality_encoder[k] = model.vision_model
+            self.modality_proj[k] = model.visual_projection
+            self.modality_scale[k] = model.logit_scale
+            self.modality_config[k] = model.config
         self.modality_encoder['language'] = model.text_model
         self.modality_proj['language'] = model.text_projection
 
@@ -87,3 +87,4 @@ class LanguageBind(nn.Module):
 def to_device(x, device):
     out_dict = {k: v.to(device) for k, v in x.items()}
     return out_dict
+
