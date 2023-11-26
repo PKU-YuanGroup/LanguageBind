@@ -112,6 +112,11 @@ pip install -r requirements.txt
 ```
 
 ## 🐳 Model Zoo
+
+The names in the table represent different encoder models. For example, `LanguageBind/LanguageBind_Video_FT` represents the fully fine-tuned version, while `LanguageBind/LanguageBind_Video` represents the LoRA-tuned version. 
+
+You can freely replace them in the recommended [API usage](#-api). We recommend using the fully fine-tuned version, as it offers stronger performance.
+
 <div align="center">
 <table border="1" width="100%">
     <tr align="center">
