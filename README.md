@@ -84,17 +84,17 @@ python gradio_app.py
 ## 🚀 Main Results
 
 ### Video-Language
-LanguageBind achieves **state-of-the-art (SOTA) performance on four datasets**, surpassing InterVideo by 1.9% on MSR-VTT, 8.8% on MSVD, 6.3% on DiDeMo, and 4.4% on ActivityNet. It is worth noting that InterVideo employs more extensive training data, signifying that LanguageBind represents an efficient pretraining method.
+LanguageBind achieves **state-of-the-art (SOTA) performance on four datasets**, * donates the results of full tuning.
 <p align="left">
 <img src="assets/result1.jpg" width=80%>
 </p>
 
 ### Multiple Modalities
-Video-Language, Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report top-1 accuracy across all the datasets.
+Video-Language, Infrared-Language, Depth-Language, and Audio-Language zero-shot classification, * donates the results of full tuning.
 <p align="left">
 <img src="assets/res1.jpg" width=80%>
 </p>
-We report text-to-audio results for retrieval.
+We report text-to-audio results for retrieval, * donates the results of full tuning.
 <p align="left">
 <img src="assets/res2.jpg" width=35%>
 </p>
