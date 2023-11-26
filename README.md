@@ -36,7 +36,7 @@
 
 
 ## 📰 News
-* **[2023.11.26]**  We release **Video & Audio** fully fine-tuned version.
+* **[2023.11.26]**  We have open-sourced fully fine-tuned **Video & Audio**, achieving improved performance once again. We have open-sourced all textual sources and corresponding YouTube IDs [here](DATASETS.md).
 * **[2023.11.22]**  We are about to release a fully fine-tuned version, and the **HUGE** version is currently undergoing training.
 * **[2023.11.21]**  💥 We are releasing sample data in [DATASETS.md](DATASETS.md) so that individuals who are interested can further modify the code to train it on their own data.
 * **[2023.11.20]**  🚀🚀🚀[Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA) builds a large visual-language model to achieve 🎉SOTA performances based on LanguageBind encoders.
@@ -117,16 +117,16 @@ pip install -r requirements.txt
         <th>Modality</th><th>LoRA tuning</th><th>Fine-tuning</th><th>Fine-tuning (Huge)</th>
     </tr>
     <tr align="center">
-        <td>Video</td><td>LanguageBind_Video</td><td>LanguageBind_Video_FT</td><td>Coming soon</td>
+        <td>Video</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Video">LanguageBind_Video</a></td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Video_FT">LanguageBind_Video_FT</a></td><td>Coming soon</td>
     </tr>
     <tr align="center">
-        <td>Audio</td><td>LanguageBind_Audio</td><td>LanguageBind_Audio_FT</td><td>Coming soon</td>
+        <td>Audio</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Audio">LanguageBind_Audio</a></td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Audio_FT">LanguageBind_Audio_FT</a></td><td>Coming soon</td>
     </tr>
     <tr align="center">
-        <td>Depth</td><td>LanguageBind_Depth</td><td>-</td><td>-</td>
+        <td>Depth</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Depth">LanguageBind_Depth</a></td><td>-</td><td>-</td>
     </tr>
     <tr align="center">
-        <td>Thermal</td><td>LanguageBind_Thermal</td><td>-</td><td>-</td>
+        <td>Thermal</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Thermal">LanguageBind_Thermal</a></td><td>-</td><td>-</td>
     </tr>
 </table>
 </div>
