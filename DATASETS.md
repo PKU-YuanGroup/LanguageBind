@@ -16,4 +16,50 @@ We are releasing sample data here so that individuals who are interested can fur
 </div>
 
 ## VIDAL-10M
-We are currently organizing the data, but based on a conservative estimate, it's approximately 20T. Please be patient as we work on it.
+
+### Text and Video
+Due to policy restrictions, we are unable to directly release the videos. However, we provide the YouTube IDs, which can be used to download the videos independently. All textual sources and YouTube IDs can be downloaded from [Google Disk]() or [Baidu Disk](https://pan.baidu.com/s/13gY-IcFSFIuDZ-q0hMTx0g?pwd=gum9).
+
+The organization format of `ANNOTATION` is as follows:
+```Bash
+{
+  "ImkVYKWqlDU": {
+    "folder": "coco_vat_9",
+    "mplug": "This video describes a group of scuba divers rolling backwards off a boat while playing an instrument. They are having fun and enjoying their time in the water.",
+    "polish_mplug": "scuba divers are seen rolling backwards off a boat while playing an instrument, displaying enjoyment and having a good time in the water.",
+    "ofa": [
+      " a man in a wet suit and a helmet on a boat",
+      " a man in a scuba suit on a boat",
+      " a person in a boat holding a diver helmet",
+      " a man in a wetsuit on a jet ski",
+      " a picture of a body of water with the words boats on it",
+      " a person in the water with the words if they rolled",
+      " a person in the water with a paddle",
+      " a person in the water with a scooter"
+    ],
+    "sound_mplug": "scuba divers rolling backwards off a boat while playing an instrument showcases exuberant laughter, splashing water, and cheery melodies blending with the gentle waves.",
+    "raw": "WHY SCUBA DIVERS ROLL BACKWARDS OFF BOAT #shorts"
+  },
+  "id": {
+    "folder": "video_folder",
+    "mplug": "mplug_caption",
+    "polish_mplug": "polish_mplug_caption",
+    "ofa": [
+      "ofa_caption_0",
+      "ofa_caption_1",
+      "ofa_caption_2",
+      "ofa_caption_3",
+      "ofa_caption_4",
+      "ofa_caption_5",
+      "ofa_caption_6",
+      "ofa_caption_7"
+    ],
+    "sound_mplug": "sound_mplug_caption",
+    "raw": "raw_caption#hashtags"
+  },
+  ...
+}
+```
+
+### Depth and Infrared (Thermal)
+We are currently organizing the depth and infrared (thermal), but based on a conservative estimate, it's approximately **20T**. Please be patient as we work on it.
