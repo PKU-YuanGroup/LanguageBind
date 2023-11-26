@@ -21,4 +21,4 @@ TORCH_DISTRIBUTED_DEBUG=DETAIL HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 torc
     --precision "amp" --workers 10 --video-decode-backend "imgs" \
     --save-frequency 1 --log-every-n-steps 20 --report-to "tensorboard" --resume ${RESUME} \
     --do_eval \
-    --val_t_cls_data "LLVIP" "FLIRV1" "FLIRV2" "LSOTB"
+    --val_t_cls_data "LLVIP" "FLIRV1" "FLIRV2" 
