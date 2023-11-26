@@ -18,7 +18,7 @@ We are releasing sample data here so that individuals who are interested can fur
 ## VIDAL-10M
 
 ### Text and Video
-Due to policy restrictions, we are unable to directly release the videos. However, we provide the YouTube IDs, which can be used to download the videos independently. All textual sources and YouTube IDs can be downloaded from [Google Disk]() or [Baidu Disk](https://pan.baidu.com/s/13gY-IcFSFIuDZ-q0hMTx0g?pwd=gum9).
+Due to policy restrictions, we are unable to directly release the videos. However, we provide the YouTube IDs, which can be used to download the videos independently. All textual sources and YouTube IDs can be downloaded from [Google Disk](https://drive.google.com/file/d/1qgm3rO9JugazLJ6KRsAKZfLIagHu3PJ-/view?usp=sharing) or [Baidu Disk](https://pan.baidu.com/s/13gY-IcFSFIuDZ-q0hMTx0g?pwd=gum9).
 
 The organization format of `ANNOTATION` is as follows:
 ```Bash
