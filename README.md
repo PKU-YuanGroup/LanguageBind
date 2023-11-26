@@ -36,13 +36,13 @@
 
 
 ## 📰 News
-* **[2023.11.26]**  We have open-sourced all textual sources and corresponding YouTube IDs [here](DATASETS.md).
-* **[2023.11.26]**  📣📣📣We have open-sourced fully fine-tuned **Video & Audio**, achieving improved performance once again, checking our [model zoo](#-model-zoo). 
+* **[2023.11.26]**  💥💥💥 We have open-sourced all textual sources and corresponding YouTube IDs [here](DATASETS.md).
+* **[2023.11.26]**  📣📣📣 We have open-sourced fully fine-tuned **Video & Audio**, achieving improved performance once again, checking our [model zoo](#-model-zoo). 
 * **[2023.11.22]**  We are about to release a fully fine-tuned version, and the **HUGE** version is currently undergoing training.
 * **[2023.11.21]**  💥 We are releasing sample data in [DATASETS.md](DATASETS.md) so that individuals who are interested can further modify the code to train it on their own data.
-* **[2023.11.20]**  🚀🚀🚀[Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA) builds a large visual-language model to achieve 🎉SOTA performances based on LanguageBind encoders.
-* **[2023.10.23]**  🎶 LanguageBind-Audio achieves 🎉🎉🎉**state-of-the-art (SOTA) performance on 5 datasets**, checking our ✨[results](#multiple-modalities)!
-* **[2023.10.14]**  😱 Released a stronger LanguageBind-Video, checking our ✨[results](#video-language)! The video checkpoint **have updated** on Huggingface Model Hub!
+* **[2023.11.20]**  🚀🚀🚀 [Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA) builds a large visual-language model to achieve 🎉SOTA performances based on LanguageBind encoders.
+* **[2023.10.23]**  🎶 LanguageBind-Audio achieves 🎉🎉🎉**state-of-the-art (SOTA) performance on 5 datasets**, checking our ✨ [results](#multiple-modalities)!
+* **[2023.10.14]**  😱 Released a stronger LanguageBind-Video, checking our ✨ [results](#video-language)! The video checkpoint **have updated** on Huggingface Model Hub!
 * **[2023.10.10]**  We provide sample data, which can be found in [assets](assets), and [emergency zero-shot usage](#emergency-zero-shot) is described. 
 * **[2023.10.07]**  The checkpoints are available on 🤗 [Huggingface Model](https://huggingface.co/LanguageBind).
 * **[2023.10.04]**  Code and [demo](https://huggingface.co/spaces/LanguageBind/LanguageBind) are available now! Welcome to **watch** 👀 this repository for the latest updates.
