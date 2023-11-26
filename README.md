@@ -319,10 +319,10 @@ If you find our paper and code useful in your research, please consider giving a
 }
 ```
 
-
+<!--
 ## ✨ Star History
 
-[![Star History](https://api.star-history.com/svg?repos=PKU-YuanGroup/LanguageBind&type=Date)](https://star-history.com/#PKU-YuanGroup/LanguageBind&Date)
+[![Star History](https://api.star-history.com/svg?repos=PKU-YuanGroup/LanguageBind&type=Date)](https://star-history.com/#PKU-YuanGroup/LanguageBind&Date)-->
 
 ## Contributors
 
