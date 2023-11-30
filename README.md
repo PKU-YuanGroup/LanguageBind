@@ -20,7 +20,7 @@
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/LanguageBind?color=success&label=Issues)](https://github.com/PKU-YuanGroup/LanguageBind/issues?q=is%3Aissue+is%3Aclosed)  <br>
    
 </h5>
-
+<!-- 1 -->
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-environment-sound-classification-on-1)](https://paperswithcode.com/sota/zero-shot-environment-sound-classification-on-1?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-audio-classification-on-audioset)](https://paperswithcode.com/sota/zero-shot-audio-classification-on-audioset?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-audio-classification-on-vgg-sound)](https://paperswithcode.com/sota/zero-shot-audio-classification-on-vgg-sound?p=languagebind-extending-video-language) <br>
