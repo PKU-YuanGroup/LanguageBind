@@ -5,7 +5,7 @@
 <h2 align="center"> <a href="https://arxiv.org/pdf/2310.01852.pdf">LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment</a></h2>
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for latest update.  </h2>
 
-
+ 
 <h5 align="center">
 
 [![hf_space](https://img.shields.io/badge/🤗-Open%20In%20Spaces-blue.svg)](https://huggingface.co/spaces/LanguageBind/LanguageBind)
