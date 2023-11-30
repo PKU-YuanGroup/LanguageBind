@@ -138,8 +138,7 @@ You can freely replace them in the recommended [API usage](#-api). We recommend 
 </div>
 
 ## 🤖 API
-**We open source all modalities preprocessing code.** If you want to load the model (e.g. ```LanguageBind/LanguageBind_Thermal```) from the model hub on Huggingface or on local, you can use the following code snippets.
-
+**We open source all modalities preprocessing code.** If you want to load the model (e.g. ```LanguageBind/LanguageBind_Thermal```) from the model hub on Huggingface or on local, you can use the following code snippets!
 ### Inference for Multi-modal Binding 
 We have provided some sample datasets in [assets](assets) to quickly see how languagebind works.
 ```python
