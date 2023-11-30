@@ -35,6 +35,7 @@
 
 
 ## 📰 News
+* **[2023.11.27]**  🔥🔥🔥 We have updated our [paper](https://arxiv.org/abs/2310.01852) with emergency zero-shot results., checking our ✨ [results](#emergency-results).
 * **[2023.11.26]**  💥💥💥 We have open-sourced all textual sources and corresponding YouTube IDs [here](DATASETS.md).
 * **[2023.11.26]**  📣📣📣 We have open-sourced fully fine-tuned **Video & Audio**, achieving improved performance once again, checking our [model zoo](#-model-zoo). 
 * **[2023.11.22]**  We are about to release a fully fine-tuned version, and the **HUGE** version is currently undergoing training.
@@ -96,6 +97,11 @@ Video-Language, Infrared-Language, Depth-Language, and Audio-Language zero-shot 
 We report text-to-audio results for retrieval, * donates the results of full tuning.
 <p align="left">
 <img src="assets/res2.jpg" width=35%>
+</p>
+
+### Emergency results
+<p align="left">
+<img src="assets/emergency.jpg" width=60%>
 </p>
 
 ## 🛠️ Requirements and Installation
