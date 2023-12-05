@@ -8,7 +8,7 @@ For example, to **train** LanguageBind on **Depth-Language** with 8 GPUs (1 node
 * Then you can run
 
 ```bash
-CACHE_DIR="path/to/pretrained/weight"
+CACHE_DIR="/path/to/LanguageBind"
 ANNOTATION="path/to/data"
 cd /path/to/LanguageBind
 TORCH_DISTRIBUTED_DEBUG=DETAIL HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 torchrun --nnodes=1 --nproc_per_node 8 \
@@ -40,7 +40,7 @@ For example, to **validate** LanguageBind on **Depth-Language** with 1 GPUs.
 * Then you can run
 
 ```bash
-CACHE_DIR="path/to/pretrained/weight"
+CACHE_DIR="/path/to/LanguageBind"
 RESUME="thermal_language.pt"
 ANNOTATION="path/to/data"
 cd /path/to/LanguageBind
