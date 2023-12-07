@@ -6,7 +6,7 @@ cd /path/to/LanguageBind
 TORCH_DISTRIBUTED_DEBUG=DETAIL HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 torchrun --nnodes=$HOST_NUM --node_rank=$INDEX --nproc_per_node $HOST_GPU_NUM --master_addr $CHIEF_IP \
     -m main  \
     --train-data ${ANNOTATION} \
-    --train-num-samples 3020000 \
+    --train-num-samples 3020000 --add-time-attn \
     --clip-type "vl" \
     --do_train \
     --lock-text --lock-image --text-type "polish_mplug" \
