@@ -61,5 +61,6 @@ The organization format of `ANNOTATION` is as follows:
 }
 ```
 
-### Depth and Infrared (Thermal)
-We are currently organizing the depth and infrared (thermal), but based on a conservative estimate, it's approximately **20T**. Please be patient as we work on it.
+### Depth and Thermal (Infrared)
+
+We are uploading data to [Hugging Face](https://huggingface.co/datasets/LanguageBind/VIDAL-Depth-Thermal), but based on a conservative estimate, it's approximately **20T**. Please be patient as we work on it.
