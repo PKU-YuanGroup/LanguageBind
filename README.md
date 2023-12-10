@@ -8,6 +8,7 @@
 <h5 align="center">
      
 [![hf_space](https://img.shields.io/badge/🤗-Open%20In%20Spaces-blue.svg)](https://huggingface.co/spaces/LanguageBind/LanguageBind)
+[![Dataset meta](https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-VIDAL-blue)](https://huggingface.co/datasets/LanguageBind/VIDAL-Depth-Thermal) 
 [![arXiv](https://img.shields.io/badge/Arxiv-2310.01852-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2310.01852)
 [![wechat](https://img.shields.io/badge/量子位%20-black)](https://mp.weixin.qq.com/s/EFqLv_Euf5VU024zOtzkkg)
 [![jiqizhixin](https://img.shields.io/badge/机器之心%20-black)](https://mp.weixin.qq.com/s/E5Tazm_vz1CADMwV0tdhnw)
@@ -35,6 +36,7 @@
 
 
 ## 📰 News
+* **[2023.12.10]**  We expand the 💥💥💥VIDAL dataset and now have **10M depth and 10M thermal data**. We are in the process of uploading thermal and depth data on [Hugging Face](https://huggingface.co/datasets/LanguageBind/VIDAL-Depth-Thermal) and expect the whole process to last 1-2 months.
 * **[2023.11.27]**  🔥🔥🔥 We have updated our [paper](https://arxiv.org/abs/2310.01852) with emergency zero-shot results., checking our ✨ [results](#emergency-results).
 * **[2023.11.26]**  💥💥💥 We have open-sourced all textual sources and corresponding YouTube IDs [here](DATASETS.md).
 * **[2023.11.26]**  📣📣📣 We have open-sourced fully fine-tuned **Video & Audio**, achieving improved performance once again, checking our [model zoo](#-model-zoo). 
