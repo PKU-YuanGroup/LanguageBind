@@ -36,6 +36,7 @@
 
 
 ## 📰 News
+* **[2023.12.15]**  💪💪💪 We improve video performance and launch LanguageBind_Video 1.5, checking our [model zoo](#-model-zoo). 
 * **[2023.12.10]**  We expand the 💥💥💥 VIDAL dataset and now have **10M depth and 10M thermal data**. We are in the process of uploading thermal and depth data on [Hugging Face](https://huggingface.co/datasets/LanguageBind/VIDAL-Depth-Thermal) and expect the whole process to last 1-2 months.
 * **[2023.11.27]**  🔥🔥🔥 We have updated our [paper](https://arxiv.org/abs/2310.01852) with emergency zero-shot results., checking our ✨ [results](#emergency-results).
 * **[2023.11.26]**  💥💥💥 We have open-sourced all textual sources and corresponding YouTube IDs [here](DATASETS.md).
@@ -127,19 +128,46 @@ You can freely replace them in the recommended [API usage](#-api). We recommend 
 <div align="center">
 <table border="1" width="100%">
     <tr align="center">
-        <th>Modality</th><th>LoRA tuning</th><th>Fine-tuning</th><th>Fine-tuning (Huge)</th>
+        <th>Modality</th><th>LoRA tuning</th><th>Fine-tuning</th>
     </tr>
     <tr align="center">
-        <td>Video</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Video">LanguageBind_Video</a></td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Video_FT">LanguageBind_Video_FT</a></td><td>Coming soon</td>
+        <td>Video</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Video">LanguageBind_Video</a></td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Video_FT">LanguageBind_Video_FT</a></td>
     </tr>
     <tr align="center">
-        <td>Audio</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Audio">LanguageBind_Audio</a></td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Audio_FT">LanguageBind_Audio_FT</a></td><td>Coming soon</td>
+        <td>Audio</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Audio">LanguageBind_Audio</a></td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Audio_FT">LanguageBind_Audio_FT</a></td>
     </tr>
     <tr align="center">
-        <td>Depth</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Depth">LanguageBind_Depth</a></td><td>-</td><td>-</td>
+        <td>Depth</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Depth">LanguageBind_Depth</a></td><td>-</td>
     </tr>
     <tr align="center">
-        <td>Thermal</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Thermal">LanguageBind_Thermal</a></td><td>-</td><td>-</td>
+        <td>Thermal</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Thermal">LanguageBind_Thermal</a></td><td>-</td>
+    </tr>
+</table>
+</div>
+
+
+<div align="center">
+<table border="1" width="100%">
+    <tr align="center">
+        <th>Version</th><th>Tuning</th><th>Model size</th><th>Num_frames</th><th>HF Link</th>
+    </tr>
+    <tr align="center">
+        <td>LanguageBind_Video</td><td>LoRA</td><td>Large</td><td>8</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Video">Link</a></td>
+    </tr>
+    <tr align="center">
+        <td>LanguageBind_Video_FT</td><td>Full-tuning</td><td>Large</td><td>8</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Video_FT">Link</a></td>
+    </tr>
+    <tr align="center">
+        <td>LanguageBind_Video_V1.5_FT</td><td>Full-tuning</td><td>Large</td><td>8</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Video_V1.5_FT">Link</a></td>
+    </tr>
+    <tr align="center">
+        <td>LanguageBind_Video_V1.5_FT</td><td>Full-tuning</td><td>Large</td><td>12</td><td>Coming soon</td>
+    </tr>
+    <tr align="center">
+        <td>LanguageBind_Video_Huge_V1.5_FT</td><td>Full-tuning</td><td>Huge</td><td>8</td><td><a href="https://huggingface.co/LanguageBind/LanguageBind_Video_Huge_V1.5_FT">Link</a></td>
+    </tr>
+    <tr align="center">
+        <td>LanguageBind_Video_Huge_V1.5_FT</td><td>Full-tuning</td><td>Huge</td><td>12</td><td>Coming soon</td>
     </tr>
 </table>
 </div>
