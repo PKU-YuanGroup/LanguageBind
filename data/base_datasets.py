@@ -9,6 +9,7 @@ import time
 
 import pandas as pd
 
+from a_cls.dataloader import make_midname_dict
 from open_clip import get_tokenizer
 from open_clip.factory import HF_HUB_PREFIX
 from .process_video import load_and_transform_video, get_video_transform
@@ -23,7 +24,87 @@ from torch.utils.data import Dataset, DataLoader
 from tqdm import tqdm
 
 
+def get_audio_anno():
+    id2path_cap = {}
+    use_pond5 = True
+    use_laionaudio = True
+    use_audioset_balance, use_audioset_unbalance = True, True  # True, False
+    use_audiojungle = True
+    if use_pond5:
+        # print(len(id2path_cap)) # 181w pond5
+        pond5_data_root = '/apdcephfs_cq3/share_1311970/AAA_audio_dataset'
+        dataset_json_file = r'/apdcephfs_cq3/share_1311970/decord_video_filter/AAA_pond5_audio_id_1817349.json'
+        with open(dataset_json_file, 'r') as f:
+            data_json = json.load(f)
+        pond5_id2path_cap = {len(id2path_cap) + i: {
+            'path': f"{pond5_data_root}/{v['path'].replace('Download_pond5_audiodata', 'Download_pond5_audiodata_ffmpeg')}",
+            'caption': v['description'].strip()} for i, v in tqdm(enumerate(data_json.values()))}
+        id2path_cap.update(pond5_id2path_cap)
 
+    if use_audioset_balance:
+        # print(len(id2path_cap)) # 2w unbalance
+        audioset_data_root = r'/apdcephfs_cq3/share_1311970/downstream_datasets/Audio/audioset/balanced_train_segments'
+        dataset_json_file = r'/apdcephfs_cq3/share_1311970/downstream_datasets/Audio/audioset/filter_balanced_train_segments.json'
+        label_csv = '/apdcephfs_cq3/share_1311970/downstream_datasets/Audio/audioset/class_labels_indices.csv'
+        with open(dataset_json_file, 'r') as fp:
+            data_json = json.load(fp)
+        data = data_json['data']
+        index_dict = make_midname_dict(label_csv)
+        audioset_id2path_cap = {len(id2path_cap) + i: {
+            'path': f"{audioset_data_root}/{v['wav']}",
+            'caption': 'a sound of ' + ', '.join([index_dict[j] for j in v['labels'].split(',')]) + '.'
+        } for i, v in tqdm(enumerate(data))}
+        audioset_id2path_cap = {k: v for k, v in audioset_id2path_cap.items() if os.path.exists(v['path'])}
+        id2path_cap.update(audioset_id2path_cap)
+
+    if use_audioset_unbalance:
+        # print(len(id2path_cap)) # 191w unbalance
+        audioset_data_root = r'/apdcephfs_cq3/share_1311970/downstream_datasets/Audio/audioset/unbalanced_train_segments'
+        dataset_json_file = r'/apdcephfs_cq3/share_1311970/downstream_datasets/Audio/audioset/filter_unbalanced_train_segments.json'
+        # dataset_json_file = r'/apdcephfs_cq3/share_1311970/downstream_datasets/Audio/audioset/unbalanced_train_segments.json'
+        label_csv = '/apdcephfs_cq3/share_1311970/downstream_datasets/Audio/audioset/class_labels_indices.csv'
+        with open(dataset_json_file, 'r') as fp:
+            data_json = json.load(fp)
+        data = data_json['data']
+        index_dict = make_midname_dict(label_csv)
+        audioset_id2path_cap = {len(id2path_cap) + i: {
+            'path': f"{audioset_data_root}/{v['wav']}",
+            'caption': 'a sound of ' + ', '.join([index_dict[j] for j in v['labels'].split(',')]) + '.'
+        } for i, v in tqdm(enumerate(data))}
+        # print(audioset_id2path_cap)
+        id2path_cap.update(audioset_id2path_cap)
+
+    if use_laionaudio:
+        # print(len(id2path_cap)) # 41w laionaudio
+        laionaudio_data_root = r'/apdcephfs_cq3/share_1311970/downstream_datasets/Audio/laionaudio/audios'
+        dataset_json_file = r'/apdcephfs_cq3/share_1311970/downstream_datasets/Audio/laionaudio/laionaudio_nooverlap_train.json'
+        with open(dataset_json_file, 'r') as fp:
+            data_json = json.load(fp)
+        data = data_json['data']
+        audioset_id2path_cap = {len(id2path_cap) + i: {
+            'path': f"{laionaudio_data_root}/{v['path']}",
+            'caption': v['text']
+        } for i, v in tqdm(enumerate(data))}
+        # print(audioset_id2path_cap)
+        id2path_cap.update(audioset_id2path_cap)
+
+    if use_audiojungle:
+        # print(len(id2path_cap)) # 68w audiojungle
+        audiojungle_data_root = r'/apdcephfs_cq3/share_1311970/AAA_audio_dataset'
+        dataset_json_file = r'/apdcephfs_cq3/share_1311970/AAA_audio_dataset/Task1_audiojungle_datainfo.json'
+        with open(dataset_json_file, 'r') as fp:
+            data = json.load(fp)
+        audiojungle_id2path_cap = {len(id2path_cap) + i: {
+            'path': f"{audiojungle_data_root}/{v['path']}",
+            'caption': v['description']
+        } for i, v in tqdm(enumerate(data.values()))}
+        # print(audioset_id2path_cap)
+        id2path_cap.update(audiojungle_id2path_cap)
+
+    # self.id2path_cap = {k: v for k, v in id2path_cap.items() if os.path.exists(v['path'])}
+    id2path_cap = id2path_cap
+    ids = list(id2path_cap.keys())
+    return id2path_cap, ids
 
 class VAT_dataset(Dataset):
     def __init__(self, args):
@@ -35,9 +116,12 @@ class VAT_dataset(Dataset):
         self.weight = [0.2, 0.2, 0.2, 0.2] + [0.2 / 8] * 8
         self.title = self.text_type == 'raw'
         self.data_root = '/apdcephfs_cq3/share_1311970/A_Youtube'
-        with open(args.train_data, 'r') as f:
-            self.id2title_folder_caps = json.load(f)
-        self.ids = list(self.id2title_folder_caps.keys())[:args.train_num_samples]
+        if args.clip_type != 'al':
+            with open(args.train_data, 'r') as f:
+                self.id2title_folder_caps = json.load(f)
+            self.ids = list(self.id2title_folder_caps.keys())[:args.train_num_samples]
+        else:
+            self.id2path_cap, self.ids = get_audio_anno()
 
         self.clip_type = args.clip_type
 
@@ -61,43 +145,64 @@ class VAT_dataset(Dataset):
 
 
     def __getitem__(self, idx):
-        id = self.ids[idx]
-        folder = self.id2title_folder_caps[id]['folder']
         try:
-            text_output, ofa_number = self.get_text(id)
-            input_ids, attention_mask = text_output['input_ids'], text_output['attention_mask']
-            if self.clip_type == 'vl' or self.clip_type == 'vl_new':
-                matched_modality = self.get_video(id, folder)
-            elif self.clip_type == 'al':
-                matched_modality = self.get_audio(id, folder)
-            elif self.clip_type == 'dl':
-                matched_modality = self.get_depth(id, folder, ofa_number)
-            elif self.clip_type == 'tl':
-                matched_modality = self.get_thermal(id, folder, ofa_number)
-            return matched_modality['pixel_values'], input_ids, attention_mask
+            if self.clip_type == 'al':
+                matched_modality, input_ids, attention_mask = self.get_audio_text(idx)
+                return matched_modality, input_ids, attention_mask
+            else:
+                id = self.ids[idx]
+                folder = self.id2title_folder_caps[id]['folder']
+                text_output, ofa_number = self.get_text(id)
+                input_ids, attention_mask = text_output['input_ids'], text_output['attention_mask']
+                if self.clip_type == 'vl' or self.clip_type == 'vl_new':
+                    matched_modality = self.get_video(id, folder)
+                # elif self.clip_type == 'al':
+                #     matched_modality = self.get_audio(id, folder)
+                elif self.clip_type == 'dl':
+                    matched_modality = self.get_depth(id, folder, ofa_number)
+                elif self.clip_type == 'tl':
+                    matched_modality = self.get_thermal(id, folder, ofa_number)
+                return matched_modality['pixel_values'], input_ids, attention_mask
         except Exception as error_msg:
-            logging.info(f"Failed at {id} with \"{error_msg}\"")
+            logging.info(f"Failed at {idx} with \"{error_msg}\"")
             return self.__getitem__(random.randint(0, self.__len__()-1))
 
     def get_video(self, id, folder):
-        video_path = opj(self.data_root, folder, f'{id}.mp4')
-        # resize_folder = 'new_download_resize256_skip15' if folder.startswith('new_') else f'{folder}_resize256_skip15'
-        # video_path = opj(self.data_root, resize_folder, f'{id}.mp4')
+        # video_path = opj(self.data_root, folder, f'{id}.mp4')
+        resize_folder = 'new_download_resize256_skip15' if folder.startswith('new_') else f'{folder}_resize256_skip15'
+        video_path = opj(self.data_root, resize_folder, f'{id}.mp4')
         video = load_and_transform_video(video_path, self.video_transform,
                                          video_decode_backend=self.video_decode_backend, num_frames=self.num_frames)
         return video
 
-    def get_audio(self, id, folder):
+    def get_audio_text(self, idx):
+
+        path_cap = self.id2path_cap[self.ids[idx]]
+        audio_path = path_cap['path']
+        audio_data = load_and_transform_audio(audio_path, self.audio_transform)
+
+        caption = path_cap['caption']
+        if isinstance(caption, list):
+            if isinstance(caption[0], str) and len(caption) > 1:
+                caption = random.choice(caption)
+            else:
+                caption = caption[0]
+
+        input_ids, attention_mask = self.tokenizer(caption)
+
+        return audio_data, input_ids.squeeze(), attention_mask.squeeze()
+
+        # def get_audio(self, idx):
         '''
         audio_path = opj(self.data_root, folder, f'{id}.mp3')
         if os.path.exists(audio_path):
             pass
         else:
-            audio_path = audio_path[:-4] + '.wav'
+            audio_path = audio_path[:-4] + '.m4a'
             if os.path.exists(audio_path):
                 pass
             else:
-                audio_path = audio_path[:-4] + '.m4a'
+                audio_path = audio_path[:-4] + '.wav'
                 if not os.path.exists(audio_path):
                     # self.audio_error_file.write(audio_path[:-4] + '\n')
                     raise FileNotFoundError(f'Not found audio file at \'{audio_path[:-4]}\' with .mp3 .m4a .wav')
@@ -106,11 +211,31 @@ class VAT_dataset(Dataset):
         audio = load_and_transform_audio(audio_path, self.audio_transform)
         '''
 
-        audio_path = opj(self.data_root, folder+'_ffmpeg_mp3', f'{id}.mp3')
-        audio = load_and_transform_audio(audio_path, self.audio_transform)
+        # audio_path = opj(self.data_root, folder+'_ffmpeg_mp3', f'{id}.mp3')
+        # audio = load_and_transform_audio(audio_path, self.audio_transform)
 
 
-        return audio
+        '''
+        audiocap_id = self.meta['uniq_id'][idx]
+        audio_path = f'/apdcephfs_cq3/share_1311970/downstream_datasets/Audio/audiocaps/audio/train/{audiocap_id}.flac'
+        audio_data = load_and_transform_audio(audio_path, self.audio_transform)
+
+        caption = self.meta['text'][idx]
+        input_ids, attention_mask = self.tokenizer(caption)
+        return audio_data, input_ids.squeeze(), attention_mask.squeeze()
+        '''
+
+        '''
+        path_cap = self.id2path_cap[self.ids[idx]]
+        audio_path = f"/remote-home/freesound/{path_cap['path']}"
+        audio_data = load_and_transform_audio(audio_path, self.audio_transform)
+
+        caption = path_cap['caption']
+        input_ids, attention_mask = self.tokenizer(caption)
+        '''
+
+        # return audio
+
 
     def get_text(self, id):
         if self.text_type != 'mix':

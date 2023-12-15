@@ -195,8 +195,11 @@ class CLIPVisionEmbeddings3D(nn.Module):
         state_dict_expand = state_dict['weight'].unsqueeze(2)
         device, dtype = state_dict_expand.device, state_dict_expand.dtype
         # print(device, dtype)
+
         zero = torch.zeros_like(state_dict_expand).to(device=device, dtype=dtype)
         state_dict_expand3d = torch.cat([state_dict_expand] + (self.tube_size-1)*[zero], dim=2)
+
+        # state_dict_expand3d = torch.cat([state_dict_expand / self.tube_size] * self.tube_size, dim=2)
 
         patch_embedding = nn.Conv3d(
             in_channels=self.patch_embedding.in_channels,
@@ -217,8 +220,9 @@ class CLIPVisionEmbeddings3D(nn.Module):
         # (b t) c h w
         batch_size = pixel_values.shape[0] // self.num_frames
         pixel_values = rearrange(pixel_values, '(b t) c h w -> b c t h w', b=batch_size, t=self.num_frames)
-
+        # print('pixel_values', pixel_values.shape)
         patch_embeds = self.patch_embedding(pixel_values)  # shape = [*, width, t, grid, grid]
+        # print('patch_embeds', patch_embeds.shape)
         # SET_GLOBAL_VALUE('NUM_FRAMES', patch_embeds.shape[2])
         patch_embeds = rearrange(patch_embeds, 'b c t h w -> b t (h w) c')
 
@@ -280,6 +284,7 @@ class CLIPModel(HFCLIPModel):
             B, _, _, _ = pixel_values.shape
             T = 1
         hidden_states = self.vision_model.embeddings(pixel_values)
+        # print('hidden_states', hidden_states.shape)
         #
         # if self.temporal_embedding is not None and get_global_value()['NUM_FRAMES'] != 1:
         #     n = hidden_states.shape[1]
@@ -287,8 +292,9 @@ class CLIPModel(HFCLIPModel):
         #     hidden_states = hidden_states + self.temporal_embedding[:, :T, :]
         #     hidden_states = rearrange(hidden_states, '(b n) t d -> (b t) n d', n=n)
         T = self.T
+        # print('B.shape, T.shape', B.shape, T.shape)
         hidden_states = self.vision_model.patch_dropout(hidden_states, B, T)
-        # print(hidden_states.shape)
+        # print('patch_dropout', hidden_states.shape)
         hidden_states = self.vision_model.pre_layrnorm(hidden_states)
 
         encoder_outputs = self.vision_model.encoder(

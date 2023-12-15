@@ -1,11 +1,11 @@
 import logging
 import argparse
 import os.path
-
 import numpy as np
 import torch
 from torch import nn
-from transformers import AutoConfig
+from transformers import AutoConfig, CLIPPreTrainedModel
+
 
 from model.base_model import CLIPModel
 from model.process_clip import add_time_attn_block, convert_model_to_lora, set_global_value, resize_pos

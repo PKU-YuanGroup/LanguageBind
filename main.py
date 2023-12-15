@@ -11,6 +11,7 @@ import numpy as np
 import torch
 from torch import optim
 from torch.cuda.amp import GradScaler
+from transformers import CLIPPreTrainedModel
 
 from a_cls.zeroshot_cls import evaluate_a_cls
 from al_ret.retrieval import evaluate_al_ret
@@ -301,58 +302,45 @@ def main(args):
 
     # if args.trace:
     #     model = trace_model(model, batch_size=args.batch_size, device=device)
-
     if args.lock_image:
-        # if args.clip_type == 'al' or args.clip_type == 'dl':
-        #     for param in model.vision_model.embeddings.parameters():
-        #         param.requires_grad = True
-        #     for param in model.vision_model.pre_layrnorm.parameters():
-        #         param.requires_grad = True
-        # else:
         for param in model.vision_model.embeddings.parameters():
             param.requires_grad = False
         for param in model.vision_model.pre_layrnorm.parameters():
             param.requires_grad = False
-    for param in model.vision_model.embeddings.position_embedding.parameters():
-        param.requires_grad = False
-    if args.clip_type == 'vl_new':
+
+    if not args.convert_to_lora:
         for param in model.vision_model.embeddings.parameters():
             param.requires_grad = False
-        for param in model.vision_model.embeddings.position_embedding.parameters():
+        for param in model.vision_model.pre_layrnorm.parameters():
             param.requires_grad = False
-    # else:
-    #     for param in model.vision_model.embeddings.parameters():
-    #         param.requires_grad = True
-    #     for param in model.vision_model.pre_layrnorm.parameters():
-    #         param.requires_grad = True
-    #     for param in model.vision_model.post_layernorm.parameters():
-    #         param.requires_grad = True
-    #     for param in model.visual_projection.parameters():
-    #         param.requires_grad = True
+        if args.add_time_attn:
+            for name, param in model.vision_model.encoder.layers.named_parameters():
+                if 'temporal' in name:
+                    param.requires_grad = True
+                else:
+                    param.requires_grad = False
+        else:
+            for name, param in model.vision_model.encoder.layers.named_parameters():
+                if 'self_attn' in name:
+                    param.requires_grad = True
+                else:
+                    param.requires_grad = False
+    else:
+        if args.add_time_attn:
+            for name, param in model.vision_model.encoder.layers.named_parameters():
+                if 'temporal_embedding' in name or 'temporal_layer_norm1' in name:
+                    param.requires_grad = True
 
+    for param in model.vision_model.embeddings.position_embedding.parameters():
+        param.requires_grad = False
     model.vision_model.embeddings.class_embedding.requires_grad = True
-    if args.add_time_attn:
-        for name, param in model.vision_model.encoder.layers.named_parameters():
-            if 'temporal' in name:
-                param.requires_grad = True
-            else:
-                param.requires_grad = False
 
-    # if args.add_time_attn and args.unlock_time_attn:
-    #     model.unlock_time_attn()
 
     if args.lock_text:
         for param in model.text_model.parameters():
             param.requires_grad = False
         for param in model.text_projection.parameters():
             param.requires_grad = False
-    # else:
-    #     for param in model.text_model.embeddings.parameters():
-    #         param.requires_grad = True
-    #     for param in model.text_model.final_layer_norm.parameters():
-    #         param.requires_grad = True
-    #     for param in model.text_projection.parameters():
-    #         param.requires_grad = True
 
     model.logit_scale.requires_grad = args.learn_temp
 
@@ -360,7 +348,16 @@ def main(args):
         print_trainable_parameters(model, msg='The model: ')
 
     if args.grad_checkpointing:
-        model.set_grad_checkpointing()
+        # model.text_model.encoder.gradient_checkpointing = args.grad_checkpointing
+        model.vision_model.encoder.gradient_checkpointing = args.grad_checkpointing
+        # if args.clip_type == 'vl_new':
+        #     for m in model.vision_model.encoder.layers:
+        #         m.gradient_checkpointing = args.grad_checkpointing
+        # elif args.clip_type == 'al':
+        #     model.vision_model.encoder.gradient_checkpointing = args.grad_checkpointing
+        #     for m in model.vision_model.encoder.layers:
+        #         m.gradient_checkpointing = False
+
 
     if is_master(args):
         logging.info("Model:")
@@ -390,7 +387,7 @@ def main(args):
     # if args.train_data or args.dataset_type == "synthetic":
     assert not args.trace, 'Cannot train with traced model'
 
-    no_decay = lambda n, p: p.ndim < 2 or "bn" in n or "ln" in n or "bias" in n or 'logit_scale' in n or 'class_embedding' in n
+    no_decay = lambda n, p: p.ndim < 2 or "bn" in n or "ln" in n or "bias" in n or 'logit_scale' in n or 'class_embedding' in n or 'patch_embedding' in n
     decay = lambda n, p: not no_decay(n, p)
 
     lora = lambda n, p: "lora" in n
@@ -461,9 +458,14 @@ def main(args):
             sd = checkpoint["state_dict"]
             if not args.distributed and next(iter(sd.items()))[0].startswith('module'):
                 sd = {k[len('module.'):]: v for k, v in sd.items()}
-            model.load_state_dict(sd)
+            miss, unexpect = model.load_state_dict(sd, strict=False)
+            # print(miss, unexpect)
+            assert unexpect == [] or unexpect == ['text_model.embeddings.position_ids'] or unexpect == ['module.text_model.embeddings.position_ids']
+            if unexpect == ['text_model.embeddings.position_ids'] or unexpect == ['module.text_model.embeddings.position_ids']:
+                logging.warning(f"Unexpected key: {unexpect}")
             if optimizer is not None:
-                optimizer.load_state_dict(checkpoint["optimizer"])
+                if args.do_train:
+                    optimizer.load_state_dict(checkpoint["optimizer"])
             if scaler is not None and 'scaler' in checkpoint:
                 scaler.load_state_dict(checkpoint['scaler'])
             logging.info(f"=> resuming checkpoint '{args.resume}' (epoch {start_epoch})")
@@ -537,35 +539,25 @@ def main(args):
             convert_int8_model_to_inference_mode(model)
         # Evaluate.
         if "i_cls" in data:
-            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             evaluate_i_cls(model, data, start_epoch, args, writer)
-            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         if "vl_ret" in data:
             for sub_data in data['vl_ret']:
                 evaluate_vl_ret(model, sub_data, start_epoch, args, writer)
         if "a_cls" in data:
-            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             for sub_data in data['a_cls']:
                 evaluate_a_cls(model, sub_data, start_epoch, args, writer)
-            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         if "al_ret" in data:
-            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             for sub_data in data['al_ret']:
                 evaluate_al_ret(model, sub_data, start_epoch, args, writer)
-            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         if "v_cls" in data:
             for sub_data in data['v_cls']:
                 evaluate_v_cls(model, sub_data, start_epoch, args, writer)
         if "d_cls" in data:
-            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             for sub_data in data['d_cls']:
                 evaluate_d_cls(model, sub_data, start_epoch, args, writer)
-            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         if "t_cls" in data:
-            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             for sub_data in data['t_cls']:
                 evaluate_t_cls(model, sub_data, start_epoch, args, writer)
-            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         return
 
     loss = create_loss(args)
@@ -578,35 +570,25 @@ def main(args):
         completed_epoch = epoch + 1
 
         if "i_cls" in data:
-            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             evaluate_i_cls(model, data, completed_epoch, args, writer)
-            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         if "vl_ret" in data:
             for sub_data in data['vl_ret']:
                 evaluate_vl_ret(model, sub_data, completed_epoch, args, writer)
         if "a_cls" in data:
-            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             for sub_data in data['a_cls']:
                 evaluate_a_cls(model, sub_data, completed_epoch, args, writer)
-            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         if "al_ret" in data:
-            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             for sub_data in data['al_ret']:
                 evaluate_al_ret(model, sub_data, completed_epoch, args, writer)
-            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         if "v_cls" in data:
             for sub_data in data['v_cls']:
                 evaluate_v_cls(model, sub_data, completed_epoch, args, writer)
         if "d_cls" in data:
-            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             for sub_data in data['d_cls']:
                 evaluate_d_cls(model, sub_data, completed_epoch, args, writer)
-            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
         if "t_cls" in data:
-            SET_GLOBAL_VALUE('NUM_FRAMES', 1)
             for sub_data in data['t_cls']:
                 evaluate_t_cls(model, sub_data, completed_epoch, args, writer)
-            SET_GLOBAL_VALUE('NUM_FRAMES', args.num_frames)
 
         # Saving checkpoints.
         if args.save_logs:

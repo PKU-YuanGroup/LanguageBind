@@ -123,9 +123,9 @@ class LSMDC_DataLoader(Dataset):
     def _get_text(self, video_id, caption):
         k = 1
         choice_video_ids = [video_id]
-        pairs_text = np.zeros((k, self.max_words), dtype=np.long)
-        pairs_mask = np.zeros((k, self.max_words), dtype=np.long)
-        pairs_segment = np.zeros((k, self.max_words), dtype=np.long)
+        pairs_text = np.zeros((k, self.max_words), dtype=np.int64)
+        pairs_mask = np.zeros((k, self.max_words), dtype=np.int64)
+        pairs_segment = np.zeros((k, self.max_words), dtype=np.int64)
 
         for i, video_id in enumerate(choice_video_ids):
             words = self.tokenizer.tokenize(caption)
@@ -154,12 +154,12 @@ class LSMDC_DataLoader(Dataset):
         return pairs_text, pairs_mask, pairs_segment, choice_video_ids
 
     def _get_rawvideo(self, choice_video_ids):
-        video_mask = np.zeros((len(choice_video_ids), self.max_frames), dtype=np.long)
+        video_mask = np.zeros((len(choice_video_ids), self.max_frames), dtype=np.int64)
         max_video_length = [0] * len(choice_video_ids)
 
         # Pair x L x T x 3 x H x W
         video = np.zeros((len(choice_video_ids), self.max_frames, 1, 3,
-                          self.rawVideoExtractor.size, self.rawVideoExtractor.size), dtype=np.float)
+                          self.rawVideoExtractor.size, self.rawVideoExtractor.size), dtype=np.float32)
 
         try:
             for i, video_id in enumerate(choice_video_ids):

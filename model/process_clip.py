@@ -302,6 +302,7 @@ class CLIPEncoderLayer(SpatialCLIPEncoderLayer):
         # self.t_ffn_gate = nn.Parameter(torch.tensor([-20.]))
         self.temporal_layer_norm1 = nn.LayerNorm(self.embed_dim, eps=config.layer_norm_eps)
         # self.temporal_layer_norm2 = nn.LayerNorm(self.embed_dim, eps=config.layer_norm_eps)
+        self.gradient_checkpointing = False
 
     def forward(
         self,
@@ -321,7 +322,7 @@ class CLIPEncoderLayer(SpatialCLIPEncoderLayer):
                 returned tensors for more detail.
         """
 
-
+        # print('input hidden_states', hidden_states.requires_grad)
         bt, n, d = hidden_states.shape
         t = self.T
 
@@ -340,12 +341,44 @@ class CLIPEncoderLayer(SpatialCLIPEncoderLayer):
         hidden_states = rearrange(hidden_states, '(b t) n d -> (b n) t d', t=t)
         # hidden_states = self.layer_norm1(hidden_states)  # share layernorm
         hidden_states = self.temporal_layer_norm1(hidden_states)
+
+
+        # print('after t_norm hidden_states', hidden_states.requires_grad)
+
         hidden_states, attn_weights = self.temporal_attn(
             hidden_states=hidden_states,
             attention_mask=attention_mask,
             causal_attention_mask=causal_attention_mask,
             output_attentions=output_attentions,
         )
+
+        # if self.gradient_checkpointing and self.training:
+        #     # print(self.gradient_checkpointing, self.training)
+        #     def create_custom_forward(module):
+        #         def custom_forward(*inputs):
+        #             return module(*inputs, output_attentions)
+        #
+        #         return custom_forward
+        #
+        #     hidden_states, attn_weights = torch.utils.checkpoint.checkpoint(
+        #         create_custom_forward(self.temporal_attn),
+        #         hidden_states,
+        #         attention_mask,
+        #         causal_attention_mask,
+        #     )
+        # else:
+        #     hidden_states, attn_weights = self.temporal_attn(
+        #         hidden_states=hidden_states,
+        #         attention_mask=attention_mask,
+        #         causal_attention_mask=causal_attention_mask,
+        #         output_attentions=output_attentions,
+        #     )
+
+
+
+        # print('after t_attn hidden_states', hidden_states.requires_grad)
+
+
         hidden_states = residual + rearrange(hidden_states, '(b n) t d -> (b t) n d', n=n)
 
         # residual = hidden_states
@@ -359,17 +392,60 @@ class CLIPEncoderLayer(SpatialCLIPEncoderLayer):
         residual = hidden_states
 
         hidden_states = self.layer_norm1(hidden_states)
+
         hidden_states, attn_weights = self.self_attn(
             hidden_states=hidden_states,
             attention_mask=attention_mask,
             causal_attention_mask=causal_attention_mask,
             output_attentions=output_attentions,
         )
+
+        # print('after norm1 hidden_states', hidden_states.requires_grad)
+
+        # if self.gradient_checkpointing and self.training:
+        #     # print(self.gradient_checkpointing, self.training)
+        #     def create_custom_forward(module):
+        #         def custom_forward(*inputs):
+        #             return module(*inputs, output_attentions)
+        #
+        #         return custom_forward
+        #
+        #     hidden_states, attn_weights = torch.utils.checkpoint.checkpoint(
+        #         create_custom_forward(self.self_attn),
+        #         hidden_states,
+        #         attention_mask,
+        #         causal_attention_mask,
+        #     )
+        # else:
+        #     hidden_states, attn_weights = self.self_attn(
+        #         hidden_states=hidden_states,
+        #         attention_mask=attention_mask,
+        #         causal_attention_mask=causal_attention_mask,
+        #         output_attentions=output_attentions,
+        #     )
+
+
+
+
+        # print('after self_attn hidden_states', hidden_states.requires_grad)
+
+
         hidden_states = residual + hidden_states
 
         residual = hidden_states
         hidden_states = self.layer_norm2(hidden_states)
+
+        # print('after norm2 hidden_states', hidden_states.requires_grad)
+
         hidden_states = self.mlp(hidden_states)
+        # if self.gradient_checkpointing and self.training:
+        #     hidden_states = torch.utils.checkpoint.checkpoint(self.mlp, hidden_states)
+        # else:
+        #     hidden_states = self.mlp(hidden_states)
+
+
+        # print('after mlp hidden_states', hidden_states.requires_grad)
+
         hidden_states = residual + hidden_states
 
         outputs = (hidden_states,)

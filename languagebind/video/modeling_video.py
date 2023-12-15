@@ -16,6 +16,112 @@ from .configuration_video import LanguageBindVideoConfig, CLIPVisionConfig, CLIP
 
 
 
+class CLIPVisionEmbeddings(nn.Module):
+    def __init__(self, config: CLIPVisionConfig):
+        super().__init__()
+        self.config = config
+        self.embed_dim = config.hidden_size
+        self.image_size = config.image_size
+        self.patch_size = config.patch_size
+
+        self.class_embedding = nn.Parameter(torch.randn(self.embed_dim))
+
+        self.patch_embedding = nn.Conv2d(
+            in_channels=config.num_channels,
+            out_channels=self.embed_dim,
+            kernel_size=self.patch_size,
+            stride=self.patch_size,
+            bias=False,
+        )
+
+        self.num_patches = (self.image_size // self.patch_size) ** 2
+        self.num_positions = self.num_patches + 1
+        self.position_embedding = nn.Embedding(self.num_positions, self.embed_dim)
+        self.register_buffer("position_ids", torch.arange(self.num_positions).expand((1, -1)))
+
+    def forward(self, pixel_values: torch.FloatTensor) -> torch.Tensor:
+        # (b t) c h w
+        batch_size = pixel_values.shape[0]
+        patch_embeds = self.patch_embedding(pixel_values)  # shape = [*, width, grid, grid]
+        patch_embeds = patch_embeds.flatten(2).transpose(1, 2)
+
+        class_embeds = self.class_embedding.expand(batch_size, 1, -1)
+        embeddings = torch.cat([class_embeds, patch_embeds], dim=1)
+        embeddings = embeddings + self.position_embedding(self.position_ids)  # b hw c
+        return embeddings
+
+class CLIPVisionEmbeddings3D(nn.Module):
+    def __init__(self, config: CLIPVisionConfig):
+        super().__init__()
+        self.config = config
+        self.embed_dim = config.hidden_size
+        self.image_size = config.image_size
+        self.patch_size = config.patch_size
+        self.num_frames = config.num_frames
+        self.tube_size = getattr(config, 'tube_size', 1)
+
+        self.class_embedding = nn.Parameter(torch.randn(self.embed_dim))
+
+        self.patch_embedding = nn.Conv2d(
+            in_channels=config.num_channels,
+            out_channels=self.embed_dim,
+            kernel_size=self.patch_size,
+            stride=self.patch_size,
+            bias=False,
+        )
+
+        self.num_patches = (self.image_size // self.patch_size) ** 2
+        self.num_positions = self.num_patches + 1
+        self.position_embedding = nn.Embedding(self.num_positions, self.embed_dim)
+        self.register_buffer("position_ids", torch.arange(self.num_positions).expand((1, -1)))
+
+        self.expand3d()
+
+    def expand3d(self):
+
+        state_dict = self.patch_embedding.state_dict()
+        state_dict_expand = state_dict['weight'].unsqueeze(2)
+        device, dtype = state_dict_expand.device, state_dict_expand.dtype
+        # print(device, dtype)
+
+        zero = torch.zeros_like(state_dict_expand).to(device=device, dtype=dtype)
+        state_dict_expand3d = torch.cat([state_dict_expand] + (self.tube_size-1)*[zero], dim=2)
+
+        # state_dict_expand3d = torch.cat([state_dict_expand / self.tube_size] * self.tube_size, dim=2)
+
+        patch_embedding = nn.Conv3d(
+            in_channels=self.patch_embedding.in_channels,
+            out_channels=self.embed_dim,
+            kernel_size=(self.tube_size, self.patch_size, self.patch_size),
+            stride=(self.tube_size, self.patch_size, self.patch_size),
+            bias=False,
+        ).to(device=device, dtype=dtype)
+        patch_embedding.load_state_dict({'weight': state_dict_expand3d})
+        self.patch_embedding = patch_embedding
+
+
+        class_embedding = nn.Parameter(self.class_embedding.data.repeat(self.num_frames // self.tube_size, 1)).to(device=device, dtype=dtype)
+        self.class_embedding = class_embedding
+
+
+    def forward(self, pixel_values: torch.FloatTensor) -> torch.Tensor:
+        # (b t) c h w
+        batch_size = pixel_values.shape[0] // self.num_frames
+        pixel_values = rearrange(pixel_values, '(b t) c h w -> b c t h w', b=batch_size, t=self.num_frames)
+        # print('pixel_values', pixel_values.shape)
+        patch_embeds = self.patch_embedding(pixel_values)  # shape = [*, width, t, grid, grid]
+        # print('patch_embeds', patch_embeds.shape)
+        # SET_GLOBAL_VALUE('NUM_FRAMES', patch_embeds.shape[2])
+        patch_embeds = rearrange(patch_embeds, 'b c t h w -> b t (h w) c')
+
+        class_embeds = self.class_embedding.unsqueeze(1).unsqueeze(0).repeat(batch_size, 1, 1, 1)  # b t 1 c
+        # print('class_embeds', class_embeds.device, class_embeds.dtype)
+        # print('patch_embeds', patch_embeds.device, patch_embeds.dtype)
+        embeddings = torch.cat([class_embeds, patch_embeds], dim=2)  # b t hw+1 c
+        embeddings = embeddings + self.position_embedding(self.position_ids)
+        embeddings = rearrange(embeddings, 'b t hw_1 c -> (b t) hw_1 c')
+        return embeddings
+
 class PatchDropout(nn.Module):
     """
     https://arxiv.org/abs/2212.00794
@@ -598,8 +704,15 @@ class CLIPVisionTransformer(nn.Module):
         super().__init__()
         self.config = config
         embed_dim = config.hidden_size
+        vl_new = getattr(config, 'clip_type', 'vl') == 'vl_new'
+        add_time_attn = config.add_time_attn
+        # self.embeddings = CLIPVisionEmbeddings(config)
+        if add_time_attn:
+            if vl_new:
+                self.embeddings = CLIPVisionEmbeddings3D(config)
+            else:
+                self.embeddings = CLIPVisionEmbeddings(config)
 
-        self.embeddings = CLIPVisionEmbeddings(config)
         self.patch_dropout = PatchDropout(config.force_patch_dropout)
         self.pre_layrnorm = nn.LayerNorm(embed_dim, eps=config.layer_norm_eps)
         self.encoder = CLIPEncoder(config)
@@ -769,7 +882,7 @@ class LanguageBindVideo(CLIPPreTrainedModel):
         # Initialize weights and apply final processing
         self.post_init()
         self.convert_to_lora()
-        self.resize_pos(self.vision_model.embeddings, vision_config)
+        # self.resize_pos(self.vision_model.embeddings, vision_config)
 
     def convert_to_lora(self):
         if self.lora_r == 0:

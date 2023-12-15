@@ -8,6 +8,8 @@ import time
 import argparse
 import logging
 
+from open_clip import get_input_dtype
+
 from training.distributed import is_master
 from .metrics import compute_metrics, tensor_text_to_video_metrics, tensor_video_to_text_sim
 
@@ -41,6 +43,7 @@ def _run_on_single_gpu(model,
 
 
 def evaluate_vl_ret(model, data, epoch, args, tb_writer=None):
+    input_dtype = get_input_dtype(args.precision)
     if is_master(args) and (args.val_frequency and ((epoch % args.val_frequency) == 0 or epoch == args.epochs)):
         # print(data)
         val_vl_ret_data = list(data.keys())
@@ -93,6 +96,8 @@ def evaluate_vl_ret(model, data, epoch, args, tb_writer=None):
                 attention_mask = attention_mask.squeeze().to(device)
                 # video = video.squeeze().permute(0, 2, 1, 3, 4).float().to(device)
                 video = video.float().to(device)
+
+                # video = video.to(ddevice=device, dtype=input_dtype)
 
 
 
