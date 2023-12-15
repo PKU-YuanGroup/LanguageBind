@@ -82,7 +82,7 @@ TORCH_DISTRIBUTED_DEBUG=DETAIL HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 torc
 ## Downstream datasets
 
 ### Depth
-NYU V2 dataset is downloaded from [this repo](https://github.com/TUI-NICR/nicr-scene-analysis-datasets/tree/main/nicr_scene_analysis_datasets/datasets/nyuv2) and we reformat them to conform to the standard ImageNet format. We also provide data as follows. Change the ```data_root``` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L192).
+NYU V2 dataset is downloaded from [this repo](https://github.com/TUI-NICR/nicr-scene-analysis-datasets/tree/main/nicr_scene_analysis_datasets/datasets/nyuv2) and we reformat them to conform to the standard ImageNet format. We also provide data as follows. Change the ```data_root``` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L221).
 
 <div align="center">
 <table border="1" width="100%">
@@ -102,7 +102,7 @@ Video datasets are downloaded from [this repo](https://github.com/jpthu17/HBI) a
 Audio datasets are downloaded from [this repo](https://github.com/OFA-Sys/ONE-PEACE/blob/main/datasets.md#audio) and Audioset from [here](https://github.com/qiuqiangkong/audioset_tagging_cnn#1-download-dataset).We reformat them to conform to the standard ImageNet format. Change the ```data_root``` [here1](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L144) and [here2](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L159).
 
 ### Infrared (Thermal)
-We download LLVIP from [official website](https://bupt-ai-cz.github.io/LLVIP/), and FLIR from [here](https://www.flir.com/oem/adas/adas-dataset-form/). We reformat them to conform to the standard ImageNet format. Change the ```data_root``` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L24). We also provide the processed data as follows.
+We download LLVIP from [official website](https://bupt-ai-cz.github.io/LLVIP/), and FLIR from [here](https://www.flir.com/oem/adas/adas-dataset-form/). We reformat them to conform to the standard ImageNet format. Change the ```data_root``` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/build_datasets.py#L233). We also provide the processed data as follows.
 
 <div align="center">
 <table border="1" width="100%">
