@@ -2,8 +2,24 @@ We provide the **off-the-shelf** scripts in the [scripts folder](scripts).
 
 ## Training LanguageBind 
 
+
+<div align="center">
+<table border="1" width="100%">
+    <tr align="center">
+        <th>Cache of pretrained weight</th><th>Baidu Yun</th><th>Google Cloud</th><th>Peking University Yun</th>
+    </tr>
+    <tr align="center">
+        <td>Large</td><td><a href="https://pan.baidu.com/s/1co46bkuUJXr8ePPKp1WWgA?pwd=ofm6">Link</a></td><td><a href="https://drive.google.com/drive/folders/1VQYZlqfKmCMuHffypf5F96odyMCEI87H?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/9CA764E6307790B01D2D4F7E314E8E43">Link</a></td>
+    </tr>
+    <tr align="center">
+        <td>Huge</td><td><a href="https://pan.baidu.com/s/1QLpyXEYunoXS-oqGsvzKKA?pwd=vgo2">Link</a></td><td>-</td><td><a href="https://disk.pku.edu.cn:443/link/720A77A7DB9EFD167C5AC8E3FC4B6068">Link</a></td>
+    </tr>
+</table>
+</div>
+
+
 For example, to **train** LanguageBind on **Depth-Language** with 8 GPUs (1 nodes x 8 GPUs).
-* First download the pretrained weight from [BaiDu disk](https://pan.baidu.com/s/1co46bkuUJXr8ePPKp1WWgA?pwd=ofm6), [Peking univercity disk](https://disk.pku.edu.cn:443/link/9CA764E6307790B01D2D4F7E314E8E43) or [Google disk](https://drive.google.com/drive/folders/1VQYZlqfKmCMuHffypf5F96odyMCEI87H?usp=drive_link). Put the pretrained weight on `path/to/LanguageBind`. and specify `CACHE_DIR=path/to/LanguageBind`.
+* First download the cache of pretrained weight above. and specify `CACHE_DIR=path/to/LanguageBind`.
 * The second step is to develop a path to `ANNOTATION` and `DATA` [here](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/data/base_datasets.py#L37) according to the [dataset preparation](https://github.com/PKU-YuanGroup/LanguageBind#-vidal-10m).
 * Then you can run
 
