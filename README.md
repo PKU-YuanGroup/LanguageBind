@@ -49,7 +49,7 @@
 </p></details>
 
 ## 📰 News
-* **[2024.01.16]**  🔥🔥🔥 Our LanguageBind has been accepted at ICLR 2024!
+* **[2024.01.16]**  🔥🔥🔥 Our [LanguageBind](https://github.com/PKU-YuanGroup/LanguageBind) has been accepted at ICLR 2024!
 * **[2023.12.15]**  💪💪💪 We expand the 💥💥💥 VIDAL dataset and now have **10M video-text data**. We launch **LanguageBind_Video 1.5**, checking our [model zoo](#-model-zoo). 
 * **[2023.12.10]**  We expand the 💥💥💥 VIDAL dataset and now have **10M depth and 10M thermal data**. We are in the process of uploading thermal and depth data on [Hugging Face](https://huggingface.co/datasets/LanguageBind/VIDAL-Depth-Thermal) and expect the whole process to last 1-2 months.
 * **[2023.11.27]**  🔥🔥🔥 We have updated our [paper](https://arxiv.org/abs/2310.01852) with emergency zero-shot results., checking our ✨ [results](#emergency-results).
