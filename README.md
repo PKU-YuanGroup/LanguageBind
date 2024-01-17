@@ -21,10 +21,10 @@
 
 </h5>
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-environment-sound-classification-on-1)](https://paperswithcode.com/sota/zero-shot-environment-sound-classification-on-1?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-audio-classification-on-audioset)](https://paperswithcode.com/sota/zero-shot-audio-classification-on-audioset?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-audio-classification-on-vgg-sound)](https://paperswithcode.com/sota/zero-shot-audio-classification-on-vgg-sound?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-text-to-audio-retrieval-on-clotho)](https://paperswithcode.com/sota/zero-shot-text-to-audio-retrieval-on-clotho?p=languagebind-extending-video-language) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-environment-sound-classification-on-1)](https://paperswithcode.com/sota/zero-shot-environment-sound-classification-on-1?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-text-to-audio-retrieval-on)](https://paperswithcode.com/sota/zero-shot-text-to-audio-retrieval-on?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-scene-classification-unified)](https://paperswithcode.com/sota/zero-shot-scene-classification-unified?p=languagebind-extending-video-language) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/languagebind-extending-video-language/zero-shot-classification-unified-classes-on)](https://paperswithcode.com/sota/zero-shot-classification-unified-classes-on?p=languagebind-extending-video-language) <br>
